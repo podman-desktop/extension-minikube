@@ -138,7 +138,6 @@ jobs:
             --nested-virt \
             --cpus 8 \
             --memory 16 \
-            --arch 'x64' \
             --tags project=podman-desktop \
             --spot
         # Check logs 
