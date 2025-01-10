@@ -165,6 +165,14 @@ jobs:
         # Check logs for the x session
         podman logs x-session
 
+    - name: Ensure getting current HEAD version of the test framework
+      working-directory: ./extension-minikube
+      run: |
+        # workaround for https://github.com/containers/podman-desktop-extension-bootc/issues/712
+        version=$(npm view @podman-desktop/tests-playwright@next version)
+        echo "Version of @podman-desktop/tests-playwright to be used: $version"
+        jq --arg version "$version" '.devDependencies."@podman-desktop/tests-playwright" = $version' package.json > package.json_tmp && mv package.json_tmp package.json
+
     - name: Download Podman, do not initialize
       run: |
         podman run --rm -d --name pde2e-podman-run \
