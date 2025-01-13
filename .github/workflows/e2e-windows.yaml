@@ -103,7 +103,7 @@ jobs:
         DEFAULT_NPM_TARGET: 'test:e2e'
         DEFAULT_ENV_VARS: 'TEST_PODMAN_MACHINE=false'
         DEFAULT_PODMAN_OPTIONS: 'INIT=1,START=1,ROOTFUL=1,NETWORKING=0'
-        DEFAULT_EXT_REPO_OPTIONS: 'REPO=extensio-minikube,FORK=podman-desktop,BRANCH=main'
+        DEFAULT_EXT_REPO_OPTIONS: 'REPO=extension-minikube,FORK=podman-desktop,BRANCH=main'
         DEFAULT_VERSION: "${{ env.PD_PODMAN_VERSION || '5.3.1' }}"
         DEFAULT_URL: "https://github.com/containers/podman/releases/download/v$DEFAULT_VERSION/podman-remote-release-windows_amd64.zip"
       run: |
@@ -164,14 +164,6 @@ jobs:
         podman wait --condition running x-session
         # Check logs for the x session
         podman logs x-session
-
-    - name: Ensure getting current HEAD version of the test framework
-      working-directory: ./extension-minikube
-      run: |
-        # workaround for https://github.com/containers/podman-desktop-extension-bootc/issues/712
-        version=$(npm view @podman-desktop/tests-playwright@next version)
-        echo "Version of @podman-desktop/tests-playwright to be used: $version"
-        jq --arg version "$version" '.devDependencies."@podman-desktop/tests-playwright" = $version' package.json > package.json_tmp && mv package.json_tmp package.json
 
     - name: Download Podman, do not initialize
       run: |
