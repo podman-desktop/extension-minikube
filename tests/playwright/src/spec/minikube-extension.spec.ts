@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright (C) 2024 Red Hat, Inc.
+ * Copyright (C) 2024-2025 Red Hat, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,27 +17,41 @@
  ***********************************************************************/
 
 import { 
+    checkClusterResources,
+    deleteCluster,
     ensureCliInstalled,
     expect as playExpect, 
     ExtensionsPage,  
     isLinux,
+    resourceConnectionAction,
+    ResourceConnectionCardPage,
+    ResourceElementActions,
+    ResourceElementState,
     ResourcesPage,  
     RunnerOptions,
     test,
 } from '@podman-desktop/tests-playwright';
 
+import { createMinikubeCluster } from '../utility/operations';
+
 const EXTENSION_IMAGE: string = 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
 const EXTENSION_NAME: string = 'minikube';
 const EXTENSION_LABEL: string = 'podman-desktop.minikube';
+const CLUSTER_NAME: string = 'minikube';
+const MINIKUBE_CONTAINER: string = 'minikube';
+const CLUSTER_CREATION_TIMEOUT: number = 300_000;
 
 let extensionsPage: ExtensionsPage; 
+let minikubeResourceCard: ResourceConnectionCardPage; 
 
 const skipExtensionInstallation = process.env.SKIP_EXTENSION_INSTALL === 'true';
+
 
 test.beforeAll(async ({ runner, page, welcomePage }) => {
     runner.setVideoAndTraceName('minikube-extension-e2e');
     await welcomePage.handleWelcomePage(true);
-    extensionsPage = new ExtensionsPage(page); 
+    extensionsPage = new ExtensionsPage(page);
+    minikubeResourceCard = new ResourceConnectionCardPage(page, 'minikube'); 
 });
 
 test.use({
@@ -88,6 +102,44 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         await ensureCliInstalled(page, 'Minikube');
     });
 
+    test.describe('Minikube cluster e2e test', () => {
+        test('Create a Minikube cluster', async ({ page}) => {
+            test.setTimeout(CLUSTER_CREATION_TIMEOUT);
+            await createMinikubeCluster(page, CLUSTER_NAME, true, CLUSTER_CREATION_TIMEOUT);
+          });
+      
+          test('Check resources added with the Minikube cluster', async ({ page }) => {
+            await checkClusterResources(page, MINIKUBE_CONTAINER);
+          });
+      
+          test('Minikube cluster operations - STOP', async ({ page }) => {
+            await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Stop, ResourceElementState.Off);
+          });
+      
+          test('Minikube cluster operations - START', async ({ page }) => {
+            await resourceConnectionAction(
+              page,
+              minikubeResourceCard,
+              ResourceElementActions.Start,
+              ResourceElementState.Running,
+            );
+          });
+
+          test.skip('Minikube cluster operatioms - RESTART', async ({ page }) => {
+            // Skipping the test due to an issue with restarting the Minikube cluster.
+            await resourceConnectionAction(
+              page,
+              minikubeResourceCard,
+              ResourceElementActions.Restart,
+              ResourceElementState.Running,
+            );
+          });
+      
+          test('Minikube cluster operations - DELETE', async ({ page }) => {
+            await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+          });
+    });
+
     test('Ensure Minikube extension can be disabled and enabled', async ({ navigationBar, page }) => {
         await navigationBar.openExtensions();
         await playExpect(extensionsPage.header).toBeVisible();
@@ -105,7 +157,6 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         await navigationBar.openSettings();
         await playExpect.poll(async () => resourcesPage.resourceCardIsVisible(EXTENSION_NAME)).toBeTruthy();
     });
-
     test('Uninstall Minikube extension', async ({ navigationBar }) => {
         await navigationBar.openExtensions();
         await playExpect(extensionsPage.header).toBeVisible();
@@ -113,3 +164,4 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         await minikubeExtension.removeExtension();
     });
 });
+ 
