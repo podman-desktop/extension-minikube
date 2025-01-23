@@ -132,6 +132,7 @@ jobs:
         working-directory: ./extension-minikube
         env:
           PODMAN_DESKTOP_ARGS: ${{ github.workspace }}/podman-desktop
+          MINIKUBE_DRIVER_GHA: 'docker'
         run: pnpm test:e2e
 
       - name: Publish Test Report
@@ -150,3 +151,4 @@ jobs:
         with:
           name: e2e-tests
           path: ./**/tests/**/output/
+ 
