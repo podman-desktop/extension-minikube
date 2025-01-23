@@ -39,6 +39,13 @@ on:
         description: 'Podman Desktop Minikube extension repo branch'
         type: string
         required: true
+      minikube_driver: 
+        description: 'Minikube cluster driver'
+        type: choice
+        options:
+        - docker
+        - podman 
+        required: true
 
 jobs:
   e2e-tests:
@@ -72,6 +79,12 @@ jobs:
         with:
           run_install: false
           package_json_file: ./podman-desktop/package.json
+    
+      - name: Set the default minikube cluster driver env. variable
+        env:
+          DEFAULT_MINIKUBE_DRIVER: 'docker'
+        run: |
+          echo "MINIKUBE_DRIVER=${{ github.event.inputs.minikube_driver || env.DEFAULT_MINIKUBE_DRIVER }}" >> $GITHUB_ENV
 
       - name: Revert unprivileged user namespace restrictions in Ubuntu 24.04
         run: |
@@ -112,6 +125,7 @@ jobs:
         working-directory: ./extension-minikube
         env:
           PODMAN_DESKTOP_ARGS: ${{ github.workspace }}/podman-desktop
+          MINIKUBE_DRIVER_GHA: ${{ MINIKUBE_DRIVER }}        
         run: pnpm test:e2e
 
       - uses: actions/upload-artifact@v4
@@ -119,4 +133,4 @@ jobs:
         with:
           name: e2e-tests
           path: ./**/tests/**/output/
-  
+ 
