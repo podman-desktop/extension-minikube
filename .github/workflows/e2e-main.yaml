@@ -125,7 +125,7 @@ jobs:
         working-directory: ./extension-minikube
         env:
           PODMAN_DESKTOP_ARGS: ${{ github.workspace }}/podman-desktop
-          MINIKUBE_DRIVER_GHA: ${{ MINIKUBE_DRIVER }}        
+          MINIKUBE_DRIVER_GHA: ${{ env.MINIKUBE_DRIVER }}        
         run: pnpm test:e2e
 
       - uses: actions/upload-artifact@v4
