@@ -66,6 +66,7 @@ test.use({
 });
 
 test.afterAll(async ({ runner }) => {
+  test.setTimeout(120_000);
   await runner.close();
   console.log('Runner closed');
 });
