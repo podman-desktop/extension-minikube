@@ -67,6 +67,7 @@ test.use({
 
 test.afterAll(async ({ runner }) => {
   await runner.close();
+  console.log('Runner closed');
 });
 
 test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
