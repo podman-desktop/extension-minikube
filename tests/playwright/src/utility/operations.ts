@@ -33,7 +33,7 @@ export async function createMinikubeCluster(page: Page, clusterName: string = 'm
     const settingsPage = await navigationBar.openSettings();
     const resourcesPage = await settingsPage.openTabPage(ResourcesPage);
     await playExpect(resourcesPage.heading).toBeVisible({ timeout: 10_000 });
-    await playExpect.poll(async () => resourcesPage.resourceCardIsVisible('kind')).toBeTruthy();
+    await playExpect.poll(async () => resourcesPage.resourceCardIsVisible('minikube')).toBeTruthy();
     await playExpect(minikubeResourceCard.createButton).toBeVisible();
 
     if (await minikubeResourceCard.doesResourceElementExist()) {
@@ -42,6 +42,7 @@ export async function createMinikubeCluster(page: Page, clusterName: string = 'm
     }
 
     await minikubeResourceCard.createButton.click();
+    await page.waitForTimeout(1_000);
     if (usedefaultOptions) {
       await createMinikubeClusterPage.createMinikubeClusterDefault(clusterName, timeout);
     } else {

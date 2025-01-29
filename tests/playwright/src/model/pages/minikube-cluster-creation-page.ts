@@ -39,6 +39,7 @@ export class CreateMinikubeClusterPage extends CreateClusterBasePage {
 
   public async createMinikubeClusterDefault(clusterName: string = 'minikube', timeout?: number): Promise<void> {
     return test.step('Create default cluster', async () => {
+      await playExpect(this.clusterNameField).toBeVisible();
       await fillTextbox(this.clusterNameField, clusterName);
       await playExpect(this.driver).toContainText('podman');
       await playExpect(this.containerRuntime).toContainText('cri-o');
