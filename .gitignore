@@ -4,3 +4,6 @@ dist
 .eslintcache
 **/coverage
 tests/playwright/output
+tests/playwright/tests
+  
+ 
