@@ -137,17 +137,11 @@ jobs:
           mkdir -p tests/playwright/tests/output/minikube-tests-pd/plugins
           tar -xf /tmp/local_minikube_extension.tar -C tests/playwright/tests/output/minikube-tests-pd/plugins
 
-      - name: Get Minikube binary path
-        run: |
-          minikube_bin=$(which minikube)
-          echo "MINIKUBE_BIN=$minikube_bin" >> $GITHUB_ENV
-
       - name: Run All E2E tests
         working-directory: ./extension-minikube
         env:
           PODMAN_DESKTOP_ARGS: ${{ github.workspace }}/podman-desktop
           MINIKUBE_DRIVER_GHA: 'docker'
-          MINIKUBE_BIN_PATH: ${{ env.MINIKUBE_BIN }}
         run: pnpm test:e2e
 
       - name: Publish Test Report
