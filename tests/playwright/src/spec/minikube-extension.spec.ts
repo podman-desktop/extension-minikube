@@ -71,7 +71,7 @@ test.use({
 test.afterAll(async ({ runner }) => {
     if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux'){
       console.log('Removing Minikube cluster traces');
-      execSync('/usr/bin/minikube delete', { stdio: 'inherit' });
+      execSync('/home/runner/bin/minikube delete', { stdio: 'inherit' });
     }
 
     await runner.close();   
