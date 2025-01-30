@@ -109,6 +109,8 @@ jobs:
       - name: Ensure Minikube CLI is installed
         run: |
           minikube version
+          minikube_bin=$(which minikube)
+          echo "MINIKUBE_BIN=$minikube_bin" >> $GITHUB_ENV
             
       - name: Execute pnpm
         working-directory: ./podman-desktop
@@ -133,6 +135,7 @@ jobs:
       - name: Run All E2E tests
         working-directory: ./extension-minikube
         env:
+          MINIKUBE_BIN_PATH: ${{ env.MINIKUBE_BIN }}
           PODMAN_DESKTOP_ARGS: ${{ github.workspace }}/podman-desktop
           MINIKUBE_DRIVER_GHA: ${{ env.MINIKUBE_DRIVER }}        
         run: pnpm test:e2e
