@@ -16,3 +16,5 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 20
+    ignore:
+      - dependency-name: "@podman-desktop/tests-playwright"
