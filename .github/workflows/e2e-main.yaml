@@ -79,6 +79,15 @@ jobs:
         with:
           run_install: false
           package_json_file: ./podman-desktop/package.json
+      
+      - name: Set cgroup_manager to 'cgroupfs' instead of systemd
+        run: |
+          mkdir -p ~/.config/containers
+          cat <<EOT >> ~/.config/containers/containers.conf
+          [engine]
+          cgroup_manager="cgroupfs"
+          EOT
+          podman info 
     
       - name: Set the default minikube cluster driver env. variable
         env:
