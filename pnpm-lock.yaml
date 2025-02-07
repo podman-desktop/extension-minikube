@@ -32,7 +32,7 @@ importers:
         version: 1.14.2
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.17.0-202502052006-e7672bf6212
+        version: 1.17.0-202502071354-19994870f42
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.23.0
         version: 8.23.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0)(typescript@5.7.3)
@@ -43,8 +43,8 @@ importers:
         specifier: ^2.0.5
         version: 2.1.4(vitest@2.1.4(@types/node@20.17.17))
       electron:
-        specifier: ^34.0.2
-        version: 34.0.2
+        specifier: ^34.1.1
+        version: 34.1.1
       eslint:
         specifier: ^9.19.0
         version: 9.19.0
@@ -1156,8 +1156,8 @@ packages:
   '@podman-desktop/api@1.14.2':
     resolution: {integrity: sha512-s/f0mpgnhmVNAz3nhQ39Ce+36nnlEah3X3pQEKOlPuGn00eM3fHT3TOhcHvy4xURLXljn/mK4gUABofRVXblng==}
 
-  '@podman-desktop/tests-playwright@1.17.0-202502052006-e7672bf6212':
-    resolution: {integrity: sha512-+mMYmlh2CX/KHVRtKjNcdmhE7sjZTkcJny6Bk2uJUEn6rX9MKYI5ocsKZTv7xNunXWVRXwb7u+8iWScwtmtOvg==}
+  '@podman-desktop/tests-playwright@1.17.0-202502071354-19994870f42':
+    resolution: {integrity: sha512-ZCXWUpwfcr1qrNX6IAblp239mfyJEYnJxxQHPMTKF29cieCI8D0gWAlIUzFr4+Ui/Q9y6PPIKal4s0cJaeh4Ew==}
 
   '@rollup/rollup-android-arm-eabi@4.34.3':
     resolution: {integrity: sha512-8kq/NjMKkMTGKMPldWihncOl62kgnLYk7cW+/4NCUWfS70/wz4+gQ7rMxMMpZ3dIOP/xw7wKNzIuUnN/H2GfUg==}
@@ -1724,8 +1724,8 @@ packages:
   electron-to-chromium@1.5.55:
     resolution: {integrity: sha512-6maZ2ASDOTBtjt9FhqYPRnbvKU5tjG0IN9SztUOWYw2AzNDNpKJYLJmlK0/En4Hs/aiWnB+JZ+gW19PIGszgKg==}
 
-  electron@34.0.2:
-    resolution: {integrity: sha512-u3F+DSUlg9NaGS+9qnYmSRN8VjAnc3LJDDk1ye1uISJnh4gjG76y3681qLowsPMx4obvCP2eBINnmbLo0yT5WA==}
+  electron@34.1.1:
+    resolution: {integrity: sha512-1aDYk9Gsv1/fFeClMrxWGoVMl7uCUgl1pe26BiTnLXmAoqEXCa3f3sCKFWV+cuDzUjQGAZcpkWhGYTgWUSQrLA==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -2731,6 +2731,11 @@ packages:
 
   semver@7.7.0:
     resolution: {integrity: sha512-DrfFnPzblFmNrIZzg5RzHegbiRWg7KMR7btwi2yjHwx06zsUbO5g613sVwEV7FTwmzJu+Io0lJe2GJ3LxqpvBQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.1:
+    resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -4268,7 +4273,7 @@ snapshots:
 
   '@podman-desktop/api@1.14.2': {}
 
-  '@podman-desktop/tests-playwright@1.17.0-202502052006-e7672bf6212': {}
+  '@podman-desktop/tests-playwright@1.17.0-202502071354-19994870f42': {}
 
   '@rollup/rollup-android-arm-eabi@4.34.3':
     optional: true
@@ -4453,7 +4458,7 @@ snapshots:
       debug: 4.4.0
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.7.0
+      semver: 7.7.1
       tsutils: 3.21.0(typescript@5.7.3)
     optionalDependencies:
       typescript: 5.7.3
@@ -4468,7 +4473,7 @@ snapshots:
       globby: 11.1.0
       is-glob: 4.0.3
       minimatch: 9.0.3
-      semver: 7.7.0
+      semver: 7.7.1
       ts-api-utils: 1.4.3(typescript@5.7.3)
     optionalDependencies:
       typescript: 5.7.3
@@ -4499,7 +4504,7 @@ snapshots:
       '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.7.3)
       eslint: 9.19.0
       eslint-scope: 5.1.1
-      semver: 7.7.0
+      semver: 7.7.1
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4888,7 +4893,7 @@ snapshots:
 
   electron-to-chromium@1.5.55: {}
 
-  electron@34.0.2:
+  electron@34.1.1:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 20.17.17
@@ -5441,7 +5446,7 @@ snapshots:
       es6-error: 4.1.1
       matcher: 3.0.0
       roarr: 2.15.4
-      semver: 7.7.0
+      semver: 7.7.1
       serialize-error: 7.0.1
     optional: true
 
@@ -5728,7 +5733,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.0
+      semver: 7.7.1
 
   matcher@3.0.0:
     dependencies:
@@ -6075,6 +6080,8 @@ snapshots:
   semver@7.6.3: {}
 
   semver@7.7.0: {}
+
+  semver@7.7.1: {}
 
   serialize-error@7.0.1:
     dependencies:
