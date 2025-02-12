@@ -106,6 +106,15 @@ jobs:
         working-directory: ./podman-desktop
         run: pnpm test:e2e:build
 
+      - name: Set cgroup_manager to 'cgroupfs' instead of systemd
+        run: |
+          mkdir -p ~/.config/containers
+          cat <<EOT >> ~/.config/containers/containers.conf
+          [engine]
+          cgroup_manager="cgroupfs"
+          EOT
+          podman info 
+
       - name: Ensure getting current HEAD version of the test framework
         working-directory: ./extension-minikube
         run: |
