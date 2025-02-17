@@ -51,7 +51,6 @@ let minikubeResourceCard: ResourceConnectionCardPage;
 const skipExtensionInstallation = process.env.SKIP_EXTENSION_INSTALL === 'true';
 const driverGHA = process.env.MINIKUBE_DRIVER_GHA ?? '';
 
-
 test.beforeAll(async ({ runner, page, welcomePage }) => {
     runner.setVideoAndTraceName('minikube-extension-e2e');
     await welcomePage.handleWelcomePage(true);
@@ -71,7 +70,7 @@ test.use({
 test.afterAll(async ({ runner }) => {
     if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux'){
       console.log('Removing Minikube cluster traces');
-      execSync('/usr/bin/minikube delete', { stdio: 'inherit' });
+      execSync(`minikube delete`, { stdio: 'inherit' });
     }
 
     await runner.close();   
