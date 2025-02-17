@@ -92,7 +92,7 @@
     "test:e2e": "cd tests/playwright && npm run test:e2e"
   },
   "dependencies": {
-    "@octokit/rest": "^21.1.0",
+    "@octokit/rest": "^21.1.1",
     "@types/node": "^20",
     "tmp-promise": "^3.0.3"
   },
