@@ -113,6 +113,15 @@ jobs:
           version=$(npm view @podman-desktop/tests-playwright@next version)
           echo "Version of @podman-desktop/tests-playwright to be used: $version"
           jq --arg version "$version" '.devDependencies."@podman-desktop/tests-playwright" = $version' package.json > package.json_tmp && mv package.json_tmp package.json
+
+      - name: Set cgroup_manager to 'cgroupfs' instead of systemd
+        run: |
+          mkdir -p ~/.config/containers
+          cat <<EOT >> ~/.config/containers/containers.conf
+          [engine]
+          cgroup_manager="cgroupfs"
+          EOT
+          podman info 
   
       - name: Execute pnpm in Minikube Extension
         working-directory: ./extension-minikube
