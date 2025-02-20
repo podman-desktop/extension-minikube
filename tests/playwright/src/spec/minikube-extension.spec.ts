@@ -16,8 +16,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
-import { execSync } from 'node:child_process';
-
 import type {
     ContainerInteractiveParams} from '@podman-desktop/tests-playwright';
 import { 
