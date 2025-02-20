@@ -16,12 +16,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
-import { execSync } from 'node:child_process';
-
+import type {
+    ContainerInteractiveParams} from '@podman-desktop/tests-playwright';
 import { 
     checkClusterResources,
+    ContainerState,
     deleteCluster,
     deleteClusterFromDetails,
+    deleteContainer,
+    deployContainerToCluster,
     ensureCliInstalled,
     expect as playExpect, 
     ExtensionsPage,  
@@ -42,8 +45,18 @@ const EXTENSION_IMAGE: string = 'ghcr.io/podman-desktop/podman-desktop-extension
 const EXTENSION_NAME: string = 'minikube';
 const EXTENSION_LABEL: string = 'podman-desktop.minikube';
 const CLUSTER_NAME: string = 'minikube';
-const MINIKUBE_CONTAINER: string = 'minikube';
+const MINIKUBE_CONTAINER: string = CLUSTER_NAME;
+const KUBERNETES_CONTEXT: string = CLUSTER_NAME;
 const CLUSTER_CREATION_TIMEOUT: number = 300_000;
+
+const IMAGE_TO_PULL: string = 'ghcr.io/linuxcontainers/alpine';
+const IMAGE_TAG: string = 'latest';
+const CONTAINER_NAME: string = 'alpine-container';
+const NAMESPACE: string = 'default';
+const DEPLOYED_POD_NAME: string = `${CONTAINER_NAME} ${MINIKUBE_CONTAINER} ${NAMESPACE}`;
+const CONTAINER_START_PARAMS: ContainerInteractiveParams = {
+  attachTerminal: false,
+};
 
 let extensionsPage: ExtensionsPage; 
 let minikubeResourceCard: ResourceConnectionCardPage; 
@@ -67,13 +80,14 @@ test.use({
     }),
   });
 
-test.afterAll(async ({ runner }) => {
-    if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux'){
-      console.log('Removing Minikube cluster traces');
-      execSync(`minikube delete`, { stdio: 'inherit' });
+test.afterAll(async ({ page, runner }) => {
+    try {
+      await deleteContainer(page, CONTAINER_NAME);
+    } finally {
+      await runner.close();   
     }
 
-    await runner.close();   
+
 });
 
 test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
@@ -123,6 +137,28 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       
           test('Check resources added with the Minikube cluster', async ({ page }) => {
             await checkClusterResources(page, MINIKUBE_CONTAINER);
+          });
+
+          test('Deploy a container to the Minikube cluster', async({page, navigationBar}) => {
+            const imagesPage = await navigationBar.openImages();
+            const pullImagePage = await imagesPage.openPullImage();
+            await pullImagePage.pullImage(IMAGE_TO_PULL, IMAGE_TAG);
+            await playExpect.poll(async () => imagesPage.waitForImageExists(IMAGE_TO_PULL, 10_000)).toBeTruthy();
+            const containersPage = await imagesPage.startContainerWithImage(
+              IMAGE_TO_PULL,
+              CONTAINER_NAME,
+              CONTAINER_START_PARAMS,
+            );
+            await playExpect
+              .poll(async () => containersPage.containerExists(CONTAINER_NAME), {
+              timeout: 15_000,
+            })
+            .toBeTruthy();
+            const containerDetails = await containersPage.openContainersDetails(CONTAINER_NAME);
+            await playExpect(containerDetails.heading).toBeVisible();
+            await playExpect.poll(async () => containerDetails.getState()).toBe(ContainerState.Running);
+      
+            await deployContainerToCluster(page, CONTAINER_NAME, KUBERNETES_CONTEXT, DEPLOYED_POD_NAME);
           });
       
           test('Minikube cluster operations - STOP', async ({ page }) => {
