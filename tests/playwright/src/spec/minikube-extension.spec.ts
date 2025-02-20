@@ -18,10 +18,15 @@
 
 import { execSync } from 'node:child_process';
 
+import type {
+    ContainerInteractiveParams} from '@podman-desktop/tests-playwright';
 import { 
     checkClusterResources,
+    ContainerState,
     deleteCluster,
     deleteClusterFromDetails,
+    deleteContainer,
+    deployContainerToCluster,
     ensureCliInstalled,
     expect as playExpect, 
     ExtensionsPage,  
@@ -34,10 +39,6 @@ import {
     ResourcesPage,  
     RunnerOptions,
     test,
-    ContainerInteractiveParams,
-    deployContainerToCluster,
-    ContainerState,
-    deleteContainer,
 } from '@podman-desktop/tests-playwright';
 
 import { createMinikubeCluster } from '../utility/operations';
@@ -146,26 +147,26 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
           });
 
           test('Deploy a container to the Minikube cluster', async({page, navigationBar}) => {
-                    const imagesPage = await navigationBar.openImages();
-                    const pullImagePage = await imagesPage.openPullImage();
-                    await pullImagePage.pullImage(IMAGE_TO_PULL, IMAGE_TAG);
-                    await playExpect.poll(async () => imagesPage.waitForImageExists(IMAGE_TO_PULL, 10_000)).toBeTruthy();
-                    const containersPage = await imagesPage.startContainerWithImage(
-                      IMAGE_TO_PULL,
-                      CONTAINER_NAME,
-                      CONTAINER_START_PARAMS,
-                    );
-                    await playExpect
-                      .poll(async () => containersPage.containerExists(CONTAINER_NAME), {
-                        timeout: 15_000,
-                      })
-                      .toBeTruthy();
-                    const containerDetails = await containersPage.openContainersDetails(CONTAINER_NAME);
-                    await playExpect(containerDetails.heading).toBeVisible();
-                    await playExpect.poll(async () => containerDetails.getState()).toBe(ContainerState.Running);
-                
-                    await deployContainerToCluster(page, CONTAINER_NAME, KUBERNETES_CONTEXT, DEPLOYED_POD_NAME);
-          })
+            const imagesPage = await navigationBar.openImages();
+            const pullImagePage = await imagesPage.openPullImage();
+            await pullImagePage.pullImage(IMAGE_TO_PULL, IMAGE_TAG);
+            await playExpect.poll(async () => imagesPage.waitForImageExists(IMAGE_TO_PULL, 10_000)).toBeTruthy();
+            const containersPage = await imagesPage.startContainerWithImage(
+              IMAGE_TO_PULL,
+              CONTAINER_NAME,
+              CONTAINER_START_PARAMS,
+            );
+            await playExpect
+              .poll(async () => containersPage.containerExists(CONTAINER_NAME), {
+              timeout: 15_000,
+            })
+            .toBeTruthy();
+            const containerDetails = await containersPage.openContainersDetails(CONTAINER_NAME);
+            await playExpect(containerDetails.heading).toBeVisible();
+            await playExpect.poll(async () => containerDetails.getState()).toBe(ContainerState.Running);
+      
+            await deployContainerToCluster(page, CONTAINER_NAME, KUBERNETES_CONTEXT, DEPLOYED_POD_NAME);
+          });
       
           test('Minikube cluster operations - STOP', async ({ page }) => {
             await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Stop, ResourceElementState.Off);
