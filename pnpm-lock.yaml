@@ -32,7 +32,7 @@ importers:
         version: 1.14.2
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.17.0-202502260900-d091c29966f
+        version: 1.17.0-202502271732-7e5c44cdd75
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.25.0
         version: 8.25.0(@typescript-eslint/parser@8.25.0(eslint@9.21.0)(typescript@5.7.3))(eslint@9.21.0)(typescript@5.7.3)
@@ -43,8 +43,8 @@ importers:
         specifier: ^2.0.5
         version: 2.1.4(vitest@2.1.4(@types/node@20.17.19))
       electron:
-        specifier: ^34.2.0
-        version: 34.2.0
+        specifier: ^34.3.0
+        version: 34.3.0
       eslint:
         specifier: ^9.21.0
         version: 9.21.0
@@ -608,8 +608,8 @@ packages:
   '@podman-desktop/api@1.14.2':
     resolution: {integrity: sha512-s/f0mpgnhmVNAz3nhQ39Ce+36nnlEah3X3pQEKOlPuGn00eM3fHT3TOhcHvy4xURLXljn/mK4gUABofRVXblng==}
 
-  '@podman-desktop/tests-playwright@1.17.0-202502260900-d091c29966f':
-    resolution: {integrity: sha512-hr04oVMojS4WXmnjXrv5nzkih4Mx8fv0r0lu9DgGLd/SqKYdJWkV36+wojuoKplcdSNc6E6EnfwWo91JejcjLg==}
+  '@podman-desktop/tests-playwright@1.17.0-202502271732-7e5c44cdd75':
+    resolution: {integrity: sha512-2Bdov7H89dv2Z/Yxtk+Vd3m48e+GZOYBrDDwlQK8mBuP3Juw57Q1iPGNZs6daYj2ejsS0B/MCrKdhXAV1f5qGw==}
 
   '@rollup/rollup-android-arm-eabi@4.34.8':
     resolution: {integrity: sha512-q217OSE8DTp8AFHuNHXo0Y86e1wtlfVrXiAlwkIvGRQv9zbc6mE3sjIVfwI8sYUyNxwOg0j/Vm1RKM04JcWLJw==}
@@ -1206,8 +1206,8 @@ packages:
   electron-to-chromium@1.5.102:
     resolution: {integrity: sha512-eHhqaja8tE/FNpIiBrvBjFV/SSKpyWHLvxuR9dPTdo+3V9ppdLmFB7ZZQ98qNovcngPLYIz0oOBF9P0FfZef5Q==}
 
-  electron@34.2.0:
-    resolution: {integrity: sha512-SYwBJNeXBTm1q/ErybQMUBZAYqEreBUqBwTrNkw1rV4YatDZk5Aittpcus3PPeC4UoI/tqmJ946uG8AKHTd6CA==}
+  electron@34.3.0:
+    resolution: {integrity: sha512-I238qRnYTAsuwJ/rS7HGaFNY4NNKAcjX8nlj7mnNmj1TK3z4HvNoD1r7Zud81DYDFx8AITuLd76EPrEnnfF9Bg==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -3186,7 +3186,7 @@ snapshots:
 
   '@podman-desktop/api@1.14.2': {}
 
-  '@podman-desktop/tests-playwright@1.17.0-202502260900-d091c29966f': {}
+  '@podman-desktop/tests-playwright@1.17.0-202502271732-7e5c44cdd75': {}
 
   '@rollup/rollup-android-arm-eabi@4.34.8':
     optional: true
@@ -3847,7 +3847,7 @@ snapshots:
 
   electron-to-chromium@1.5.102: {}
 
-  electron@34.2.0:
+  electron@34.3.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 20.17.19
