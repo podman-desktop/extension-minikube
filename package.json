@@ -99,7 +99,7 @@
   "devDependencies": {
     "7zip-min": "^2.0.0",
     "@eslint/compat": "^1.2.7",
-    "@playwright/test": "^1.51.0",
+    "@playwright/test": "^1.51.1",
     "@podman-desktop/api": "^1.17.1",
     "@podman-desktop/tests-playwright": "next",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
