@@ -102,7 +102,7 @@
     "@playwright/test": "^1.51.1",
     "@podman-desktop/api": "^1.17.1",
     "@podman-desktop/tests-playwright": "next",
-    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.26.1",
     "@vitest/coverage-v8": "^2.0.5",
     "electron": "^35.0.1",
