@@ -41,7 +41,7 @@ import {
 
 import { createMinikubeCluster } from '../utility/operations';
 
-const EXTENSION_IMAGE: string = 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
+const EXTENSION_IMAGE: string = process.env.EXTENSION_IMAGE ?? 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
 const EXTENSION_NAME: string = 'minikube';
 const EXTENSION_LABEL: string = 'podman-desktop.minikube';
 const CLUSTER_NAME: string = 'minikube';
