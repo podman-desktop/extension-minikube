@@ -52,8 +52,7 @@ const CLUSTER_CREATION_TIMEOUT: number = 300_000;
 const IMAGE_TO_PULL: string = 'ghcr.io/linuxcontainers/alpine';
 const IMAGE_TAG: string = 'latest';
 const CONTAINER_NAME: string = 'alpine-container';
-const NAMESPACE: string = 'default';
-const DEPLOYED_POD_NAME: string = `${CONTAINER_NAME} ${MINIKUBE_CONTAINER} ${NAMESPACE}`;
+const DEPLOYED_POD_NAME: string = CONTAINER_NAME;
 const CONTAINER_START_PARAMS: ContainerInteractiveParams = {
   attachTerminal: false,
 };
