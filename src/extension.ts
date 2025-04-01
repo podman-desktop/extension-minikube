@@ -418,8 +418,8 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
         provider?.updateVersion(lastReleaseVersion);
         minikubeCliToolUpdaterDisposable?.dispose();
         minikubeProviderUpdaterDisposable?.dispose();
-      }
-    })
+      },
+    });
   }
 }
 
