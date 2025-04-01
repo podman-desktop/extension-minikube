@@ -270,6 +270,11 @@ describe('minikube cli tool', () => {
       doUpdate: expect.any(Function),
       version: '5.67.0',
     });
+
+    expect(providerMock.registerUpdate).toHaveBeenCalledWith({
+      update: expect.any(Function),
+      version: '5.67.0',
+    });
   });
 
   test('uninstall event should dispose provider and command', async () => {

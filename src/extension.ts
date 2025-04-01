@@ -50,6 +50,7 @@ let minikubeCliTool: extensionApi.CliTool | undefined;
 let provider: extensionApi.Provider | undefined;
 let commandDisposable: extensionApi.Disposable | undefined;
 let minikubeCliToolUpdaterDisposable: extensionApi.Disposable | undefined;
+let minikubeProviderUpdaterDisposable: extensionApi.Disposable | undefined;
 
 const minikubeCliName = 'minikube';
 const minikubeDisplayName = 'Minikube';
@@ -318,6 +319,9 @@ export async function activate(extensionContext: extensionApi.ExtensionContext):
     // dispose registered update
     minikubeCliToolUpdaterDisposable?.dispose();
     minikubeCliToolUpdaterDisposable = undefined;
+
+    minikubeProviderUpdaterDisposable?.dispose();
+    minikubeProviderUpdaterDisposable = undefined;
     // dispose provider (do not allow to create minikube without executable)
     provider?.dispose();
     provider = undefined;
@@ -398,9 +402,24 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
           version: lastReleaseVersion,
           path: destFile,
         });
+        provider?.updateVersion(lastReleaseVersion);
         minikubeCliToolUpdaterDisposable?.dispose();
+        minikubeProviderUpdaterDisposable?.dispose();
       },
     });
+    minikubeProviderUpdaterDisposable = provider?.registerUpdate({
+      version: lastReleaseVersion,
+      update: async () => {
+        const destFile = await minikubeDownload.install(lastReleaseMetadata);
+        minikubeCliTool?.updateVersion({
+          version: lastReleaseVersion,
+          path: destFile,
+        });
+        provider?.updateVersion(lastReleaseVersion);
+        minikubeCliToolUpdaterDisposable?.dispose();
+        minikubeProviderUpdaterDisposable?.dispose();
+      }
+    })
   }
 }
 
@@ -413,6 +432,8 @@ export function deactivate(): void {
   commandDisposable = undefined;
   minikubeCliToolUpdaterDisposable?.dispose();
   minikubeCliToolUpdaterDisposable = undefined;
+  minikubeProviderUpdaterDisposable?.dispose();
+  minikubeProviderUpdaterDisposable = undefined;
   minikubeClusters = [];
   registeredKubernetesConnections.splice(0);
 }
