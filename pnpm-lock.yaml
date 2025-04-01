@@ -22,8 +22,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       '@eslint/compat':
-        specifier: ^1.2.7
-        version: 1.2.7(eslint@9.23.0)
+        specifier: ^1.2.8
+        version: 1.2.8(eslint@9.23.0)
       '@playwright/test':
         specifier: ^1.51.1
         version: 1.51.1
@@ -32,7 +32,7 @@ importers:
         version: 1.17.2
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.18.0-202503281501-18e4a0451ac
+        version: 1.18.0-202504011856-0520d9a42e9
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.28.0
         version: 8.28.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.8.2))(eslint@9.23.0)(typescript@5.8.2)
@@ -453,8 +453,8 @@ packages:
     resolution: {integrity: sha512-CCZCDJuduB9OUkFkY2IgppNZMi2lBQgD2qzwXkEia16cge2pijY/aXi96CJMquDMn3nJdlPV1A5KrJEXwfLNzQ==}
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
-  '@eslint/compat@1.2.7':
-    resolution: {integrity: sha512-xvv7hJE32yhegJ8xNAnb62ggiAwTYHBpUCWhRxEj/ksvgDJuSXfoDkBcRYaYNFiJ+jH0IE3K16hd+xXzhBgNbg==}
+  '@eslint/compat@1.2.8':
+    resolution: {integrity: sha512-LqCYHdWL/QqKIJuZ/ucMAv8d4luKGs4oCPgpt8mWztQAtPrHfXKQ/XAUc8ljCHAfJCn6SvkpTcGt5Tsh8saowA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^9.10.0
@@ -620,8 +620,8 @@ packages:
   '@podman-desktop/api@1.17.2':
     resolution: {integrity: sha512-tk4yEuZkNdVQ3NOqGQ8eDMduG/mR3ZUQmlAZbUbi+s839jqpSdzchTM9brj1LQmWSkJdnyP1Yp0q4u2jJsD4ew==}
 
-  '@podman-desktop/tests-playwright@1.18.0-202503281501-18e4a0451ac':
-    resolution: {integrity: sha512-zv6NQINnpRWg0gI60IBmoLkvKZ7841fFQA3/4aw3VnVQyt+G+ce22Cpw6WgEGD2Fle5lPBJQEgAr4Fvzhl1C9A==}
+  '@podman-desktop/tests-playwright@1.18.0-202504011856-0520d9a42e9':
+    resolution: {integrity: sha512-z4b6Ihdgop+dLubkoDolL5kTRzoZxZJoSbDag4Xy3c2oRYa+PUvDFlk/mQUsSkWPK8YGfUto0HOmFGENG9J3vA==}
 
   '@rollup/rollup-android-arm-eabi@4.37.0':
     resolution: {integrity: sha512-l7StVw6WAa8l3vA1ov80jyetOAEo1FtHvZDbzXDO/02Sq/QVvqlHkYoFwDJPIMj0GKiistsBudfx5tGFnwYWDQ==}
@@ -3174,7 +3174,7 @@ snapshots:
 
   '@eslint-community/regexpp@4.12.1': {}
 
-  '@eslint/compat@1.2.7(eslint@9.23.0)':
+  '@eslint/compat@1.2.8(eslint@9.23.0)':
     optionalDependencies:
       eslint: 9.23.0
 
@@ -3351,7 +3351,7 @@ snapshots:
 
   '@podman-desktop/api@1.17.2': {}
 
-  '@podman-desktop/tests-playwright@1.18.0-202503281501-18e4a0451ac': {}
+  '@podman-desktop/tests-playwright@1.18.0-202504011856-0520d9a42e9': {}
 
   '@rollup/rollup-android-arm-eabi@4.37.0':
     optional: true
