@@ -75,6 +75,7 @@ vi.mock('@podman-desktop/api', async () => {
 
 const providerMock: podmanDesktopApi.Provider = {
   setKubernetesProviderConnectionFactory: vi.fn(),
+  registerUpdate: vi.fn(),
   dispose: vi.fn(),
 } as unknown as podmanDesktopApi.Provider;
 
