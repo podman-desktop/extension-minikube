@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2024-2025 Red Hat, Inc.
+# Copyright (C) 2025 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: e2e-main
+name: e2e-k8s-main
 
 on:
   push:
@@ -46,10 +46,6 @@ on:
         - docker
         - podman 
         required: true
-      npm_target:
-        default: 'test:e2e'
-        description: 'The npm target to run tests. Use "test:e2e:all" to run all test suites, including Kubernetes tests.'
-        type: string 
 
 jobs:
   e2e-tests:
@@ -84,14 +80,11 @@ jobs:
           run_install: false
           package_json_file: ./podman-desktop/package.json
     
-      - name: Set default env. variables
+      - name: Set the default minikube cluster driver env. variable
         env:
           DEFAULT_MINIKUBE_DRIVER: 'docker'
-          DEFAULT_NPM_TARGET: 'test:e2e'
         run: |
-          echo "EXTENSION_IMAGE=${{ github.event.inputs.extension_image || env.DEFAULT_EXTENSION_IMAGE }}" >> $GITHUB_ENV
           echo "MINIKUBE_DRIVER=${{ github.event.inputs.minikube_driver || env.DEFAULT_MINIKUBE_DRIVER }}" >> $GITHUB_ENV
-          echo "NPM_TARGET"=${{ github.event.inputs.npm_target || env.DEFAULT_NPM_TARGET }}" >> $GITHUB_ENV
 
       - name: Revert unprivileged user namespace restrictions in Ubuntu 24.04
         run: |
@@ -142,7 +135,7 @@ jobs:
         env:
           PODMAN_DESKTOP_ARGS: ${{ github.workspace }}/podman-desktop
           MINIKUBE_DRIVER_GHA: ${{ env.MINIKUBE_DRIVER }}        
-        run: pnpm ${{ env.NPM_TARGET }}
+        run: pnpm test:e2e:k8s
 
       - uses: actions/upload-artifact@v4
         if: always()
