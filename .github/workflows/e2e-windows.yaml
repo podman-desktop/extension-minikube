@@ -60,7 +60,7 @@ on:
         type: 'string'
         required: true
       env_vars:
-        default: 'TEST_PODMAN_MACHINE=true'
+        default: 'TEST_PODMAN_MACHINE=true,EXTENSION_IMAGE="ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly"'
         description: 'Env. Variables passed into target machine, ie: VAR1=xxx,VAR2=true,VAR3=15,VAR4="Pass me along"'
         type: 'string'
         required: true
@@ -106,7 +106,7 @@ jobs:
         DEFAULT_BRANCH: 'main'
         DEFAULT_EXT_TESTS: '1'
         DEFAULT_NPM_TARGET: 'test:e2e'
-        DEFAULT_ENV_VARS: 'TEST_PODMAN_MACHINE=false'
+        DEFAULT_ENV_VARS: 'TEST_PODMAN_MACHINE=false,EXTENSION_IMAGE="ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly"'
         DEFAULT_PODMAN_OPTIONS: 'INIT=1,START=1,ROOTFUL=1,NETWORKING=0'
         DEFAULT_PODMAN_PROVIDER: 'wsl'
         DEFAULT_EXT_REPO_OPTIONS: 'REPO=extension-minikube,FORK=podman-desktop,BRANCH=main'
