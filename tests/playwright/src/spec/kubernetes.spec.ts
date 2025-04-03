@@ -16,8 +16,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
+import { checkKubernetesResourceState, deleteCluster, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, test} from '@podman-desktop/tests-playwright';
+
 import { createMinikubeCluster} from '../utility/operations';
-import { checkKubernetesResourceState, deleteCluster, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, test, isMac} from '@podman-desktop/tests-playwright';
 
 const CLUSTER_NAME: string = 'minikube';
 const MINIKUBE_NODE: string = CLUSTER_NAME;
