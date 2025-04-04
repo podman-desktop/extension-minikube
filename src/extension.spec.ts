@@ -75,6 +75,7 @@ vi.mock('@podman-desktop/api', async () => {
 
 const providerMock: podmanDesktopApi.Provider = {
   setKubernetesProviderConnectionFactory: vi.fn(),
+  registerUpdate: vi.fn(),
   dispose: vi.fn(),
 } as unknown as podmanDesktopApi.Provider;
 
@@ -268,6 +269,11 @@ describe('minikube cli tool', () => {
 
     expect(cliToolMock.registerUpdate).toHaveBeenCalledWith({
       doUpdate: expect.any(Function),
+      version: '5.67.0',
+    });
+
+    expect(providerMock.registerUpdate).toHaveBeenCalledWith({
+      update: expect.any(Function),
       version: '5.67.0',
     });
   });
