@@ -226,13 +226,11 @@ async function createProvider(
 
   extensionContext.subscriptions.push(provider);
   await registerProvider(extensionContext, provider, telemetryLogger);
-  if (!commandDisposable) {
-    commandDisposable = extensionApi.commands.registerCommand(MINIKUBE_MOVE_IMAGE_COMMAND, async image => {
-      if (!minikubeCli) throw new Error('minikube executable cannot be found');
-      telemetryLogger.logUsage('moveImage');
-      await imageHandler.moveImage(image, minikubeClusters, minikubeCli);
-    });
-  }
+  commandDisposable ??= extensionApi.commands.registerCommand(MINIKUBE_MOVE_IMAGE_COMMAND, async image => {
+    if (!minikubeCli) throw new Error('minikube executable cannot be found');
+    telemetryLogger.logUsage('moveImage');
+    await imageHandler.moveImage(image, minikubeClusters, minikubeCli);
+  });
 
   // when containers are refreshed, update
   extensionApi.containerEngine.onEvent(async event => {
@@ -305,9 +303,7 @@ export async function activate(extensionContext: extensionApi.ExtensionContext):
 
   // subscribe to update events
   minikubeCliTool.onDidUpdateVersion(async () => {
-    if (!provider) {
-      provider = await createProvider(extensionContext, telemetryLogger);
-    }
+    provider ??= await createProvider(extensionContext, telemetryLogger);
 
     // check for update
     return checkUpdate(minikubeDownload);
