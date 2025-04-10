@@ -5,7 +5,9 @@
     "type": "module",
     "scripts": {
       "test:e2e:setup": "xvfb-maybe --auto-servernum --server-args='-screen 0 1280x960x24' --",
-      "test:e2e": "npm run test:e2e:setup npx playwright test src/spec/"
+      "test:e2e": "npm run test:e2e:setup -- npx playwright test src/spec/ --grep-invert @k8s_e2e",
+      "test:e2e:k8s": "npm run test:e2e:setup -- npx playwright test src/spec/ -g @k8s_e2e", 
+      "test:e2e:all": "npm run test:e2e:setup -- npx playwright test src/spec/"
     },
     "author": "Red Hat",
     "license": "Apache-2.0",
