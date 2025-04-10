@@ -32,7 +32,7 @@ importers:
         version: 1.17.2
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.18.0-202504091336-c40ad4e0ed4
+        version: 1.18.0-202504101911-e8b92ebd588
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.29.1
         version: 8.29.1(@typescript-eslint/parser@8.29.1(eslint@9.24.0)(typescript@5.8.3))(eslint@9.24.0)(typescript@5.8.3)
@@ -97,8 +97,8 @@ importers:
         specifier: ^13.15.0
         version: 13.15.0
       vite:
-        specifier: ^6.2.5
-        version: 6.2.5(@types/node@20.17.30)
+        specifier: ^6.2.6
+        version: 6.2.6(@types/node@20.17.30)
       vitest:
         specifier: ^2.0.5
         version: 2.1.4(@types/node@20.17.30)
@@ -628,8 +628,8 @@ packages:
   '@podman-desktop/api@1.17.2':
     resolution: {integrity: sha512-tk4yEuZkNdVQ3NOqGQ8eDMduG/mR3ZUQmlAZbUbi+s839jqpSdzchTM9brj1LQmWSkJdnyP1Yp0q4u2jJsD4ew==}
 
-  '@podman-desktop/tests-playwright@1.18.0-202504091336-c40ad4e0ed4':
-    resolution: {integrity: sha512-N0sYVG39lhHLPWfbhQTXtZbj2Kc1oN1GgQHyV+t0pPkVvEuOm8cfaj4O5bmnfS76W94MkqnuLFX5LaH9bUrQ1g==}
+  '@podman-desktop/tests-playwright@1.18.0-202504101911-e8b92ebd588':
+    resolution: {integrity: sha512-udE8mobhKTEaBhqhEET9HWHuux5j8YKX/pZ18pO9n7wk8g4u7iw1P5L61t624y7eIYrJTVcwD5+a/d8BAcJ5JQ==}
 
   '@rollup/rollup-android-arm-eabi@4.39.0':
     resolution: {integrity: sha512-lGVys55Qb00Wvh8DMAocp5kIcaNzEFTmGhfFd88LfaogYTRKrdxgtlO5H6S49v2Nd8R2C6wLOal0qv6/kCkOwA==}
@@ -2746,8 +2746,8 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite@5.4.17:
-    resolution: {integrity: sha512-5+VqZryDj4wgCs55o9Lp+p8GE78TLVg0lasCH5xFZ4jacZjtqZa6JUw9/p0WeAojaOfncSM6v77InkFPGnvPvg==}
+  vite@5.4.18:
+    resolution: {integrity: sha512-1oDcnEp3lVyHCuQ2YFelM4Alm2o91xNoMncRm1U7S+JdYfYOvbiGZ3/CxGttrOu2M/KcGz7cRC2DoNUA6urmMA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -2777,8 +2777,8 @@ packages:
       terser:
         optional: true
 
-  vite@6.2.5:
-    resolution: {integrity: sha512-j023J/hCAa4pRIUH6J9HemwYfjB5llR2Ps0CWeikOtdR8+pAURAk0DoJC5/mm9kd+UgdnIy7d6HE4EAvlYhPhA==}
+  vite@6.2.6:
+    resolution: {integrity: sha512-9xpjNl3kR4rVDZgPNdTL0/c6ao4km69a/2ihNQbcANz8RuCOK3hQBmLSJf3bRKVQjVMda+YvizNE8AwvogcPbw==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -3318,7 +3318,7 @@ snapshots:
 
   '@podman-desktop/api@1.17.2': {}
 
-  '@podman-desktop/tests-playwright@1.18.0-202504091336-c40ad4e0ed4': {}
+  '@podman-desktop/tests-playwright@1.18.0-202504101911-e8b92ebd588': {}
 
   '@rollup/rollup-android-arm-eabi@4.39.0':
     optional: true
@@ -3678,13 +3678,13 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.4(vite@5.4.17(@types/node@20.17.30))':
+  '@vitest/mocker@2.1.4(vite@5.4.18(@types/node@20.17.30))':
     dependencies:
       '@vitest/spy': 2.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.12
     optionalDependencies:
-      vite: 5.4.17(@types/node@20.17.30)
+      vite: 5.4.18(@types/node@20.17.30)
 
   '@vitest/pretty-format@2.1.4':
     dependencies:
@@ -5811,7 +5811,7 @@ snapshots:
       cac: 6.7.14
       debug: 4.4.0
       pathe: 1.1.2
-      vite: 5.4.17(@types/node@20.17.30)
+      vite: 5.4.18(@types/node@20.17.30)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -5823,7 +5823,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.17(@types/node@20.17.30):
+  vite@5.4.18(@types/node@20.17.30):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.3
@@ -5832,7 +5832,7 @@ snapshots:
       '@types/node': 20.17.30
       fsevents: 2.3.3
 
-  vite@6.2.5(@types/node@20.17.30):
+  vite@6.2.6(@types/node@20.17.30):
     dependencies:
       esbuild: 0.25.2
       postcss: 8.5.3
@@ -5844,7 +5844,7 @@ snapshots:
   vitest@2.1.4(@types/node@20.17.30):
     dependencies:
       '@vitest/expect': 2.1.4
-      '@vitest/mocker': 2.1.4(vite@5.4.17(@types/node@20.17.30))
+      '@vitest/mocker': 2.1.4(vite@5.4.18(@types/node@20.17.30))
       '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.1.4
       '@vitest/snapshot': 2.1.4
@@ -5860,7 +5860,7 @@ snapshots:
       tinyexec: 0.3.1
       tinypool: 1.0.1
       tinyrainbow: 1.2.0
-      vite: 5.4.17(@types/node@20.17.30)
+      vite: 5.4.18(@types/node@20.17.30)
       vite-node: 2.1.4(@types/node@20.17.30)
       why-is-node-running: 2.3.0
     optionalDependencies:
