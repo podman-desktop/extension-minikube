@@ -396,7 +396,7 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
   if (lastReleaseVersion !== binaryVersion) {
     const minikubeCliToolUpdater = {
       version: lastReleaseVersion,
-      doUpdate: async () => {
+      doUpdate: async (): Promise<void> => {
         const destFile = await minikubeDownload.install(lastReleaseMetadata);
         minikubeCliTool?.updateVersion({
           version: lastReleaseVersion,
@@ -409,7 +409,7 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
     };
 
     minikubeCliToolUpdaterDisposable = minikubeCliTool.registerUpdate(minikubeCliToolUpdater);
-    
+
     minikubeProviderUpdaterDisposable = provider?.registerUpdate({
       version: lastReleaseVersion,
       update: minikubeCliToolUpdater.doUpdate,
