@@ -394,7 +394,7 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
   const lastReleaseMetadata = await minikubeDownload.getLatestVersionAsset();
   const lastReleaseVersion = lastReleaseMetadata.tag.replace('v', '').trim();
   if (lastReleaseVersion !== binaryVersion) {
-    minikubeCliToolUpdaterDisposable = minikubeCliTool.registerUpdate({
+    const minikubeCliToolUpdater = {
       version: lastReleaseVersion,
       doUpdate: async () => {
         const destFile = await minikubeDownload.install(lastReleaseMetadata);
@@ -406,19 +406,13 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
         minikubeCliToolUpdaterDisposable?.dispose();
         minikubeProviderUpdaterDisposable?.dispose();
       },
-    });
+    };
+
+    minikubeCliToolUpdaterDisposable = minikubeCliTool.registerUpdate(minikubeCliToolUpdater);
+    
     minikubeProviderUpdaterDisposable = provider?.registerUpdate({
       version: lastReleaseVersion,
-      update: async () => {
-        const destFile = await minikubeDownload.install(lastReleaseMetadata);
-        minikubeCliTool?.updateVersion({
-          version: lastReleaseVersion,
-          path: destFile,
-        });
-        provider?.updateVersion(lastReleaseVersion);
-        minikubeCliToolUpdaterDisposable?.dispose();
-        minikubeProviderUpdaterDisposable?.dispose();
-      },
+      update: minikubeCliToolUpdater.doUpdate,
     });
   }
 }
