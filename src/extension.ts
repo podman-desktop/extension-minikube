@@ -394,7 +394,7 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
   const lastReleaseMetadata = await minikubeDownload.getLatestVersionAsset();
   const lastReleaseVersion = lastReleaseMetadata.tag.replace('v', '').trim();
   if (lastReleaseVersion !== binaryVersion) {
-    const minikubeCliToolUpdater = {
+    const minikubeCliToolUpdater: extensionApi.CliToolUpdate = {
       version: lastReleaseVersion,
       doUpdate: async (): Promise<void> => {
         const destFile = await minikubeDownload.install(lastReleaseMetadata);

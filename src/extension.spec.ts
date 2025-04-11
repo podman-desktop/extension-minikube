@@ -77,6 +77,7 @@ const providerMock: podmanDesktopApi.Provider = {
   setKubernetesProviderConnectionFactory: vi.fn(),
   registerUpdate: vi.fn(),
   dispose: vi.fn(),
+  updateVersion: vi.fn(),
 } as unknown as podmanDesktopApi.Provider;
 
 const cliToolMock: podmanDesktopApi.CliTool = {
@@ -85,6 +86,7 @@ const cliToolMock: podmanDesktopApi.CliTool = {
   registerInstaller: vi.fn(),
   registerUpdate: vi.fn(),
   dispose: vi.fn(),
+  updateVersion: vi.fn(),
 } as unknown as podmanDesktopApi.CliTool;
 
 const minikubeDownloadMock: MinikubeDownload = {
@@ -250,6 +252,13 @@ describe('minikube cli tool', () => {
   });
 
   test('onDidUpdateVersion should check for update', async () => {
+    const disposableMock = vi.fn();
+    vi.mocked(cliToolMock.registerUpdate).mockReturnValue({
+      dispose: disposableMock,
+    });
+    vi.mocked(providerMock.registerUpdate).mockReturnValue({
+      dispose: disposableMock,
+    });
     // mock existing minikube
     vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue('/home/path/minikube');
     vi.mocked(getMinikubeVersion).mockResolvedValue('5.66.7');
@@ -276,6 +285,10 @@ describe('minikube cli tool', () => {
       update: expect.any(Function),
       version: '5.67.0',
     });
+
+    await vi.mocked(providerMock.registerUpdate).mock.calls[0][0].update({} as unknown as podmanDesktopApi.Logger);
+
+    expect(disposableMock).toHaveBeenCalledTimes(2);
   });
 
   test('uninstall event should dispose provider and command', async () => {
