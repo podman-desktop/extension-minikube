@@ -143,7 +143,7 @@ jobs:
 
       - name: Build Podman Desktop for E2E tests
         working-directory: ./podman-desktop
-        run: test:e2e:build
+        run: pnpm test:e2e:build
       
       - name: Ensure getting current HEAD version of the test framework
         working-directory: ./extension-minikube
