@@ -19,8 +19,8 @@ importers:
         version: 3.0.3
     devDependencies:
       7zip-min:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.1.0
+        version: 2.1.0
       '@eslint/compat':
         specifier: ^1.2.8
         version: 1.2.8(eslint@9.24.0)
@@ -111,8 +111,8 @@ packages:
   7zip-bin@5.1.1:
     resolution: {integrity: sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==}
 
-  7zip-min@2.0.0:
-    resolution: {integrity: sha512-qfg3RbAlMVsDYH5fG4bE5aac5sp4ajWNGl/+uzuW5x2GnpWLJSCo3lyUEF7a3RKnfJ0dDD/Rt7B6gH42xOFLaw==}
+  7zip-min@2.1.0:
+    resolution: {integrity: sha512-6uoMmPaasBQOyEuMIuNnASA6mF6ZfNmhsKdxJiEbtkHt9DkrJ0w1cZwyNdkDeOKjR2c5gOQAEkvMN3gyZ9MEBw==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -2927,7 +2927,7 @@ snapshots:
 
   7zip-bin@5.1.1: {}
 
-  7zip-min@2.0.0:
+  7zip-min@2.1.0:
     dependencies:
       7zip-bin: 5.1.1
 
