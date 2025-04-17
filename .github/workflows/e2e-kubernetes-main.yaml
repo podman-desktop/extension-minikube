@@ -65,6 +65,7 @@ jobs:
           path: ${{ github.event.inputs.repositoryName }}
 
       - uses: actions/checkout@v4
+        if: github.event_name == 'push'
         with: 
           path: extension-minikube
 

@@ -16,14 +16,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
-import { checkKubernetesResourceState, deleteCluster, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,test} from '@podman-desktop/tests-playwright';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,PlayYamlRuntime,test} from '@podman-desktop/tests-playwright';
 
 import { createMinikubeCluster} from '../utility/operations';
 
 const CLUSTER_NAME: string = 'minikube';
 const MINIKUBE_NODE: string = CLUSTER_NAME;
-const RESOURCE_NAME: string = 'minikube';
 const CLUSTER_CREATION_TIMEOUT: number = 300_000;
+const KUBERNETES_CONTEXT = 'minikube';
+const KUBERNETES_NAMESPACE = 'default';
+const DEPLOYMENT_NAME = 'test-deployment-resource';
+const KUBERNETES_RUNTIME = {
+  runtime: PlayYamlRuntime.Kubernetes,
+  kubernetesContext: KUBERNETES_CONTEXT,
+  kubernetesNamespace: KUBERNETES_NAMESPACE,
+};
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DEPLOYMENT_YAML_PATH = path.resolve(__dirname, '..', '..', 'resources', 'kubernetes', `${DEPLOYMENT_NAME}.yaml`);
 
 const EXTENSION_IMAGE: string = process.env.EXTENSION_IMAGE ?? 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
 
@@ -55,7 +69,7 @@ test.beforeAll(async ({ runner, welcomePage, page, navigationBar }) => {
 
 test.afterAll(async ({ navigationBar, runner, page }) => {
   try {
-    await deleteCluster(page, RESOURCE_NAME, MINIKUBE_NODE, CLUSTER_NAME);
+    await deleteCluster(page, minikubeExtension.extensionName, MINIKUBE_NODE, CLUSTER_NAME);
     //Delete minikube extension
     const extensionsPage = await navigationBar.openExtensions();
     await playExpect(extensionsPage.header).toBeVisible();
@@ -69,5 +83,46 @@ test.afterAll(async ({ navigationBar, runner, page }) => {
 test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () => {
   test('Kubernetes Nodes test', async ({ page }) => {
     await checkKubernetesResourceState(page, KubernetesResources.Nodes, MINIKUBE_NODE, KubernetesResourceState.Running);
+  });
+  test.describe.serial('Kubernetes deployment resource E2E Test', () => {
+    test('Kubernetes Pods page should be empty', async ({ navigationBar }) => {
+      const kubernetesBar = await navigationBar.openKubernetes();
+      const kubernetesPodsPage = await kubernetesBar.openTabPage(KubernetesResources.Pods);
+  
+      await playExpect.poll(async () => kubernetesPodsPage.content.textContent()).toContain('No pods');
+    });
+    test('Create a Kubernetes deployment resource', async ({ page }) => {
+      test.setTimeout(80_000);
+      await createKubernetesResource(
+        page,
+        KubernetesResources.Deployments,
+        DEPLOYMENT_NAME,
+        DEPLOYMENT_YAML_PATH,
+        KUBERNETES_RUNTIME,
+      );
+      await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 3);
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.Deployments,
+        DEPLOYMENT_NAME,
+        KubernetesResourceState.Running,
+        80_000,
+      );
+    });
+    test('Edit the Kubernetes deployment YAML file', async ({ page }) => {
+      test.setTimeout(120_000);
+      await editDeploymentYamlFile(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
+      await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 5);
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.Deployments,
+        DEPLOYMENT_NAME,
+        KubernetesResourceState.Running,
+        80_000,
+      );
+    });
+    test('Delete the Kubernetes deployment resource', async ({ page }) => {
+      await deleteKubernetesResource(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
+    });
   });
 });
