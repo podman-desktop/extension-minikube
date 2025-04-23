@@ -19,7 +19,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,PlayYamlRuntime,test, applyYamlFileToCluster, deletePod} from '@podman-desktop/tests-playwright';
+import { applyYamlFileToCluster, checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,PlayYamlRuntime,test} from '@podman-desktop/tests-playwright';
 
 import { createMinikubeCluster} from '../utility/operations';
 
