@@ -137,13 +137,13 @@ test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }
   });
   test.describe
   .serial('PVC lifecycle test', () => {
-    test('CCreate a pod bound to a PVC and verify its stopped', async({page}) => {
+    test('Create a pod bound to a PVC and verify its in Unknown state', async({page}) => {
       await applyYamlFileToCluster(page, PVC_POD_YAML_PATH, KUBERNETES_RUNTIME);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.Pods,
         PVC_POD_NAME,
-        KubernetesResourceState.Stopped,
+        KubernetesResourceState.Unknown,
       );
     }) 
     test('Create a PVC and verify the bound pod is in running state', async ({ page }) => {
