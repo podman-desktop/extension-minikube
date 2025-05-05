@@ -19,7 +19,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,PlayYamlRuntime,test} from '@podman-desktop/tests-playwright';
+import { applyYamlFileToCluster, checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,PlayYamlRuntime,test} from '@podman-desktop/tests-playwright';
 
 import { createMinikubeCluster} from '../utility/operations';
 
@@ -29,6 +29,11 @@ const CLUSTER_CREATION_TIMEOUT: number = 300_000;
 const KUBERNETES_CONTEXT = 'minikube';
 const KUBERNETES_NAMESPACE = 'default';
 const DEPLOYMENT_NAME = 'test-deployment-resource';
+const PVC_NAME = 'test-pvc-resource';
+const PVC_POD_NAME = 'test-pod-pvcs';
+const CONFIGMAP_NAME = 'test-configmap-resource';
+const SECRET_NAME = 'test-secret-resource';
+const SECRET_POD_NAME = 'test-pod-configmaps-secrets';
 const KUBERNETES_RUNTIME = {
   runtime: PlayYamlRuntime.Kubernetes,
   kubernetesContext: KUBERNETES_CONTEXT,
@@ -38,6 +43,11 @@ const KUBERNETES_RUNTIME = {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEPLOYMENT_YAML_PATH = path.resolve(__dirname, '..', '..', 'resources', 'kubernetes', `${DEPLOYMENT_NAME}.yaml`);
+const PVC_YAML_PATH = path.resolve(__dirname, '..', '..', 'resources', 'kubernetes', `${PVC_NAME}.yaml`);
+const PVC_POD_YAML_PATH = path.resolve(__dirname, '..', '..', 'resources', 'kubernetes', `${PVC_POD_NAME}.yaml`);
+const CONFIGMAP_YAML_PATH = path.resolve(__dirname, '..', '..', 'resources', 'kubernetes', `${CONFIGMAP_NAME}.yaml`);
+const SECRET_YAML_PATH = path.resolve(__dirname, '..', '..', 'resources', 'kubernetes', `${SECRET_NAME}.yaml`);
+const SECRET_POD_YAML_PATH = path.resolve(__dirname, '..', '..', 'resources', 'kubernetes', `${SECRET_POD_NAME}.yaml`);
 
 const EXTENSION_IMAGE: string = process.env.EXTENSION_IMAGE ?? 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
 
@@ -123,6 +133,79 @@ test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }
     });
     test('Delete the Kubernetes deployment resource', async ({ page }) => {
       await deleteKubernetesResource(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
+    });
+  });
+  test.describe
+  .serial('PVC lifecycle test', () => {
+    test('Create a pod bound to a PVC and verify its in Unknown state', async({page}) => {
+      await applyYamlFileToCluster(page, PVC_POD_YAML_PATH, KUBERNETES_RUNTIME);
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.Pods,
+        PVC_POD_NAME,
+        KubernetesResourceState.Unknown,
+      );
+    }) 
+    test('Create a PVC and verify the bound pod is in running state', async ({ page }) => {
+      await createKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME, PVC_YAML_PATH, KUBERNETES_RUNTIME);
+      await checkKubernetesResourceState(page, KubernetesResources.PVCs, PVC_NAME, KubernetesResourceState.Running);
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.Pods,
+        PVC_POD_NAME,
+        KubernetesResourceState.Running,
+      );
+    });
+    test('Delete the PVC resource', async ({ page }) => {
+      await deleteKubernetesResource(page, KubernetesResources.Pods, PVC_POD_NAME);
+      await deleteKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME);
+    });
+  });
+test.describe
+  .serial('ConfigMaps and Secrets lifecycle test', () => {
+    test('Create ConfigMap resource', async ({ page }) => {
+      await createKubernetesResource(
+        page,
+        KubernetesResources.ConfigMapsSecrets,
+        CONFIGMAP_NAME,
+        CONFIGMAP_YAML_PATH,
+        KUBERNETES_RUNTIME,
+      );
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.ConfigMapsSecrets,
+        CONFIGMAP_NAME,
+        KubernetesResourceState.Running,
+      );
+    });
+    test('Create Secret resource', async ({ page }) => {
+      await createKubernetesResource(
+        page,
+        KubernetesResources.ConfigMapsSecrets,
+        SECRET_NAME,
+        SECRET_YAML_PATH,
+        KUBERNETES_RUNTIME,
+      );
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.ConfigMapsSecrets,
+        SECRET_NAME,
+        KubernetesResourceState.Running,
+      );
+    });
+    test('Can load config and secrets via env. var in pod', async ({ page }) => {
+      await applyYamlFileToCluster(page, SECRET_POD_YAML_PATH, KUBERNETES_RUNTIME);
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.Pods,
+        SECRET_POD_NAME,
+        KubernetesResourceState.Running,
+      );
+    });
+    test('Delete the ConfigMap and Secret resources', async ({ page }) => {
+      await deletePod(page, SECRET_POD_NAME);
+      await deleteKubernetesResource(page, KubernetesResources.ConfigMapsSecrets, SECRET_NAME);
+      await deleteKubernetesResource(page, KubernetesResources.ConfigMapsSecrets, CONFIGMAP_NAME);
     });
   });
 });
