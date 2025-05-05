@@ -32,4 +32,4 @@ spec:
   - name: config-volume
     persistentVolumeClaim:
       claimName: test-pvc-resource
- 
+
