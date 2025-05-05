@@ -145,7 +145,7 @@ test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }
         PVC_POD_NAME,
         KubernetesResourceState.Unknown,
       );
-    }) 
+    }); 
     test('Create a PVC and verify the bound pod is in running state', async ({ page }) => {
       await createKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME, PVC_YAML_PATH, KUBERNETES_RUNTIME);
       await checkKubernetesResourceState(page, KubernetesResources.PVCs, PVC_NAME, KubernetesResourceState.Running);
