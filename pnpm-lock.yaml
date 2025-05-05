@@ -32,7 +32,7 @@ importers:
         version: 1.18.0
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.19.0-202504251402-0d5cfb8532c
+        version: 1.19.0-202505050610-61101096256
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.31.0
         version: 8.31.0(@typescript-eslint/parser@8.31.0(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)(typescript@5.8.3)
@@ -43,8 +43,8 @@ importers:
         specifier: ^2.0.5
         version: 2.1.4(vitest@2.1.4(@types/node@20.17.31))
       electron:
-        specifier: ^35.2.0
-        version: 35.2.0
+        specifier: ^36.1.0
+        version: 36.1.0
       eslint:
         specifier: ^9.25.1
         version: 9.25.1
@@ -634,8 +634,8 @@ packages:
   '@podman-desktop/api@1.18.0':
     resolution: {integrity: sha512-+6MeXHxTPxcf0dT+Hmyer5o0QFQXYdBaZPoy68pd0Cx6O60EKeuWh7T4zcanf8m2cdZ63/iqfnrCwo26c3DZbg==}
 
-  '@podman-desktop/tests-playwright@1.19.0-202504251402-0d5cfb8532c':
-    resolution: {integrity: sha512-43vweMBlFJ7RjFkGbfjrXP9XoIulgkXcDgxzR7XrDdbIUyuGczTlhRHUiHd4vmMS65VdOUlbqry+uyL0DLExOA==}
+  '@podman-desktop/tests-playwright@1.19.0-202505050610-61101096256':
+    resolution: {integrity: sha512-3yFOKJWg2Czz2w+WbliGcw/ZV5iVao9EooHOP+1haWgcS7VT2cOOmAar2pP3IlCmFcjYCH51xIZNOIyomx0mYA==}
 
   '@rollup/rollup-android-arm-eabi@4.40.0':
     resolution: {integrity: sha512-+Fbls/diZ0RDerhE8kyC6hjADCXA1K4yVNlH0EYfd2XjyH0UGgzaQ8MlT0pCXAThfxv3QUAczHaL+qSv1E4/Cg==}
@@ -772,8 +772,8 @@ packages:
   '@types/node@20.17.31':
     resolution: {integrity: sha512-quODOCNXQAbNf1Q7V+fI8WyErOCh0D5Yd31vHnKu4GkSztGQ7rlltAaqXhHhLl33tlVyUXs2386MkANSwgDn6A==}
 
-  '@types/node@22.15.2':
-    resolution: {integrity: sha512-uKXqKN9beGoMdBfcaTY1ecwz6ctxuJAcUlwE55938g0ZJ8lRxwAZqRz2AJ4pzpt5dHdTPMB863UZ0ESiFUcP7A==}
+  '@types/node@22.15.3':
+    resolution: {integrity: sha512-lX7HFZeHf4QG/J7tBZqrCAXwz9J5RD56Y6MpP0eJkka8p+K0RY/yBTW7CYFJ4VGCclxqOLKmiGP5juQc6MKgcw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -1323,8 +1323,8 @@ packages:
   electron-to-chromium@1.5.123:
     resolution: {integrity: sha512-refir3NlutEZqlKaBLK0tzlVLe5P2wDKS7UQt/3SpibizgsRAPOsqQC3ffw1nlv3ze5gjRQZYHoPymgVZkplFA==}
 
-  electron@35.2.0:
-    resolution: {integrity: sha512-GHda7oCkN0pA23qzah735DEbRa06IPwlzP3uvjAmf9af8gxdj5i93JEHeQVGVmSVpd7sSb1pfecs9nz7B1q5ag==}
+  electron@36.1.0:
+    resolution: {integrity: sha512-gnp3BnbKdGsVc7cm1qlEaZc8pJsR08mIs8H/yTo8gHEtFkGGJbDTVZOYNAfbQlL0aXh+ozv+CnyiNeDNkT1Upg==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -2597,10 +2597,6 @@ packages:
   tinyexec@0.3.1:
     resolution: {integrity: sha512-WiCJLEECkO18gwqIp6+hJg0//p23HXp4S+gGtAKu3mI2F2/sXC4FvHvXvB0zJVVaTPhx1/tOwdbRsa1sOBIKqQ==}
 
-  tinyglobby@0.2.12:
-    resolution: {integrity: sha512-qkf4trmKSIiMTs/E63cxH+ojC2unam7rJ0WrauAzpT3ECNTxGRMlaXxVbfxMUC/w0LaYk6jQ4y/nGR9uBO3tww==}
-    engines: {node: '>=12.0.0'}
-
   tinyglobby@0.2.13:
     resolution: {integrity: sha512-mEwzpUgrLySlveBwEVDMKk5B57bhLPYovRfPAXD5gA/98Opn0rCDj3GtLwFvCvH5RK9uPCExUROW5NjDwvqkxw==}
     engines: {node: '>=12.0.0'}
@@ -3343,7 +3339,7 @@ snapshots:
 
   '@podman-desktop/api@1.18.0': {}
 
-  '@podman-desktop/tests-playwright@1.19.0-202504251402-0d5cfb8532c': {}
+  '@podman-desktop/tests-playwright@1.19.0-202505050610-61101096256': {}
 
   '@rollup/rollup-android-arm-eabi@4.40.0':
     optional: true
@@ -3441,7 +3437,7 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@22.15.2':
+  '@types/node@22.15.3':
     dependencies:
       undici-types: 6.21.0
 
@@ -4066,10 +4062,10 @@ snapshots:
 
   electron-to-chromium@1.5.123: {}
 
-  electron@35.2.0:
+  electron@36.1.0:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.15.2
+      '@types/node': 22.15.3
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -5638,11 +5634,6 @@ snapshots:
   tinybench@2.9.0: {}
 
   tinyexec@0.3.1: {}
-
-  tinyglobby@0.2.12:
-    dependencies:
-      fdir: 6.4.4(picomatch@4.0.2)
-      picomatch: 4.0.2
 
   tinyglobby@0.2.13:
     dependencies:
