@@ -40,6 +40,7 @@ import {
 } from '@podman-desktop/tests-playwright';
 
 import { createMinikubeCluster } from '../utility/operations';
+import { execSync } from 'node:child_process';
 
 const EXTENSION_IMAGE: string = process.env.EXTENSION_IMAGE ?? 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
 const EXTENSION_NAME: string = 'minikube';
@@ -80,8 +81,9 @@ test.use({
   });
 
 test.afterAll(async ({ page, runner }) => {
+  test.setTimeout(120_000);
     try {
-      await deleteContainer(page, CONTAINER_NAME);
+      killMinikubeProcesses();
     } finally {
       await runner.close();   
     }
@@ -124,7 +126,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         await ensureCliInstalled(page, 'Minikube');
     });
 
-    test.describe('Minikube cluster e2e test', () => {
+    test.describe.serial('Minikube cluster e2e test', () => {
         test('Create a Minikube cluster', async ({ page}) => {
             test.setTimeout(CLUSTER_CREATION_TIMEOUT);
             if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
@@ -188,7 +190,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
           });
     });
 
-    test.describe('Minikube cluster operations - Details', () => {
+    test.describe.serial('Minikube cluster operations - Details', () => {
       test('Create a Minikube cluster', async ({ page }) => {
         test.setTimeout(CLUSTER_CREATION_TIMEOUT);
         if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
@@ -258,4 +260,39 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
         await minikubeExtension.removeExtension();
     });
+
+function killMinikubeProcesses() {
+  let processesToKill: string[] = [];
+  if(driverGHA === 'docker') {
+    processesToKill = [
+    'minikube',
+    'kubelet',
+    'kube-apiserver',
+    'kube-scheduler',
+    'containerd',
+    'crio',
+    'dockerd',
+    'qemu-system-x86_64',
+    'VBoxHeadless'
+    ];
+  } else if(driverGHA === 'podman') {
+    processesToKill = [
+      'minikube',
+      'kubelet',
+      'kube-apiserver',
+      'kube-scheduler',
+      'podman',
+      'conmon'
+    ];
+  }
+  
+  processesToKill.forEach(proc => {
+    try {
+      console.log(`Killing ${proc} processes...`);
+      execSync(`pkill -f ${proc}`, { stdio: 'inherit' });
+    } catch (err) {
+      console.error(`No ${proc} process found or already stopped.`);
+    }
+  });
+}
  
