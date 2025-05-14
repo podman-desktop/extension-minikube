@@ -254,4 +254,5 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     await playExpect.poll(async () => await extensions.extensionIsInstalled(EXTENSION_LABEL), { timeout: 15000 }).toBeFalsy();
   });
 });
- 
+
+  
