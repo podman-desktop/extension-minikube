@@ -81,9 +81,15 @@ test.use({
     }),
   });
 
-test.afterAll(async ({ runner }) => {
-  execSync(`pkill minikube`, {stdio: 'inherit'});
-  await runner.close();   
+test.afterAll(async ({ page, runner }) => {
+  try {
+    await deleteContainer(page, CONTAINER_NAME);
+    await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+  } 
+  finally {
+    execSync(`pkill minikube`, {stdio: 'inherit'});
+    await runner.close();
+  }   
 });
 
 test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
@@ -154,7 +160,6 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       await playExpect.poll(async () => containerDetails.getState()).toBe(ContainerState.Running);
 
       await deployContainerToCluster(page, CONTAINER_NAME, KUBERNETES_CONTEXT, DEPLOYED_POD_NAME);
-      await deleteContainer(page, CONTAINER_NAME);
     });
 
     test('Minikube cluster operations - STOP', async ({ page }) => {
