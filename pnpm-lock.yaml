@@ -32,7 +32,7 @@ importers:
         version: 1.18.0
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.19.0-202505070628-f4e09969545
+        version: 1.19.0-202505140948-444bd8e9cf4
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.32.0
         version: 8.32.0(@typescript-eslint/parser@8.32.0(eslint@9.26.0)(typescript@5.8.3))(eslint@9.26.0)(typescript@5.8.3)
@@ -79,8 +79,8 @@ importers:
         specifier: ^59.0.1
         version: 59.0.1(eslint@9.26.0)
       globals:
-        specifier: ^16.0.0
-        version: 16.0.0
+        specifier: ^16.1.0
+        version: 16.1.0
       mkdirp:
         specifier: ^3.0.1
         version: 3.0.1
@@ -620,8 +620,8 @@ packages:
   '@podman-desktop/api@1.18.0':
     resolution: {integrity: sha512-+6MeXHxTPxcf0dT+Hmyer5o0QFQXYdBaZPoy68pd0Cx6O60EKeuWh7T4zcanf8m2cdZ63/iqfnrCwo26c3DZbg==}
 
-  '@podman-desktop/tests-playwright@1.19.0-202505070628-f4e09969545':
-    resolution: {integrity: sha512-vI9/wrtWJsUEmyk1n+eG5AxlLhBYBbn5CeKbe0RyPtzQBzVdm9s78dAC6mxGWkIdcWOuXaQluirCtAArVYzW1w==}
+  '@podman-desktop/tests-playwright@1.19.0-202505140948-444bd8e9cf4':
+    resolution: {integrity: sha512-Tyr0QMsINTu4CaIN1LJSXosHSdTJnA9n8izGx3P9FwgF8XSq6AsGf58qJmL+ctU5E56lqBsul+AGFlcaoiVmdg==}
 
   '@rollup/rollup-android-arm-eabi@4.40.2':
     resolution: {integrity: sha512-JkdNEq+DFxZfUwxvB58tHMHBHVgX23ew41g1OQinthJ+ryhdRk67O31S7sYw8u2lTjHUPFxwar07BBt1KHp/hg==}
@@ -1791,8 +1791,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@16.0.0:
-    resolution: {integrity: sha512-iInW14XItCXET01CQFqudPOWP2jYMl7T+QRQT+UNcR/iQncN/F0UNpgd76iFkBPgNQb4+X3LV9tLJYzwh+Gl3A==}
+  globals@16.1.0:
+    resolution: {integrity: sha512-aibexHNbb/jiUSObBgpHLj+sIuUmJnYcgXBlrfsiDZ9rt4aF2TFRbyLgZ2iFQuVZ1K5Mx3FVkbKRSgKrbK3K2g==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -3474,7 +3474,7 @@ snapshots:
 
   '@podman-desktop/api@1.18.0': {}
 
-  '@podman-desktop/tests-playwright@1.19.0-202505070628-f4e09969545': {}
+  '@podman-desktop/tests-playwright@1.19.0-202505140948-444bd8e9cf4': {}
 
   '@rollup/rollup-android-arm-eabi@4.40.2':
     optional: true
@@ -4613,7 +4613,7 @@ snapshots:
       eslint: 9.26.0
       esquery: 1.6.0
       find-up-simple: 1.0.1
-      globals: 16.0.0
+      globals: 16.1.0
       indent-string: 5.0.0
       is-builtin-module: 5.0.0
       jsesc: 3.1.0
@@ -4961,7 +4961,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@16.0.0: {}
+  globals@16.1.0: {}
 
   globalthis@1.0.4:
     dependencies:
