@@ -16,6 +16,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
+import { execSync } from 'node:child_process';
+
 import type {
     ContainerInteractiveParams} from '@podman-desktop/tests-playwright';
 import { 
@@ -80,182 +82,177 @@ test.use({
   });
 
 test.afterAll(async ({ page, runner }) => {
-    try {
-      await deleteContainer(page, CONTAINER_NAME);
-    } finally {
-      await runner.close();   
-    }
-
-
+  try {
+    await deleteContainer(page, CONTAINER_NAME);
+    await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+  } 
+  finally {
+    execSync(`pkill minikube`, {stdio: 'inherit'});
+    await runner.close();
+  }   
 });
 
 test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
+  test('Install Minikube extension from OCI image', async ({ navigationBar }) => {
+    test.skip(!!skipExtensionInstallation, 'Skipping extension installation');
 
-    test('Install Minikube extension from OCI image', async ({ navigationBar }) => {
-        test.skip(!!skipExtensionInstallation, 'Skipping extension installation');
-        
-        await navigationBar.openExtensions();
-        await playExpect(extensionsPage.header).toBeVisible();
-        await playExpect.poll(async () => extensionsPage.extensionIsInstalled(EXTENSION_LABEL)).toBeFalsy();
-        await extensionsPage.openCatalogTab();
-        await extensionsPage.installExtensionFromOCIImage(EXTENSION_IMAGE);
+    await navigationBar.openExtensions();
+    await playExpect(extensionsPage.header).toBeVisible();
+    await playExpect.poll(async () => extensionsPage.extensionIsInstalled(EXTENSION_LABEL)).toBeFalsy();
+    await extensionsPage.openCatalogTab();
+    await extensionsPage.installExtensionFromOCIImage(EXTENSION_IMAGE);
+  });
+
+  test('Verify Minikube extension is installed and active', async ({ navigationBar }) => {
+    await navigationBar.openExtensions();
+    await playExpect(extensionsPage.header).toBeVisible();
+    await playExpect.poll(async () => extensionsPage.extensionIsInstalled(EXTENSION_LABEL)).toBeTruthy();
+    const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
+    await playExpect(minikubeExtension.status).toHaveText('ACTIVE', { timeout: 40_000 });
+  });
+
+  test('Ensure Minikube extension details page is correctly displayed', async () => {
+    const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
+    const minikubeDetails = await minikubeExtension.openExtensionDetails('Minikube extension');
+    await playExpect(minikubeDetails.heading).toBeVisible();
+    await playExpect(minikubeDetails.status).toHaveText('ACTIVE');
+    await playExpect(minikubeDetails.tabContent).toBeVisible();
+  });
+
+  test('Install Minikube CLI', async ({ navigationBar, page }) => {
+    test.skip(isLinux && !!process.env.GITHUB_ACTIONS);
+    const settingsBar = await navigationBar.openSettings();
+    await settingsBar.cliToolsTab.click();
+    await ensureCliInstalled(page, 'Minikube');
+  });
+
+  test.describe.serial('Minikube cluster e2e test', () => {
+    test('Create a Minikube cluster', async ({ page }) => {
+      test.setTimeout(CLUSTER_CREATION_TIMEOUT);
+      if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
+        await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, { driver: driverGHA });
+      } else {
+        await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, {driver: 'podman'});
+      }
     });
 
-    test('Verify Minikube extension is installed and active', async ({ navigationBar }) => {
-        await navigationBar.openExtensions();
-        await playExpect(extensionsPage.header).toBeVisible();
-        await playExpect.poll(async () => extensionsPage.extensionIsInstalled(EXTENSION_LABEL)).toBeTruthy();
-        const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
-        await playExpect(minikubeExtension.status).toHaveText('ACTIVE', {timeout: 40_000});
+    test('Check resources added with the Minikube cluster', async ({ page }) => {
+      await checkClusterResources(page, MINIKUBE_CONTAINER);
     });
 
-    test('Ensure Minikube extension details page is correctly displayed', async () => {
-        const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
-        const minikubeDetails = await minikubeExtension.openExtensionDetails('Minikube extension');
-        await playExpect(minikubeDetails.heading).toBeVisible();
-        await playExpect(minikubeDetails.status).toHaveText('ACTIVE');
-        await playExpect(minikubeDetails.tabContent).toBeVisible();
+    test('Deploy a container to the Minikube cluster', async ({ page, navigationBar }) => {
+      const imagesPage = await navigationBar.openImages();
+      const pullImagePage = await imagesPage.openPullImage();
+      await pullImagePage.pullImage(IMAGE_TO_PULL, IMAGE_TAG);
+      await playExpect.poll(async () => imagesPage.waitForImageExists(IMAGE_TO_PULL, 10_000)).toBeTruthy();
+
+      const containersPage = await imagesPage.startContainerWithImage(
+        IMAGE_TO_PULL,
+        CONTAINER_NAME,
+        CONTAINER_START_PARAMS,
+      );
+      await playExpect
+        .poll(async () => containersPage.containerExists(CONTAINER_NAME), { timeout: 15_000 })
+        .toBeTruthy();
+
+      const containerDetails = await containersPage.openContainersDetails(CONTAINER_NAME);
+      await playExpect(containerDetails.heading).toBeVisible();
+      await playExpect.poll(async () => containerDetails.getState()).toBe(ContainerState.Running);
+
+      await deployContainerToCluster(page, CONTAINER_NAME, KUBERNETES_CONTEXT, DEPLOYED_POD_NAME);
     });
 
-    test('Install Minikube CLI', async ({ navigationBar, page }) => {
-        test.skip(isLinux && !!process.env.GITHUB_ACTIONS);
-        const settingsBar = await navigationBar.openSettings();
-        await settingsBar.cliToolsTab.click();
-        await ensureCliInstalled(page, 'Minikube');
+    test('Minikube cluster operations - STOP', async ({ page }) => {
+      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Stop, ResourceElementState.Off);
     });
 
-    test.describe('Minikube cluster e2e test', () => {
-        test('Create a Minikube cluster', async ({ page}) => {
-            test.setTimeout(CLUSTER_CREATION_TIMEOUT);
-            if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
-              await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, {driver: driverGHA});
-            } else {
-              await createMinikubeCluster(page, CLUSTER_NAME, true, CLUSTER_CREATION_TIMEOUT);
-            }
-          });
-      
-          test('Check resources added with the Minikube cluster', async ({ page }) => {
-            await checkClusterResources(page, MINIKUBE_CONTAINER);
-          });
-
-          test('Deploy a container to the Minikube cluster', async({page, navigationBar}) => {
-            const imagesPage = await navigationBar.openImages();
-            const pullImagePage = await imagesPage.openPullImage();
-            await pullImagePage.pullImage(IMAGE_TO_PULL, IMAGE_TAG);
-            await playExpect.poll(async () => imagesPage.waitForImageExists(IMAGE_TO_PULL, 10_000)).toBeTruthy();
-            const containersPage = await imagesPage.startContainerWithImage(
-              IMAGE_TO_PULL,
-              CONTAINER_NAME,
-              CONTAINER_START_PARAMS,
-            );
-            await playExpect
-              .poll(async () => containersPage.containerExists(CONTAINER_NAME), {
-              timeout: 15_000,
-            })
-            .toBeTruthy();
-            const containerDetails = await containersPage.openContainersDetails(CONTAINER_NAME);
-            await playExpect(containerDetails.heading).toBeVisible();
-            await playExpect.poll(async () => containerDetails.getState()).toBe(ContainerState.Running);
-      
-            await deployContainerToCluster(page, CONTAINER_NAME, KUBERNETES_CONTEXT, DEPLOYED_POD_NAME);
-          });
-      
-          test('Minikube cluster operations - STOP', async ({ page }) => {
-            await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Stop, ResourceElementState.Off);
-          });
-      
-          test('Minikube cluster operations - START', async ({ page }) => {
-            await resourceConnectionAction(
-              page,
-              minikubeResourceCard,
-              ResourceElementActions.Start,
-              ResourceElementState.Running,
-            );
-          });
-
-          test.skip('Minikube cluster operatioms - RESTART', async ({ page }) => {
-            // Skipping the test due to an issue with restarting the Minikube cluster.
-            await resourceConnectionAction(
-              page,
-              minikubeResourceCard,
-              ResourceElementActions.Restart,
-              ResourceElementState.Running,
-            );
-          });
-      
-          test('Minikube cluster operations - DELETE', async ({ page }) => {
-            await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
-          });
+    test('Minikube cluster operations - START', async ({ page }) => {
+      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Start, ResourceElementState.Running);
     });
 
-    test.describe('Minikube cluster operations - Details', () => {
-      test('Create a Minikube cluster', async ({ page }) => {
-        test.setTimeout(CLUSTER_CREATION_TIMEOUT);
-        if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
-          await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, {driver: driverGHA});
-        } else {
-          await createMinikubeCluster(page, CLUSTER_NAME, true, CLUSTER_CREATION_TIMEOUT);
-        }
-      });
+    test.skip('Minikube cluster operations - RESTART', async ({ page }) => {
+      // Skipping the test due to an issue with restarting the Minikube cluster.
+      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Restart, ResourceElementState.Running);
+    });
+
+    test('Minikube cluster operations - DELETE', async ({ page }) => {
+      await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+    });
+  });
+
+  test.describe.serial('Minikube cluster operations - Details', () => {
+    test('Create a Minikube cluster', async ({ page }) => {
+      test.setTimeout(CLUSTER_CREATION_TIMEOUT);
+      if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
+        await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, { driver: driverGHA });
+      } else {
+        await createMinikubeCluster(page, CLUSTER_NAME, true, CLUSTER_CREATION_TIMEOUT);
+      }
+    });
+
+    test('Minikube cluster operations details - STOP', async ({ page }) => {
+      await resourceConnectionActionDetails(
+        page,
+        minikubeResourceCard,
+        CLUSTER_NAME,
+        ResourceElementActions.Stop,
+        ResourceElementState.Off,
+      );
+    });
+
+    test('Minikube cluster operations details - START', async ({ page }) => {
+      await resourceConnectionActionDetails(
+        page,
+        minikubeResourceCard,
+        CLUSTER_NAME,
+        ResourceElementActions.Start,
+        ResourceElementState.Running,
+      );
+    });
+
+    test.skip('Minikube cluster operations details - RESTART', async ({ page }) => {
+      // Skipping the test due to an issue with restarting the Minikube cluster.
+      await resourceConnectionActionDetails(
+        page,
+        minikubeResourceCard,
+        CLUSTER_NAME,
+        ResourceElementActions.Restart,
+        ResourceElementState.Running,
+      );
+    });
+
+    test('Minikube cluster operations details - DELETE', async ({ page }) => {
+      await deleteClusterFromDetails(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+    });
+  });
+
+  test('Ensure Minikube extension can be disabled and enabled', async ({ navigationBar, page }) => {
+    await navigationBar.openExtensions();
+    await playExpect(extensionsPage.header).toBeVisible();
+
+    const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
+    await minikubeExtension.disableExtension();
+    await playExpect(minikubeExtension.enableButton).toBeEnabled();
+
+    await navigationBar.openSettings();
+    const resourcesPage = new ResourcesPage(page);
+    await playExpect.poll(async () => resourcesPage.resourceCardIsVisible(EXTENSION_NAME)).toBeFalsy();
+
+    await navigationBar.openExtensions();
+    await minikubeExtension.enableExtension();
+    await playExpect(minikubeExtension.disableButton).toBeEnabled();
+
+    await navigationBar.openSettings();
+    await playExpect.poll(async () => resourcesPage.resourceCardIsVisible(EXTENSION_NAME)).toBeTruthy();
+  });
+
+  test('Uninstall Minikube extension', async ({ navigationBar }) => {
+    const extensions = await navigationBar.openExtensions();
+    const extensionCard = await extensions.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
+    await extensionCard.disableExtension();
+    await extensionCard.removeExtension();
+    await playExpect.poll(async () => await extensions.extensionIsInstalled(EXTENSION_LABEL), { timeout: 15000 }).toBeFalsy();
+  });
+});
+
   
-      test('Minikube cluster operations details - STOP', async ({ page }) => {
-        await resourceConnectionActionDetails(
-          page,
-          minikubeResourceCard,
-          CLUSTER_NAME,
-          ResourceElementActions.Stop,
-          ResourceElementState.Off,
-        );
-      });
-  
-      test('Minikube cluster operations details - START', async ({ page }) => {
-        await resourceConnectionActionDetails(
-          page,
-          minikubeResourceCard,
-          CLUSTER_NAME,
-          ResourceElementActions.Start,
-          ResourceElementState.Running,
-        );
-      });
-  
-      test.skip('Minikube cluster operations details - RESTART', async ({ page }) => {
-         // Skipping the test due to an issue with restarting the Minikube cluster.
-        await resourceConnectionActionDetails(
-          page,
-          minikubeResourceCard,
-          CLUSTER_NAME,
-          ResourceElementActions.Restart,
-          ResourceElementState.Running,
-        );
-      });
-  
-      test('Minikube cluster operations details - DELETE', async ({ page }) => {
-        await deleteClusterFromDetails(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
-      });
-    });
-    });
-
-    test('Ensure Minikube extension can be disabled and enabled', async ({ navigationBar, page }) => {
-        await navigationBar.openExtensions();
-        await playExpect(extensionsPage.header).toBeVisible();
-
-        const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
-        await minikubeExtension.disableExtension();
-        await playExpect(minikubeExtension.enableButton).toBeEnabled();
-        await navigationBar.openSettings();
-        const resourcesPage = new ResourcesPage(page);
-        await playExpect.poll(async () => resourcesPage.resourceCardIsVisible(EXTENSION_NAME)).toBeFalsy();
-
-        await navigationBar.openExtensions();
-        await minikubeExtension.enableExtension();
-        await playExpect(minikubeExtension.disableButton).toBeEnabled();
-        await navigationBar.openSettings();
-        await playExpect.poll(async () => resourcesPage.resourceCardIsVisible(EXTENSION_NAME)).toBeTruthy();
-    });
-    test('Uninstall Minikube extension', async ({ navigationBar }) => {
-        await navigationBar.openExtensions();
-        await playExpect(extensionsPage.header).toBeVisible();
-        const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
-        await minikubeExtension.removeExtension();
-    });
- 
