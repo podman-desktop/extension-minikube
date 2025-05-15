@@ -258,7 +258,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
   });
 });
 
-async function terminateMinikube() {
+async function terminateMinikube(): Promise<void> {
   if(isGHActions && isLinux) {
     try{
       // eslint-disable-next-line
