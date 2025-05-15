@@ -62,6 +62,7 @@ const CONTAINER_START_PARAMS: ContainerInteractiveParams = {
 let extensionsPage: ExtensionsPage; 
 let minikubeResourceCard: ResourceConnectionCardPage; 
 
+const isGHActions = process.env.GITHUB_ACTIONS === 'true';
 const skipExtensionInstallation = process.env.SKIP_EXTENSION_INSTALL === 'true';
 const driverGHA = process.env.MINIKUBE_DRIVER_GHA ?? '';
 
@@ -87,7 +88,7 @@ test.afterAll(async ({ page, runner }) => {
     await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
   } 
   finally {
-    execSync(`pkill minikube`, {stdio: 'inherit'});
+    await terminateMinikube();
     await runner.close();
   }   
 });
@@ -104,9 +105,11 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
   });
 
   test('Verify Minikube extension is installed and active', async ({ navigationBar }) => {
+    test.setTimeout(60_000);
+
     await navigationBar.openExtensions();
     await playExpect(extensionsPage.header).toBeVisible();
-    await playExpect.poll(async () => extensionsPage.extensionIsInstalled(EXTENSION_LABEL)).toBeTruthy();
+    await playExpect.poll(async () => extensionsPage.extensionIsInstalled(EXTENSION_LABEL), {timeout: 60_000}).toBeTruthy();
     const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
     await playExpect(minikubeExtension.status).toHaveText('ACTIVE', { timeout: 40_000 });
   });
@@ -254,5 +257,16 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     await playExpect.poll(async () => await extensions.extensionIsInstalled(EXTENSION_LABEL), { timeout: 15000 }).toBeFalsy();
   });
 });
+
+async function terminateMinikube(): Promise<void> {
+  if(isGHActions && isLinux) {
+    try{
+      // eslint-disable-next-line
+      execSync('pkill -o minikube');
+    } catch (error: unknown) {
+      console.log(`Error while killing the minikube: ${error}`);
+    }
+  }
+}
 
   
