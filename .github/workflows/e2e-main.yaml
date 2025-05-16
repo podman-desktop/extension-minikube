@@ -96,7 +96,7 @@ jobs:
         run: |
           echo "EXTENSION_IMAGE=${{ github.event.inputs.extension_image || env.DEFAULT_EXTENSION_IMAGE }}" >> $GITHUB_ENV
           echo "MINIKUBE_DRIVER=${{ github.event.inputs.minikube_driver || env.DEFAULT_MINIKUBE_DRIVER }}" >> $GITHUB_ENV
-          echo "NPM_TARGET"=${{ github.event.inputs.npm_target || env.DEFAULT_NPM_TARGET }}" >> $GITHUB_ENV
+          echo "NPM_TARGET=${{ github.event.inputs.npm_target || env.DEFAULT_NPM_TARGET }}" >> $GITHUB_ENV
 
       - name: Revert unprivileged user namespace restrictions in Ubuntu 24.04
         run: |
