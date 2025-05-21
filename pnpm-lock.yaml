@@ -28,11 +28,11 @@ importers:
         specifier: ^1.52.0
         version: 1.52.0
       '@podman-desktop/api':
-        specifier: ^1.18.1
-        version: 1.18.1
+        specifier: ^1.19.1
+        version: 1.19.1
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.19.0-202505201602-8d7856feee0
+        version: 1.20.0-202505211546-b7a7a4c9f0d
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.32.1
         version: 8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.27.0)(typescript@5.8.3))(eslint@9.27.0)(typescript@5.8.3)
@@ -621,11 +621,11 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@podman-desktop/api@1.18.1':
-    resolution: {integrity: sha512-9c9IuDYADNq0u8DZvQ7qORorXa9md+VZtxFXbc7xuv7LKavu8Nb0PcEhci4r4zD+u7Onk/O1f9aijLwH8kHkYw==}
+  '@podman-desktop/api@1.19.1':
+    resolution: {integrity: sha512-NIBWMeNmsn7lIAlTT3EQts1zUrhqAXDG7BG46UIH+zRYv0OhS76PUtA88Evf5P1sB5q6L7P07o64EU3Dj/34gg==}
 
-  '@podman-desktop/tests-playwright@1.19.0-202505201602-8d7856feee0':
-    resolution: {integrity: sha512-N1wKwlXWjfchKtz7LCox7t5S9NzaGOX1lMUa+t//qkXfiyZKRmldhw48vOvVeJHF456AwpqxA5jt5MWTqetVXQ==}
+  '@podman-desktop/tests-playwright@1.20.0-202505211546-b7a7a4c9f0d':
+    resolution: {integrity: sha512-tKMQP2iHHp/J+LgMtw3n18IJO3FaoBAq3F5Hd3Ctog0KQG8XXorecDb3wgLb7fYywlF9NveFfZ26pj4kY1ksJw==}
 
   '@rollup/rollup-android-arm-eabi@4.40.2':
     resolution: {integrity: sha512-JkdNEq+DFxZfUwxvB58tHMHBHVgX23ew41g1OQinthJ+ryhdRk67O31S7sYw8u2lTjHUPFxwar07BBt1KHp/hg==}
@@ -3285,9 +3285,9 @@ snapshots:
     dependencies:
       playwright: 1.52.0
 
-  '@podman-desktop/api@1.18.1': {}
+  '@podman-desktop/api@1.19.1': {}
 
-  '@podman-desktop/tests-playwright@1.19.0-202505201602-8d7856feee0': {}
+  '@podman-desktop/tests-playwright@1.20.0-202505211546-b7a7a4c9f0d': {}
 
   '@rollup/rollup-android-arm-eabi@4.40.2':
     optional: true
