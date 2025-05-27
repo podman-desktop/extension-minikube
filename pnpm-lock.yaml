@@ -13,7 +13,7 @@ importers:
         version: 22.0.0
       '@types/node':
         specifier: ^20
-        version: 20.17.50
+        version: 20.17.51
       tmp-promise:
         specifier: ^3.0.3
         version: 3.0.3
@@ -32,7 +32,7 @@ importers:
         version: 1.19.1
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.20.0-202505261821-4b95b0edfbd
+        version: 1.20.0-202505271657-e48ccac6714
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.32.1
         version: 8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.27.0)(typescript@5.8.3))(eslint@9.27.0)(typescript@5.8.3)
@@ -41,7 +41,7 @@ importers:
         version: 8.32.1(eslint@9.27.0)(typescript@5.8.3)
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.1.4(vitest@2.1.4(@types/node@20.17.50))
+        version: 2.1.4(vitest@2.1.4(@types/node@20.17.51))
       electron:
         specifier: ^36.3.1
         version: 36.3.1
@@ -98,10 +98,10 @@ importers:
         version: 13.15.0
       vite:
         specifier: ^6.3.5
-        version: 6.3.5(@types/node@20.17.50)
+        version: 6.3.5(@types/node@20.17.51)
       vitest:
         specifier: ^2.0.5
-        version: 2.1.4(@types/node@20.17.50)
+        version: 2.1.4(@types/node@20.17.51)
       xvfb-maybe:
         specifier: ^0.2.1
         version: 0.2.1
@@ -624,8 +624,8 @@ packages:
   '@podman-desktop/api@1.19.1':
     resolution: {integrity: sha512-NIBWMeNmsn7lIAlTT3EQts1zUrhqAXDG7BG46UIH+zRYv0OhS76PUtA88Evf5P1sB5q6L7P07o64EU3Dj/34gg==}
 
-  '@podman-desktop/tests-playwright@1.20.0-202505261821-4b95b0edfbd':
-    resolution: {integrity: sha512-uSAANOjSo2RCvQDs8N/UvTnPGjgEaGNSnRDgR1vWGnlDThqL9fhezZrWN2D4LOZNdt6fLDK9pIIwyUj8exqQ3w==}
+  '@podman-desktop/tests-playwright@1.20.0-202505271657-e48ccac6714':
+    resolution: {integrity: sha512-8OAaXVZv0x4Rad+E1gbaYD49aex+gleceNRowNm0ko9rj6XY9QmeuXTUfMEmaFpS9AgDMPsGWo2NoI18fE1lnA==}
 
   '@rollup/rollup-android-arm-eabi@4.40.2':
     resolution: {integrity: sha512-JkdNEq+DFxZfUwxvB58tHMHBHVgX23ew41g1OQinthJ+ryhdRk67O31S7sYw8u2lTjHUPFxwar07BBt1KHp/hg==}
@@ -759,11 +759,11 @@ packages:
   '@types/keyv@3.1.4':
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
 
-  '@types/node@20.17.50':
-    resolution: {integrity: sha512-Mxiq0ULv/zo1OzOhwPqOA13I81CV/W3nvd3ChtQZRT5Cwz3cr0FKo/wMSsbTqL3EXpaBAEQhva2B8ByRkOIh9A==}
+  '@types/node@20.17.51':
+    resolution: {integrity: sha512-hccptBl7C8lHiKxTBsY6vYYmqpmw1E/aGR/8fmueE+B390L3pdMOpNSRvFO4ZnXzW5+p2HBXV0yNABd2vdk22Q==}
 
-  '@types/node@22.15.21':
-    resolution: {integrity: sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ==}
+  '@types/node@22.15.23':
+    resolution: {integrity: sha512-7Ec1zaFPF4RJ0eXu1YT/xgiebqwqoJz8rYPDi/O2BcZ++Wpt0Kq9cl0eg6NN6bYbPnR67ZLo7St5Q3UK0SnARw==}
 
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
@@ -3300,7 +3300,7 @@ snapshots:
 
   '@podman-desktop/api@1.19.1': {}
 
-  '@podman-desktop/tests-playwright@1.20.0-202505261821-4b95b0edfbd': {}
+  '@podman-desktop/tests-playwright@1.20.0-202505271657-e48ccac6714': {}
 
   '@rollup/rollup-android-arm-eabi@4.40.2':
     optional: true
@@ -3379,7 +3379,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.17.50
+      '@types/node': 20.17.51
       '@types/responselike': 1.0.3
 
   '@types/estree@1.0.7': {}
@@ -3392,19 +3392,19 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 20.17.50
+      '@types/node': 20.17.51
 
-  '@types/node@20.17.50':
+  '@types/node@20.17.51':
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@22.15.21':
+  '@types/node@22.15.23':
     dependencies:
       undici-types: 6.21.0
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 20.17.50
+      '@types/node': 20.17.51
 
   '@types/semver@7.5.8': {}
 
@@ -3416,7 +3416,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.17.50
+      '@types/node': 20.17.51
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.32.1(eslint@9.27.0)(typescript@5.8.3))(eslint@9.27.0)(typescript@5.8.3)':
@@ -3639,7 +3639,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.7.2':
     optional: true
 
-  '@vitest/coverage-v8@2.1.4(vitest@2.1.4(@types/node@20.17.50))':
+  '@vitest/coverage-v8@2.1.4(vitest@2.1.4(@types/node@20.17.51))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -3653,7 +3653,7 @@ snapshots:
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.1.4(@types/node@20.17.50)
+      vitest: 2.1.4(@types/node@20.17.51)
     transitivePeerDependencies:
       - supports-color
 
@@ -3664,13 +3664,13 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.4(vite@5.4.19(@types/node@20.17.50))':
+  '@vitest/mocker@2.1.4(vite@5.4.19(@types/node@20.17.51))':
     dependencies:
       '@vitest/spy': 2.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.12
     optionalDependencies:
-      vite: 5.4.19(@types/node@20.17.50)
+      vite: 5.4.19(@types/node@20.17.51)
 
   '@vitest/pretty-format@2.1.4':
     dependencies:
@@ -4032,7 +4032,7 @@ snapshots:
   electron@36.3.1:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.15.21
+      '@types/node': 22.15.23
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -5776,12 +5776,12 @@ snapshots:
 
   validator@13.15.0: {}
 
-  vite-node@2.1.4(@types/node@20.17.50):
+  vite-node@2.1.4(@types/node@20.17.51):
     dependencies:
       cac: 6.7.14
       debug: 4.4.1
       pathe: 1.1.2
-      vite: 5.4.19(@types/node@20.17.50)
+      vite: 5.4.19(@types/node@20.17.51)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -5793,16 +5793,16 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.19(@types/node@20.17.50):
+  vite@5.4.19(@types/node@20.17.51):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.3
       rollup: 4.40.2
     optionalDependencies:
-      '@types/node': 20.17.50
+      '@types/node': 20.17.51
       fsevents: 2.3.3
 
-  vite@6.3.5(@types/node@20.17.50):
+  vite@6.3.5(@types/node@20.17.51):
     dependencies:
       esbuild: 0.25.4
       fdir: 6.4.4(picomatch@4.0.2)
@@ -5811,13 +5811,13 @@ snapshots:
       rollup: 4.40.2
       tinyglobby: 0.2.13
     optionalDependencies:
-      '@types/node': 20.17.50
+      '@types/node': 20.17.51
       fsevents: 2.3.3
 
-  vitest@2.1.4(@types/node@20.17.50):
+  vitest@2.1.4(@types/node@20.17.51):
     dependencies:
       '@vitest/expect': 2.1.4
-      '@vitest/mocker': 2.1.4(vite@5.4.19(@types/node@20.17.50))
+      '@vitest/mocker': 2.1.4(vite@5.4.19(@types/node@20.17.51))
       '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.1.4
       '@vitest/snapshot': 2.1.4
@@ -5833,11 +5833,11 @@ snapshots:
       tinyexec: 0.3.1
       tinypool: 1.0.1
       tinyrainbow: 1.2.0
-      vite: 5.4.19(@types/node@20.17.50)
-      vite-node: 2.1.4(@types/node@20.17.50)
+      vite: 5.4.19(@types/node@20.17.51)
+      vite-node: 2.1.4(@types/node@20.17.51)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 20.17.50
+      '@types/node': 20.17.51
     transitivePeerDependencies:
       - less
       - lightningcss
