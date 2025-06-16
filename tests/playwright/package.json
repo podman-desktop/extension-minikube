@@ -1,22 +1,21 @@
 {
-    "name": "minikube-tests-playwright",
-    "version": "0.0.1",
-    "description": "Podman Desktop Minikube extension Playwright E2E tests",
-    "type": "module",
-    "scripts": {
-      "test:e2e:setup": "xvfb-maybe --auto-servernum --server-args='-screen 0 1280x960x24' --",
-      "test:e2e": "npm run test:e2e:setup -- npx playwright test src/spec/ --grep-invert @k8s_e2e",
-      "test:e2e:k8s": "npm run test:e2e:setup -- npx playwright test src/spec/ -g @k8s_e2e", 
-      "test:e2e:all": "npm run test:e2e:setup -- npx playwright test src/spec/"
-    },
-    "author": "Red Hat",
-    "license": "Apache-2.0",
-    "devDependencies": {
-      "@playwright/test": "^1.49.0",
-      "@podman-desktop/tests-playwright": "^1.14.1",
-      "@types/node": "^20",
-      "typescript": "^5.6.3",
-      "vitest": "^2.0.2",
-      "xvfb-maybe": "^0.2.1"
-    }
+  "name": "minikube-tests-playwright",
+  "version": "0.0.1",
+  "description": "Podman Desktop Minikube extension Playwright E2E tests",
+  "type": "module",
+  "scripts": {
+    "test:e2e:setup": "xvfb-maybe --auto-servernum --server-args='-screen 0 1280x960x24' --",
+    "test:e2e": "npm run test:e2e:setup -- npx playwright test src/spec/ --grep-invert @k8s_e2e",
+    "test:e2e:k8s": "npm run test:e2e:setup -- npx playwright test src/spec/ -g @k8s_e2e",
+    "test:e2e:all": "npm run test:e2e:setup -- npx playwright test src/spec/"
+  },
+  "author": "Red Hat",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@podman-desktop/tests-playwright": "^1.20.0-202506110539-ca0e9d12f5d",
+    "@types/node": "^20",
+    "typescript": "^5.6.3",
+    "xvfb-maybe": "^0.2.1"
   }
+}
