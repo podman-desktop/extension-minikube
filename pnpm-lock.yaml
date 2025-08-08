@@ -32,7 +32,7 @@ importers:
         version: 1.20.2
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.21.0-202508060751-06c73451b76
+        version: 1.21.0-202508081221-a56567a173b
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.39.0
         version: 8.39.0(@typescript-eslint/parser@8.39.0(eslint@9.32.0)(typescript@5.9.2))(eslint@9.32.0)(typescript@5.9.2)
@@ -94,8 +94,8 @@ importers:
         specifier: ^13.15.15
         version: 13.15.15
       vite:
-        specifier: ^7.1.0
-        version: 7.1.0(@types/node@20.19.9)
+        specifier: ^7.1.1
+        version: 7.1.1(@types/node@20.19.9)
       vitest:
         specifier: ^2.0.5
         version: 2.1.4(@types/node@20.19.9)
@@ -633,8 +633,8 @@ packages:
   '@podman-desktop/tests-playwright@1.20.0-202506160857-aa4b367b704':
     resolution: {integrity: sha512-e3Pey3X4VVhg12ShdY/rJJ3Fn5qkkPGWLlawHZgud+Imns1VXWbfdnzQdJrdF7yclHnFvrJAXh+fxKzYg/RCFg==}
 
-  '@podman-desktop/tests-playwright@1.21.0-202508060751-06c73451b76':
-    resolution: {integrity: sha512-Pvh5hglYzU6JIQl8xJyeJEEuaBnVHl2nMpsROqMDfJR0gfqFayGkyeTshEXKau7UaSz46fBMO6ix3Gr2lcgjqQ==}
+  '@podman-desktop/tests-playwright@1.21.0-202508081221-a56567a173b':
+    resolution: {integrity: sha512-JWsnsHJim9zk17ZPkMCMGenmptvGXTWDc8QQeXF4U1pRnP1OCWbtipPDYmrGbjCxkiPt1r3O4IwtOxuoBGJjXQ==}
 
   '@rollup/rollup-android-arm-eabi@4.46.2':
     resolution: {integrity: sha512-Zj3Hl6sN34xJtMv7Anwb5Gu01yujyE/cLBDB2gnHTAHaWS1Z38L7kuSG+oAh0giZMqG060f/YBStXtMH6FvPMA==}
@@ -2426,8 +2426,8 @@ packages:
       terser:
         optional: true
 
-  vite@7.1.0:
-    resolution: {integrity: sha512-3jdAy3NhBJYsa/lCFcnRfbK4kNkO/bhijFCnv5ByUQk/eekYagoV2yQSISUrhpV+5JiY5hmwOh7jNnQ68dFMuQ==}
+  vite@7.1.1:
+    resolution: {integrity: sha512-yJ+Mp7OyV+4S+afWo+QyoL9jFWD11QFH0i5i7JypnfTcA1rmgxCbiA8WwAICDEtZ1Z1hzrVhN8R8rGTqkTY8ZQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -2930,7 +2930,7 @@ snapshots:
 
   '@podman-desktop/tests-playwright@1.20.0-202506160857-aa4b367b704': {}
 
-  '@podman-desktop/tests-playwright@1.21.0-202508060751-06c73451b76': {}
+  '@podman-desktop/tests-playwright@1.21.0-202508081221-a56567a173b': {}
 
   '@rollup/rollup-android-arm-eabi@4.46.2':
     optional: true
@@ -4940,7 +4940,7 @@ snapshots:
       '@types/node': 20.19.9
       fsevents: 2.3.3
 
-  vite@7.1.0(@types/node@20.19.9):
+  vite@7.1.1(@types/node@20.19.9):
     dependencies:
       esbuild: 0.25.8
       fdir: 6.4.6(picomatch@4.0.3)
