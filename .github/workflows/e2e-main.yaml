@@ -60,7 +60,7 @@ jobs:
     name: Run E2E tests
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         name: Clone Minikube extension repository workflow dispatch
         if: github.event_name == 'workflow_dispatch'
         with:
@@ -68,11 +68,11 @@ jobs:
           ref: ${{ github.event.inputs.branch }}
           path: ${{ github.event.inputs.repositoryName }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: 
           path: extension-minikube
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: podman-desktop/podman-desktop
           ref: main
