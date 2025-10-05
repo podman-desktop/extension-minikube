@@ -144,20 +144,20 @@ export async function getMinikubeVersion(executable: string): Promise<string> {
  * @param executable
  */
 export async function whereBinary(executable: string): Promise<string> {
-  // grab full path for Linux and mac
-  if (extensionApi.env.isLinux || extensionApi.env.isMac) {
-    try {
-      const { stdout: fullPath } = await extensionApi.process.exec('which', [executable]);
-      return fullPath;
-    } catch (err) {
-      console.warn('Error getting full path', err);
-    }
-  } else if (extensionApi.env.isWindows) {
+  if (extensionApi.env.isWindows) {
     // grab full path for Windows
     try {
       const { stdout: fullPath } = await extensionApi.process.exec('where.exe', [executable]);
       // remove all line break/carriage return characters from full path
       return fullPath.replace(/(\r\n|\n|\r)/gm, '');
+    } catch (err) {
+      console.warn('Error getting full path', err);
+    }
+  } else {
+    // grab full path for Unix-like OSes
+    try {
+      const { stdout: fullPath } = await extensionApi.process.exec('which', [executable]);
+      return fullPath;
     } catch (err) {
       console.warn('Error getting full path', err);
     }
