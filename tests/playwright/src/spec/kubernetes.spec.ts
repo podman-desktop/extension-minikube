@@ -19,26 +19,19 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { applyYamlFileToCluster, checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,PlayYamlRuntime,test} from '@podman-desktop/tests-playwright';
+import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,test} from '@podman-desktop/tests-playwright';
 
 import { createMinikubeCluster} from '../utility/operations';
 
 const CLUSTER_NAME: string = 'minikube';
 const MINIKUBE_NODE: string = CLUSTER_NAME;
 const CLUSTER_CREATION_TIMEOUT: number = 300_000;
-const KUBERNETES_CONTEXT = 'minikube';
-const KUBERNETES_NAMESPACE = 'default';
 const DEPLOYMENT_NAME = 'test-deployment-resource';
 const PVC_NAME = 'test-pvc-resource';
 const PVC_POD_NAME = 'test-pod-pvcs';
 const CONFIGMAP_NAME = 'test-configmap-resource';
 const SECRET_NAME = 'test-secret-resource';
 const SECRET_POD_NAME = 'test-pod-configmaps-secrets';
-const KUBERNETES_RUNTIME = {
-  runtime: PlayYamlRuntime.Kubernetes,
-  kubernetesContext: KUBERNETES_CONTEXT,
-  kubernetesNamespace: KUBERNETES_NAMESPACE,
-};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,6 +46,8 @@ const EXTENSION_IMAGE: string = process.env.EXTENSION_IMAGE ?? 'ghcr.io/podman-d
 
 const driverGha: string = process.env.MINIKUBE_DRIVER_GHA ?? '';
 const useGhaDriver: boolean = !!process.env.GITHUB_ACTIONS && isLinux;
+
+test.setTimeout(90_000);
 
 test.beforeAll(async ({ runner, welcomePage, page, navigationBar }) => {
   test.setTimeout(CLUSTER_CREATION_TIMEOUT);
@@ -90,7 +85,7 @@ test.afterAll(async ({ navigationBar, runner, page }) => {
   }
 });
 
-test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () => {
+test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () => {
   test('Kubernetes Nodes test', async ({ page }) => {
     await checkKubernetesResourceState(page, KubernetesResources.Nodes, MINIKUBE_NODE, KubernetesResourceState.Running);
   });
@@ -102,34 +97,29 @@ test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }
       await playExpect.poll(async () => kubernetesPodsPage.content.textContent()).toContain('No pods');
     });
     test('Create a Kubernetes deployment resource', async ({ page }) => {
-      test.setTimeout(80_000);
       await createKubernetesResource(
         page,
         KubernetesResources.Deployments,
         DEPLOYMENT_NAME,
         DEPLOYMENT_YAML_PATH,
-        KUBERNETES_RUNTIME,
+      );
+      await checkKubernetesResourceState(
+        page,
+        KubernetesResources.Deployments,
+        DEPLOYMENT_NAME,
+        KubernetesResourceState.Running,
       );
       await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 3);
-      await checkKubernetesResourceState(
-        page,
-        KubernetesResources.Deployments,
-        DEPLOYMENT_NAME,
-        KubernetesResourceState.Running,
-        80_000,
-      );
     });
     test('Edit the Kubernetes deployment YAML file', async ({ page }) => {
-      test.setTimeout(120_000);
       await editDeploymentYamlFile(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
-      await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 5);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.Deployments,
         DEPLOYMENT_NAME,
         KubernetesResourceState.Running,
-        80_000,
       );
+      await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 5);
     });
     test('Delete the Kubernetes deployment resource', async ({ page }) => {
       await deleteKubernetesResource(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
@@ -138,7 +128,7 @@ test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }
   test.describe
   .serial('PVC lifecycle test', () => {
     test('Create a pod bound to a PVC and verify its in Unknown state', async({page}) => {
-      await applyYamlFileToCluster(page, PVC_POD_YAML_PATH, KUBERNETES_RUNTIME);
+      await createKubernetesResource(page, KubernetesResources.Pods, PVC_POD_NAME, PVC_POD_YAML_PATH);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.Pods,
@@ -147,8 +137,8 @@ test.describe.serial('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }
       );
     }); 
     test('Create a PVC and verify the bound pod is in running state', async ({ page }) => {
-      await createKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME, PVC_YAML_PATH, KUBERNETES_RUNTIME);
-      await checkKubernetesResourceState(page, KubernetesResources.PVCs, PVC_NAME, KubernetesResourceState.Running);
+      await createKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME, PVC_YAML_PATH);
+      await checkKubernetesResourceState(page, KubernetesResources.PVCs, PVC_NAME, KubernetesResourceState.Running, 80_000);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.Pods,
@@ -169,7 +159,6 @@ test.describe
         KubernetesResources.ConfigMapsSecrets,
         CONFIGMAP_NAME,
         CONFIGMAP_YAML_PATH,
-        KUBERNETES_RUNTIME,
       );
       await checkKubernetesResourceState(
         page,
@@ -179,13 +168,7 @@ test.describe
       );
     });
     test('Create Secret resource', async ({ page }) => {
-      await createKubernetesResource(
-        page,
-        KubernetesResources.ConfigMapsSecrets,
-        SECRET_NAME,
-        SECRET_YAML_PATH,
-        KUBERNETES_RUNTIME,
-      );
+      await createKubernetesResource(page, KubernetesResources.ConfigMapsSecrets, SECRET_NAME, SECRET_YAML_PATH);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.ConfigMapsSecrets,
@@ -194,7 +177,7 @@ test.describe
       );
     });
     test('Can load config and secrets via env. var in pod', async ({ page }) => {
-      await applyYamlFileToCluster(page, SECRET_POD_YAML_PATH, KUBERNETES_RUNTIME);
+      await createKubernetesResource(page, KubernetesResources.Pods, SECRET_POD_NAME, SECRET_POD_YAML_PATH);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.Pods,
