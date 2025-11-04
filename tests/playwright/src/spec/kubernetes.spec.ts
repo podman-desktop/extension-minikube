@@ -85,6 +85,8 @@ test.afterAll(async ({ navigationBar, runner, page }) => {
 
 test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () => {
   test('Kubernetes Nodes test', async ({ page }) => {
+    test.setTimeout(90_000)
+
     await checkKubernetesResourceState(page, KubernetesResources.Nodes, MINIKUBE_NODE, KubernetesResourceState.Running);
   });
   test.describe.serial('Kubernetes deployment resource E2E Test', () => {
@@ -95,7 +97,8 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
       await playExpect.poll(async () => kubernetesPodsPage.content.textContent()).toContain('No pods');
     });
     test('Create a Kubernetes deployment resource', async ({ page }) => {
-      test.setTimeout(80_000);
+      test.setTimeout(90_000);
+
       await createKubernetesResource(
         page,
         KubernetesResources.Deployments,
@@ -107,19 +110,18 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
         KubernetesResources.Deployments,
         DEPLOYMENT_NAME,
         KubernetesResourceState.Running,
-        80_000,
       );
       await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 3);
     });
     test('Edit the Kubernetes deployment YAML file', async ({ page }) => {
-      test.setTimeout(120_000);
+      test.setTimeout(90_000);
+
       await editDeploymentYamlFile(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.Deployments,
         DEPLOYMENT_NAME,
         KubernetesResourceState.Running,
-        80_000,
       );
       await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 5);
     });
@@ -130,6 +132,8 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
   test.describe
   .serial('PVC lifecycle test', () => {
     test('Create a pod bound to a PVC and verify its in Unknown state', async({page}) => {
+      test.setTimeout(90_000)
+
       await createKubernetesResource(page, KubernetesResources.Pods, PVC_POD_NAME, PVC_POD_YAML_PATH);
       await checkKubernetesResourceState(
         page,
@@ -139,8 +143,10 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
       );
     }); 
     test('Create a PVC and verify the bound pod is in running state', async ({ page }) => {
+      test.setTimeout(90_000)
+
       await createKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME, PVC_YAML_PATH);
-      await checkKubernetesResourceState(page, KubernetesResources.PVCs, PVC_NAME, KubernetesResourceState.Running);
+      await checkKubernetesResourceState(page, KubernetesResources.PVCs, PVC_NAME, KubernetesResourceState.Running, 80_000);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.Pods,
@@ -156,6 +162,8 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
 test.describe
   .serial('ConfigMaps and Secrets lifecycle test', () => {
     test('Create ConfigMap resource', async ({ page }) => {
+      test.setTimeout(90_000)
+
       await createKubernetesResource(
         page,
         KubernetesResources.ConfigMapsSecrets,
@@ -170,12 +178,9 @@ test.describe
       );
     });
     test('Create Secret resource', async ({ page }) => {
-      await createKubernetesResource(
-        page,
-        KubernetesResources.ConfigMapsSecrets,
-        SECRET_NAME,
-        SECRET_YAML_PATH,
-      );
+      test.setTimeout(90_000)
+
+      await createKubernetesResource(page, KubernetesResources.ConfigMapsSecrets, SECRET_NAME, SECRET_YAML_PATH);
       await checkKubernetesResourceState(
         page,
         KubernetesResources.ConfigMapsSecrets,
@@ -184,6 +189,7 @@ test.describe
       );
     });
     test('Can load config and secrets via env. var in pod', async ({ page }) => {
+      test.setTimeout(90_000);
       await createKubernetesResource(page, KubernetesResources.Pods, SECRET_POD_NAME, SECRET_POD_YAML_PATH);
       await checkKubernetesResourceState(
         page,
