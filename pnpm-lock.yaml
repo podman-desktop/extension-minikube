@@ -32,7 +32,7 @@ importers:
         version: 1.22.1
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.23.0-next.202511071920-4aaa13818e7
+        version: 1.23.0-next.202511101938-cb0fdffb517
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.46.3
         version: 8.46.3(@typescript-eslint/parser@8.46.3(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(typescript@5.9.3)
@@ -91,8 +91,8 @@ importers:
         specifier: ^8.46.3
         version: 8.46.3(eslint@9.39.1)(typescript@5.9.3)
       validator:
-        specifier: ^13.15.20
-        version: 13.15.20
+        specifier: ^13.15.23
+        version: 13.15.23
       vite:
         specifier: ^7.2.2
         version: 7.2.2(@types/node@20.19.24)
@@ -641,8 +641,8 @@ packages:
   '@podman-desktop/tests-playwright@1.22.1':
     resolution: {integrity: sha512-9SqWol36rA6cpkCdSe5wERzP7eUH+PpGWNPgezalU29K3g+sfN8TUOrRw7HxUgGlZADgZbDexjyb/RSyehRQHA==}
 
-  '@podman-desktop/tests-playwright@1.23.0-next.202511071920-4aaa13818e7':
-    resolution: {integrity: sha512-Ip4I0E5i4XHC8ECP+XY13ufN5vUoSZ+LOhfhl+ZSLS+pXOOY6KgQjVyoyXdpaE8qXS6/ruz7x3uuHio7RmcM8g==}
+  '@podman-desktop/tests-playwright@1.23.0-next.202511101938-cb0fdffb517':
+    resolution: {integrity: sha512-zbR/f7OipTpmqj56Hc8ol5A6uCAvpjvvuka9SZvEjrUq6n0D3T29Lz6OsQ7YsTrwdWt+y4QMSC8dS5rukQoepg==}
 
   '@rollup/rollup-android-arm-eabi@4.53.0':
     resolution: {integrity: sha512-MX3DD/o2W36nlgQb8KA5QtUw/bK5aR9YDzNmX1PRHZAa6LF/MQCWMN477CgBMg8gH1vEiEZsjWRIZeL/7ttUVA==}
@@ -2418,8 +2418,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  validator@13.15.20:
-    resolution: {integrity: sha512-KxPOq3V2LmfQPP4eqf3Mq/zrT0Dqp2Vmx2Bn285LwVahLc+CsxOM0crBHczm8ijlcjZ0Q5Xd6LW3z3odTPnlrw==}
+  validator@13.15.23:
+    resolution: {integrity: sha512-4yoz1kEWqUjzi5zsPbAS/903QXSYp0UOtHsPpp7p9rHAw/W+dkInskAE386Fat3oKRROwO98d9ZB0G4cObgUyw==}
     engines: {node: '>= 0.10'}
 
   vite-node@2.1.4:
@@ -2975,7 +2975,7 @@ snapshots:
 
   '@podman-desktop/tests-playwright@1.22.1': {}
 
-  '@podman-desktop/tests-playwright@1.23.0-next.202511071920-4aaa13818e7': {}
+  '@podman-desktop/tests-playwright@1.23.0-next.202511101938-cb0fdffb517': {}
 
   '@rollup/rollup-android-arm-eabi@4.53.0':
     optional: true
@@ -4967,7 +4967,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  validator@13.15.20: {}
+  validator@13.15.23: {}
 
   vite-node@2.1.4(@types/node@20.19.24):
     dependencies:
