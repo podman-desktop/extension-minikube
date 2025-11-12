@@ -13,7 +13,7 @@ importers:
         version: 22.0.1
       '@types/node':
         specifier: ^20
-        version: 20.19.24
+        version: 20.19.25
       tmp-promise:
         specifier: ^3.0.3
         version: 3.0.3
@@ -32,7 +32,7 @@ importers:
         version: 1.22.1
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.23.0-next.202511101938-cb0fdffb517
+        version: 1.23.0-next.202511121502-24fa2fece10
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.46.4
         version: 8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(typescript@5.9.3)
@@ -41,7 +41,7 @@ importers:
         version: 8.46.4(eslint@9.39.1)(typescript@5.9.3)
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.1.4(vitest@2.1.4(@types/node@20.19.24))
+        version: 2.1.4(vitest@2.1.4(@types/node@20.19.25))
       eslint:
         specifier: ^9.39.1
         version: 9.39.1
@@ -95,10 +95,10 @@ importers:
         version: 13.15.23
       vite:
         specifier: ^7.2.2
-        version: 7.2.2(@types/node@20.19.24)
+        version: 7.2.2(@types/node@20.19.25)
       vitest:
         specifier: ^2.0.5
-        version: 2.1.4(@types/node@20.19.24)
+        version: 2.1.4(@types/node@20.19.25)
 
   tests/playwright:
     devDependencies:
@@ -110,7 +110,7 @@ importers:
         version: 1.22.1
       '@types/node':
         specifier: ^20
-        version: 20.19.24
+        version: 20.19.25
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -641,8 +641,8 @@ packages:
   '@podman-desktop/tests-playwright@1.22.1':
     resolution: {integrity: sha512-9SqWol36rA6cpkCdSe5wERzP7eUH+PpGWNPgezalU29K3g+sfN8TUOrRw7HxUgGlZADgZbDexjyb/RSyehRQHA==}
 
-  '@podman-desktop/tests-playwright@1.23.0-next.202511101938-cb0fdffb517':
-    resolution: {integrity: sha512-zbR/f7OipTpmqj56Hc8ol5A6uCAvpjvvuka9SZvEjrUq6n0D3T29Lz6OsQ7YsTrwdWt+y4QMSC8dS5rukQoepg==}
+  '@podman-desktop/tests-playwright@1.23.0-next.202511121502-24fa2fece10':
+    resolution: {integrity: sha512-cC7MQLjvyIql4Mf6kMeaCap6F7FxHqlb4GKpfw+C0xyeVsN7UzDXx+G2xm15om7cI7AX+DQqLsB17jbGBOCuuQ==}
 
   '@rollup/rollup-android-arm-eabi@4.53.0':
     resolution: {integrity: sha512-MX3DD/o2W36nlgQb8KA5QtUw/bK5aR9YDzNmX1PRHZAa6LF/MQCWMN477CgBMg8gH1vEiEZsjWRIZeL/7ttUVA==}
@@ -769,8 +769,8 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
-  '@types/node@20.19.24':
-    resolution: {integrity: sha512-FE5u0ezmi6y9OZEzlJfg37mqqf6ZDSF2V/NLjUyGrR9uTZ7Sb9F7bLNZ03S4XVUNRWGA7Ck4c1kK+YnuWjl+DA==}
+  '@types/node@20.19.25':
+    resolution: {integrity: sha512-ZsJzA5thDQMSQO788d7IocwwQbI8B5OPzmqNvpf3NY/+MHDAS759Wo0gd2WQeXYt5AAAQjzcrTVC6SKCuYgoCQ==}
 
   '@types/semver@7.5.8':
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
@@ -2975,7 +2975,7 @@ snapshots:
 
   '@podman-desktop/tests-playwright@1.22.1': {}
 
-  '@podman-desktop/tests-playwright@1.23.0-next.202511101938-cb0fdffb517': {}
+  '@podman-desktop/tests-playwright@1.23.0-next.202511121502-24fa2fece10': {}
 
   '@rollup/rollup-android-arm-eabi@4.53.0':
     optional: true
@@ -3056,7 +3056,7 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
-  '@types/node@20.19.24':
+  '@types/node@20.19.25':
     dependencies:
       undici-types: 6.21.0
 
@@ -3310,7 +3310,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.9.2':
     optional: true
 
-  '@vitest/coverage-v8@2.1.4(vitest@2.1.4(@types/node@20.19.24))':
+  '@vitest/coverage-v8@2.1.4(vitest@2.1.4(@types/node@20.19.25))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -3324,7 +3324,7 @@ snapshots:
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.1.4(@types/node@20.19.24)
+      vitest: 2.1.4(@types/node@20.19.25)
     transitivePeerDependencies:
       - supports-color
 
@@ -3335,13 +3335,13 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.4(vite@5.4.21(@types/node@20.19.24))':
+  '@vitest/mocker@2.1.4(vite@5.4.21(@types/node@20.19.25))':
     dependencies:
       '@vitest/spy': 2.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.12
     optionalDependencies:
-      vite: 5.4.21(@types/node@20.19.24)
+      vite: 5.4.21(@types/node@20.19.25)
 
   '@vitest/pretty-format@2.1.4':
     dependencies:
@@ -4969,12 +4969,12 @@ snapshots:
 
   validator@13.15.23: {}
 
-  vite-node@2.1.4(@types/node@20.19.24):
+  vite-node@2.1.4(@types/node@20.19.25):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       pathe: 1.1.2
-      vite: 5.4.21(@types/node@20.19.24)
+      vite: 5.4.21(@types/node@20.19.25)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4986,16 +4986,16 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.21(@types/node@20.19.24):
+  vite@5.4.21(@types/node@20.19.25):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.6
       rollup: 4.53.0
     optionalDependencies:
-      '@types/node': 20.19.24
+      '@types/node': 20.19.25
       fsevents: 2.3.3
 
-  vite@7.2.2(@types/node@20.19.24):
+  vite@7.2.2(@types/node@20.19.25):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
@@ -5004,13 +5004,13 @@ snapshots:
       rollup: 4.53.0
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 20.19.24
+      '@types/node': 20.19.25
       fsevents: 2.3.3
 
-  vitest@2.1.4(@types/node@20.19.24):
+  vitest@2.1.4(@types/node@20.19.25):
     dependencies:
       '@vitest/expect': 2.1.4
-      '@vitest/mocker': 2.1.4(vite@5.4.21(@types/node@20.19.24))
+      '@vitest/mocker': 2.1.4(vite@5.4.21(@types/node@20.19.25))
       '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.1.4
       '@vitest/snapshot': 2.1.4
@@ -5026,11 +5026,11 @@ snapshots:
       tinyexec: 0.3.1
       tinypool: 1.0.1
       tinyrainbow: 1.2.0
-      vite: 5.4.21(@types/node@20.19.24)
-      vite-node: 2.1.4(@types/node@20.19.24)
+      vite: 5.4.21(@types/node@20.19.25)
+      vite-node: 2.1.4(@types/node@20.19.25)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 20.19.24
+      '@types/node': 20.19.25
     transitivePeerDependencies:
       - less
       - lightningcss
