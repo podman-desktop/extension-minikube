@@ -32,7 +32,7 @@ importers:
         version: 1.23.1
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.24.0-next.202512030717-ec0957f
+        version: 1.24.0-next.202512032007-96e4a95
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.48.0
         version: 8.48.0(@typescript-eslint/parser@8.48.1(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(typescript@5.9.3)
@@ -82,8 +82,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       prettier:
-        specifier: ^3.7.3
-        version: 3.7.3
+        specifier: ^3.7.4
+        version: 3.7.4
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -645,8 +645,8 @@ packages:
   '@podman-desktop/tests-playwright@1.22.1':
     resolution: {integrity: sha512-9SqWol36rA6cpkCdSe5wERzP7eUH+PpGWNPgezalU29K3g+sfN8TUOrRw7HxUgGlZADgZbDexjyb/RSyehRQHA==}
 
-  '@podman-desktop/tests-playwright@1.24.0-next.202512030717-ec0957f':
-    resolution: {integrity: sha512-vtH94xh/OYXDEpZgmOVCEIr4ZBVlXKZ0NgTnCFziFgNm8XqgES+HSyx/aT7eKX7WJ6LxhE6I7C0QxYHNJ53JzQ==}
+  '@podman-desktop/tests-playwright@1.24.0-next.202512032007-96e4a95':
+    resolution: {integrity: sha512-xGzNBGBeZ+UgEFOybdELxRkMzWjwUz+YcfSQlnB4hNVPkvEZbSFT55HMomRsY+VyMWGHju5uyFFohGiQLyNrkw==}
 
   '@rollup/rollup-android-arm-eabi@4.53.3':
     resolution: {integrity: sha512-mRSi+4cBjrRLoaal2PnqH82Wqyb+d3HsPUN/W+WslCXsZsyHa9ZeQQX/pQsZaVIWDkPcpV6jJ+3KLbTbgnwv8w==}
@@ -2126,8 +2126,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@3.7.3:
-    resolution: {integrity: sha512-QgODejq9K3OzoBbuyobZlUhznP5SKwPqp+6Q6xw6o8gnhr4O85L2U915iM2IDcfF2NPXVaM9zlo9tdwipnYwzg==}
+  prettier@3.7.4:
+    resolution: {integrity: sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -3035,7 +3035,7 @@ snapshots:
 
   '@podman-desktop/tests-playwright@1.22.1': {}
 
-  '@podman-desktop/tests-playwright@1.24.0-next.202512030717-ec0957f': {}
+  '@podman-desktop/tests-playwright@1.24.0-next.202512032007-96e4a95': {}
 
   '@rollup/rollup-android-arm-eabi@4.53.3':
     optional: true
@@ -4686,7 +4686,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.7.3: {}
+  prettier@3.7.4: {}
 
   punycode@2.3.1: {}
 
