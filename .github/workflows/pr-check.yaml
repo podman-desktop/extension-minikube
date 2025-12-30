@@ -42,7 +42,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: 'pnpm'
 
       - name: Execute pnpm
@@ -78,7 +78,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
 
       # Checkout podman desktop
       - uses: actions/checkout@v6
@@ -121,8 +121,8 @@ jobs:
           [engine]
           cgroup_manager="cgroupfs"
           EOT
-          podman info 
-  
+          podman info
+
       - name: Execute pnpm in Minikube Extension
         working-directory: ./extension-minikube
         run: pnpm install --no-frozen-lockfile
@@ -160,4 +160,3 @@ jobs:
         with:
           name: e2e-tests
           path: ./**/tests/**/output/
- 
