@@ -32,7 +32,7 @@ importers:
         version: 1.24.2
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.25.0-next.202512301722-bf06a19
+        version: 1.25.0-next.202512311429-14e8eaf
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.51.0
         version: 8.51.0(@typescript-eslint/parser@8.51.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)(typescript@5.9.3)
@@ -76,8 +76,8 @@ importers:
         specifier: ^62.0.0
         version: 62.0.0(eslint@9.39.2)
       globals:
-        specifier: ^16.5.0
-        version: 16.5.0
+        specifier: ^17.0.0
+        version: 17.0.0
       mkdirp:
         specifier: ^3.0.1
         version: 3.0.1
@@ -645,8 +645,8 @@ packages:
   '@podman-desktop/tests-playwright@1.22.1':
     resolution: {integrity: sha512-9SqWol36rA6cpkCdSe5wERzP7eUH+PpGWNPgezalU29K3g+sfN8TUOrRw7HxUgGlZADgZbDexjyb/RSyehRQHA==}
 
-  '@podman-desktop/tests-playwright@1.25.0-next.202512301722-bf06a19':
-    resolution: {integrity: sha512-OExazgkegncw8tfZOLDcLmtxEBptE4eDidDbefNIfNUbpljsMXE4x5kd+QAtjUqpC0t/ZLROxofT7tIPOzBzGQ==}
+  '@podman-desktop/tests-playwright@1.25.0-next.202512311429-14e8eaf':
+    resolution: {integrity: sha512-juvWkyZ7O2sBVMq++ad17MXvELm5OtguatcU783XU8VPlk/y1EF7WCz0mzeiyDsKqitl37giuCyX0B/tTZUQgQ==}
 
   '@rollup/rollup-android-arm-eabi@4.53.4':
     resolution: {integrity: sha512-PWU3Y92H4DD0bOqorEPp1Y0tbzwAurFmIYpjcObv5axGVOtcTlB0b2UKMd2echo08MgN7jO8WQZSSysvfisFSQ==}
@@ -1641,6 +1641,10 @@ packages:
 
   globals@16.5.0:
     resolution: {integrity: sha512-c/c15i26VrJ4IRt5Z89DnIzCGDn9EcebibhAOjw5ibqEHsE1wLUgkPn9RDmNcUKyU87GeaL633nyJ+pplFR2ZQ==}
+    engines: {node: '>=18'}
+
+  globals@17.0.0:
+    resolution: {integrity: sha512-gv5BeD2EssA793rlFWVPMMCqefTlpusw6/2TbAVMy0FzcG8wKJn4O+NqJ4+XWmmwrayJgw5TzrmWjFgmz1XPqw==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -2980,7 +2984,7 @@ snapshots:
 
   '@podman-desktop/tests-playwright@1.22.1': {}
 
-  '@podman-desktop/tests-playwright@1.25.0-next.202512301722-bf06a19': {}
+  '@podman-desktop/tests-playwright@1.25.0-next.202512311429-14e8eaf': {}
 
   '@rollup/rollup-android-arm-eabi@4.53.4':
     optional: true
@@ -4141,6 +4145,8 @@ snapshots:
   globals@14.0.0: {}
 
   globals@16.5.0: {}
+
+  globals@17.0.0: {}
 
   globalthis@1.0.4:
     dependencies:
