@@ -22,8 +22,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       '@eslint/compat':
-        specifier: ^2.0.1
-        version: 2.0.1(eslint@9.39.2)
+        specifier: ^2.0.2
+        version: 2.0.2(eslint@9.39.2)
       '@playwright/test':
         specifier: ^1.58.0
         version: 1.58.0
@@ -32,7 +32,7 @@ importers:
         version: 1.25.1
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.26.0-next.202601271337-95b54c6
+        version: 1.26.0-next.202602020559-d1e913b
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.54.0
         version: 8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)(typescript@5.9.3)
@@ -469,11 +469,11 @@ packages:
     resolution: {integrity: sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==}
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
-  '@eslint/compat@2.0.1':
-    resolution: {integrity: sha512-yl/JsgplclzuvGFNqwNYV4XNPhP3l62ZOP9w/47atNAdmDtIFCx6X7CSk/SlWUuBGkT4Et/5+UD+WyvX2iiIWA==}
+  '@eslint/compat@2.0.2':
+    resolution: {integrity: sha512-pR1DoD0h3HfF675QZx0xsyrsU8q70Z/plx7880NOhS02NuWLgBCOMDL787nUeQ7EWLkxv3bPQJaarjcPQb2Dwg==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
     peerDependencies:
-      eslint: ^8.40 || 9
+      eslint: ^8.40 || 9 || 10
     peerDependenciesMeta:
       eslint:
         optional: true
@@ -494,8 +494,8 @@ packages:
     resolution: {integrity: sha512-yL/sLrpmtDaFEiUj1osRP4TI2MDz1AddJL+jZ7KSqvBuliN4xqYY54IfdN8qD8Toa6g1iloph1fxQNkjOxrrpQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/core@1.0.1':
-    resolution: {integrity: sha512-r18fEAj9uCk+VjzGt2thsbOmychS+4kxI14spVNibUO2vqKX7obOG+ymZljAwuPZl+S3clPGwCwTDtrdqTiY6Q==}
+  '@eslint/core@1.1.0':
+    resolution: {integrity: sha512-/nr9K9wkr3P1EzFTdFdMoLuo1PmIxjmwvPozwoSodjNBdefGujXQUF93u1DDZpEaTuDvMsIQddsd35BwtrW9Xw==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
   '@eslint/eslintrc@3.3.3':
@@ -655,8 +655,8 @@ packages:
   '@podman-desktop/tests-playwright@1.22.1':
     resolution: {integrity: sha512-9SqWol36rA6cpkCdSe5wERzP7eUH+PpGWNPgezalU29K3g+sfN8TUOrRw7HxUgGlZADgZbDexjyb/RSyehRQHA==}
 
-  '@podman-desktop/tests-playwright@1.26.0-next.202601271337-95b54c6':
-    resolution: {integrity: sha512-tSs35jaFFe4WWEn5LumbRFjBmZcByiOQJ9VdKNSRBUHaF5QSKL8B+4StWWoWLRYdtUwK23zSUQ3SObtvoAV0Hg==}
+  '@podman-desktop/tests-playwright@1.26.0-next.202602020559-d1e913b':
+    resolution: {integrity: sha512-69kYlpeTqt6d/JCsvVbw1HcRtSZxJt1SJxCuHlbBl0vY7qMFN/AJajJs5XeYB0RaBM1b1Z0k2eYX3Y6IS47RCQ==}
 
   '@rollup/rollup-android-arm-eabi@4.55.1':
     resolution: {integrity: sha512-9R0DM/ykwfGIlNu6+2U09ga0WXeZ9MRC2Ter8jnz8415VbuIykVuc6bhdrbORFZANDmTDvq26mJrEVTl8TdnDg==}
@@ -2817,9 +2817,9 @@ snapshots:
 
   '@eslint-community/regexpp@4.12.2': {}
 
-  '@eslint/compat@2.0.1(eslint@9.39.2)':
+  '@eslint/compat@2.0.2(eslint@9.39.2)':
     dependencies:
-      '@eslint/core': 1.0.1
+      '@eslint/core': 1.1.0
     optionalDependencies:
       eslint: 9.39.2
 
@@ -2843,7 +2843,7 @@ snapshots:
     dependencies:
       '@types/json-schema': 7.0.15
 
-  '@eslint/core@1.0.1':
+  '@eslint/core@1.1.0':
     dependencies:
       '@types/json-schema': 7.0.15
 
@@ -3017,7 +3017,7 @@ snapshots:
 
   '@podman-desktop/tests-playwright@1.22.1': {}
 
-  '@podman-desktop/tests-playwright@1.26.0-next.202601271337-95b54c6': {}
+  '@podman-desktop/tests-playwright@1.26.0-next.202602020559-d1e913b': {}
 
   '@rollup/rollup-android-arm-eabi@4.55.1':
     optional: true
