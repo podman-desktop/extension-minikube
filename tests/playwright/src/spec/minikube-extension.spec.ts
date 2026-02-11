@@ -184,7 +184,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
   });
 
   test.describe.serial('Minikube cluster operations - Details', () => {
-    test.skip()
+    test.skip();
     // Skipping the test suite as we have an issue when stopping the Minikube cluster https://github.com/podman-desktop/extension-minikube/issues/878
     test('Create a Minikube cluster', async ({ page }) => {
       test.setTimeout(CLUSTER_CREATION_TIMEOUT);
