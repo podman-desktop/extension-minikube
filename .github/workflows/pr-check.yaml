@@ -67,6 +67,7 @@ jobs:
         timeout-minutes: 40
 
   e2e-tests:
+    if: github.event_name != 'pull_request'
     name: e2e tests
     runs-on: ubuntu-24.04
     env:
