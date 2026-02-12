@@ -117,7 +117,7 @@
     "eslint-plugin-redundant-undefined": "^1.0.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sonarjs": "^3.0.6",
-    "eslint-plugin-unicorn": "^62.0.0",
+    "eslint-plugin-unicorn": "^63.0.0",
     "globals": "^17.3.0",
     "mkdirp": "^3.0.1",
     "prettier": "^3.8.1",
