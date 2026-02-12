@@ -118,7 +118,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sonarjs": "^3.0.6",
     "eslint-plugin-unicorn": "^62.0.0",
-    "globals": "^17.2.0",
+    "globals": "^17.3.0",
     "mkdirp": "^3.0.1",
     "prettier": "^3.8.1",
     "typescript": "5.9.3",
