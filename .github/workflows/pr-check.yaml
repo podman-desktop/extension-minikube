@@ -83,7 +83,7 @@ jobs:
       # Checkout podman desktop
       - uses: actions/checkout@v6
         with:
-          repository:  podman-desktop/podman-desktop
+          repository: podman-desktop/podman-desktop
           ref: main
           path: podman-desktop
 
@@ -125,7 +125,7 @@ jobs:
 
       - name: Execute pnpm in Minikube Extension
         working-directory: ./extension-minikube
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
 
       - name: Build minikube extension from container file
         working-directory: ./extension-minikube
