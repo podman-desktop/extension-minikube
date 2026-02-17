@@ -83,7 +83,7 @@ jobs:
       # Checkout podman desktop
       - uses: actions/checkout@v6
         with:
-          repository: containers/podman-desktop
+          repository:  podman-desktop/podman-desktop
           ref: main
           path: podman-desktop
 
