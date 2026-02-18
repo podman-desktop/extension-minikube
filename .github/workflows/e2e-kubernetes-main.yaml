@@ -146,13 +146,13 @@ jobs:
         working-directory: ./podman-desktop
         run: pnpm test:e2e:build
 
-      - name: Ensure getting current HEAD version of the test framework
+      - name: Build tests-playwright from checked-out podman-desktop
+        working-directory: ./podman-desktop/tests/playwright
+        run: pnpm run build
+
+      - name: Use tests-playwright from checked-out podman-desktop
         working-directory: ./extension-minikube
-        run: |
-          # workaround for https://github.com/containers/podman-desktop-extension-bootc/issues/712
-          version=$(npm view @podman-desktop/tests-playwright@next version)
-          echo "Version of @podman-desktop/tests-playwright to be used: $version"
-          jq --arg version "$version" '.devDependencies."@podman-desktop/tests-playwright" = $version' package.json > package.json_tmp && mv package.json_tmp package.json
+        run: pnpm add file:../podman-desktop/tests/playwright
 
       - name: Execute pnpm in Minikube Extension
         working-directory: ./extension-minikube
