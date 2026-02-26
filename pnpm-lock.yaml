@@ -19,8 +19,8 @@ importers:
         version: 3.0.3
     devDependencies:
       7zip-min:
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^3.0.0
+        version: 3.0.0
       '@eslint/compat':
         specifier: ^2.0.2
         version: 2.0.2(eslint@9.39.2)
@@ -32,7 +32,7 @@ importers:
         version: 1.25.1
       '@podman-desktop/tests-playwright':
         specifier: next
-        version: 1.26.0-next.202602251510-6ef2aab
+        version: 1.26.0-next.202602262020-2f73b1f
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.56.1
         version: 8.56.1(@typescript-eslint/parser@8.56.1(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)(typescript@5.9.3)
@@ -123,8 +123,8 @@ packages:
   7zip-bin@5.1.1:
     resolution: {integrity: sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==}
 
-  7zip-min@2.1.0:
-    resolution: {integrity: sha512-6uoMmPaasBQOyEuMIuNnASA6mF6ZfNmhsKdxJiEbtkHt9DkrJ0w1cZwyNdkDeOKjR2c5gOQAEkvMN3gyZ9MEBw==}
+  7zip-min@3.0.0:
+    resolution: {integrity: sha512-tQ+PSHZBozRAjT2tgYhlg0vOkHo/ObAw7zbDxLuq06K/wv8zYX5WrQCkFmsb/dYiIjqkYF2BDFwziV/PDMdLTw==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -639,8 +639,8 @@ packages:
   '@podman-desktop/tests-playwright@1.22.1':
     resolution: {integrity: sha512-9SqWol36rA6cpkCdSe5wERzP7eUH+PpGWNPgezalU29K3g+sfN8TUOrRw7HxUgGlZADgZbDexjyb/RSyehRQHA==}
 
-  '@podman-desktop/tests-playwright@1.26.0-next.202602251510-6ef2aab':
-    resolution: {integrity: sha512-JSK29MwxITd2tNFkUnMIVpq26p6HFyx73Tc8hi4BKZMJy3XtKCTWrBR8jc2yckNrq5+A0MSnfWzKqy8CrWKhPg==}
+  '@podman-desktop/tests-playwright@1.26.0-next.202602262020-2f73b1f':
+    resolution: {integrity: sha512-45oet3KYX+UB23wF8SLBZxpoZv8HUzTni8maBRlqJ0tzgQESZyfwnEfZqXn0K5cyNnhe7O3yVi4UpVQI6r35Fw==}
 
   '@rollup/rollup-android-arm-eabi@4.55.1':
     resolution: {integrity: sha512-9R0DM/ykwfGIlNu6+2U09ga0WXeZ9MRC2Ter8jnz8415VbuIykVuc6bhdrbORFZANDmTDvq26mJrEVTl8TdnDg==}
@@ -2619,7 +2619,7 @@ snapshots:
 
   7zip-bin@5.1.1: {}
 
-  7zip-min@2.1.0:
+  7zip-min@3.0.0:
     dependencies:
       7zip-bin: 5.1.1
 
@@ -3003,7 +3003,7 @@ snapshots:
 
   '@podman-desktop/tests-playwright@1.22.1': {}
 
-  '@podman-desktop/tests-playwright@1.26.0-next.202602251510-6ef2aab': {}
+  '@podman-desktop/tests-playwright@1.26.0-next.202602262020-2f73b1f': {}
 
   '@rollup/rollup-android-arm-eabi@4.55.1':
     optional: true
