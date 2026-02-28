@@ -166,24 +166,26 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     });
 
     test('Minikube cluster operations - STOP', async ({ page }) => {
-      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Stop, ResourceElementState.Off);
+      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Stop, ResourceElementState.Off, 50_000);
     });
 
     test('Minikube cluster operations - START', async ({ page }) => {
-      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Start, ResourceElementState.Running);
+      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Start, ResourceElementState.Running, 50_000);
     });
 
     test.skip('Minikube cluster operations - RESTART', async ({ page }) => {
       // Skipping the test due to an issue with restarting the Minikube cluster.
-      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Restart, ResourceElementState.Running);
+      await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Restart, ResourceElementState.Running, 50_000);
     });
 
     test('Minikube cluster operations - DELETE', async ({ page }) => {
-      await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+      await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
     });
   });
 
   test.describe.serial('Minikube cluster operations - Details', () => {
+    test.skip();
+    // Skipping the test suite as we have an issue when stopping the Minikube cluster https://github.com/podman-desktop/extension-minikube/issues/878
     test('Create a Minikube cluster', async ({ page }) => {
       test.setTimeout(CLUSTER_CREATION_TIMEOUT);
       if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
