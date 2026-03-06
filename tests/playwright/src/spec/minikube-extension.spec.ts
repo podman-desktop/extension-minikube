@@ -201,7 +201,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         CLUSTER_NAME,
         ResourceElementActions.Stop,
         ResourceElementState.Off,
-        50_000
+        50_000,
       );
     });
 
