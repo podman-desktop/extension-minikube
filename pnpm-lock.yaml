@@ -24,15 +24,9 @@ importers:
       '@eslint/compat':
         specifier: ^2.0.2
         version: 2.0.2(eslint@9.39.2)
-      '@playwright/test':
-        specifier: ^1.58.2
-        version: 1.58.2
       '@podman-desktop/api':
         specifier: ^1.25.1
         version: 1.25.1
-      '@podman-desktop/tests-playwright':
-        specifier: next
-        version: 1.26.0-next.202603021526-462a9b4
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.56.1
         version: 8.56.1(@typescript-eslint/parser@8.56.1(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)(typescript@5.9.3)
@@ -106,8 +100,8 @@ importers:
         specifier: ^1.58.2
         version: 1.58.2
       '@podman-desktop/tests-playwright':
-        specifier: ^1.22.1
-        version: 1.22.1
+        specifier: ^1.25.1
+        version: 1.25.1
       '@types/node':
         specifier: ^24
         version: 24.10.4
@@ -636,11 +630,8 @@ packages:
   '@podman-desktop/api@1.25.1':
     resolution: {integrity: sha512-OTsf2q0g5GavfalYFpOtyn8QVVkLKKJOH1zMabqcIK7yTpu093FRCQY/hBdUYx25UyEXhtX4v7QAP0+lc9B+jw==}
 
-  '@podman-desktop/tests-playwright@1.22.1':
-    resolution: {integrity: sha512-9SqWol36rA6cpkCdSe5wERzP7eUH+PpGWNPgezalU29K3g+sfN8TUOrRw7HxUgGlZADgZbDexjyb/RSyehRQHA==}
-
-  '@podman-desktop/tests-playwright@1.26.0-next.202603021526-462a9b4':
-    resolution: {integrity: sha512-ffPWyMsIfilGdx91gELXFbyrYhaxljA70jq2cFibYS5WAYcoD2qnPtTD0eWXctPeCEsdm/QxydHq4r49DFy3KQ==}
+  '@podman-desktop/tests-playwright@1.25.1':
+    resolution: {integrity: sha512-Jn3QPkVraSZ6etiuZEaCGYss9EzA7SjPKz8xGG9wEVQDBZsq3KlQeRPalzcd1lAj1o6+LAKNsV67bqp6OqftBg==}
 
   '@rollup/rollup-android-arm-eabi@4.55.1':
     resolution: {integrity: sha512-9R0DM/ykwfGIlNu6+2U09ga0WXeZ9MRC2Ter8jnz8415VbuIykVuc6bhdrbORFZANDmTDvq26mJrEVTl8TdnDg==}
@@ -3005,9 +2996,7 @@ snapshots:
 
   '@podman-desktop/api@1.25.1': {}
 
-  '@podman-desktop/tests-playwright@1.22.1': {}
-
-  '@podman-desktop/tests-playwright@1.26.0-next.202603021526-462a9b4': {}
+  '@podman-desktop/tests-playwright@1.25.1': {}
 
   '@rollup/rollup-android-arm-eabi@4.55.1':
     optional: true
