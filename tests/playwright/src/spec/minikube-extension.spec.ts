@@ -179,6 +179,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     });
 
     test('Minikube cluster operations - DELETE', async ({ page }) => {
+      test.setTimeout(80_000)
       await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
     });
   });
@@ -228,6 +229,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     });
 
     test('Minikube cluster operations details - DELETE', async ({ page }) => {
+      test.setTimeout(80_000)
       await deleteClusterFromDetails(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
     });
   });
