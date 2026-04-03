@@ -85,8 +85,8 @@ importers:
         specifier: ^8.58.0
         version: 8.58.0(eslint@9.39.2)(typescript@5.9.3)
       validator:
-        specifier: ^13.15.26
-        version: 13.15.26
+        specifier: ^13.15.35
+        version: 13.15.35
       vite:
         specifier: ^8.0.3
         version: 8.0.3(@types/node@24.10.4)(esbuild@0.27.2)
@@ -2638,8 +2638,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  validator@13.15.26:
-    resolution: {integrity: sha512-spH26xU080ydGggxRyR1Yhcbgx+j3y5jbNXk/8L+iRvdIEQ4uTRH2Sgf2dokud6Q4oAtsbNvJ1Ft+9xmm6IZcA==}
+  validator@13.15.35:
+    resolution: {integrity: sha512-TQ5pAGhd5whStmqWvYF4OjQROlmv9SMFVt37qoCBdqRffuuklWYQlCNnEs2ZaIBD1kZRNnikiZOS1eqgkar0iw==}
     engines: {node: '>= 0.10'}
 
   vite-node@2.1.4:
@@ -5372,7 +5372,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  validator@13.15.26: {}
+  validator@13.15.35: {}
 
   vite-node@2.1.4(@types/node@24.10.4)(lightningcss@1.32.0):
     dependencies:
