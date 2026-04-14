@@ -120,7 +120,7 @@
     "mkdirp": "^3.0.1",
     "prettier": "^3.8.2",
     "typescript": "5.9.3",
-    "typescript-eslint": "^8.58.1",
+    "typescript-eslint": "^8.58.2",
     "validator": "^13.15.35",
     "vite": "^8.0.8",
     "vitest": "^2.0.5"
