@@ -1,5 +1,7 @@
 {
   "name": "minikube",
+  "repository": "https://github.com/podman-desktop/extension-minikube",
+  "homepage": "https://github.com/podman-desktop/extension-minikube#readme",
   "displayName": "Minikube",
   "description": "Integration for minikube: a tool that makes it easy to run Kubernetes locally",
   "version": "0.5.0-next",
