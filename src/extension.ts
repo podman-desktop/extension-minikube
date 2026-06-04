@@ -124,41 +124,58 @@ async function updateClusters(
       return cluster.status;
     };
     if (!item) {
-      const lifecycle: extensionApi.ProviderConnectionLifecycle = {
-        start: async (): Promise<void> => {
-          if (!minikubeCli) throw new Error('minikube executable cannot be found');
-          try {
-            await extensionApi.process.exec(minikubeCli, ['start', '--profile', cluster.name], {
-              env: getMinikubeAdditionalEnvs(),
-            });
-          } catch (err) {
-            console.error(err);
-            // propagate the error
-            throw err;
-          }
-        },
-        stop: async (): Promise<void> => {
-          if (!minikubeCli) throw new Error('minikube executable cannot be found');
-          await extensionApi.process.exec(minikubeCli, ['stop', '--profile', cluster.name, '--keep-context-active'], {
-            env: getMinikubeAdditionalEnvs(),
-          });
-        },
-        delete: async (logger): Promise<void> => {
-          if (!minikubeCli) throw new Error('minikube executable cannot be found');
-          await extensionApi.process.exec(minikubeCli, ['delete', '--profile', cluster.name], {
-            env: getMinikubeAdditionalEnvs(),
-            logger,
-          });
-        },
-      };
-      // create a new connection
       const connection: extensionApi.KubernetesProviderConnection = {
         name: cluster.name,
         status,
         endpoint: {
           apiURL: `https://localhost:${cluster.apiPort}`,
         },
-        lifecycle,
+        lifecycle: {
+          start: async (): Promise<void> => {
+            try {
+              if (!minikubeCli) throw new Error('minikube executable cannot be found');
+              await extensionApi.process.exec(minikubeCli, ['start', '--profile', cluster.name], {
+                env: getMinikubeAdditionalEnvs(),
+              });
+              connection.error = undefined;
+            } catch (err) {
+              connection.error = err instanceof Error ? err.message : String(err);
+              console.error(err);
+              throw err;
+            }
+          },
+          stop: async (): Promise<void> => {
+            try {
+              if (!minikubeCli) throw new Error('minikube executable cannot be found');
+              await extensionApi.process.exec(
+                minikubeCli,
+                ['stop', '--profile', cluster.name, '--keep-context-active'],
+                {
+                  env: getMinikubeAdditionalEnvs(),
+                },
+              );
+              connection.error = undefined;
+            } catch (err) {
+              connection.error = err instanceof Error ? err.message : String(err);
+              console.error(err);
+              throw err;
+            }
+          },
+          delete: async (logger): Promise<void> => {
+            try {
+              if (!minikubeCli) throw new Error('minikube executable cannot be found');
+              await extensionApi.process.exec(minikubeCli, ['delete', '--profile', cluster.name], {
+                env: getMinikubeAdditionalEnvs(),
+                logger,
+              });
+              connection.error = undefined;
+            } catch (err) {
+              connection.error = err instanceof Error ? err.message : String(err);
+              console.error(err);
+              throw err;
+            }
+          },
+        },
       };
       const disposable = provider.registerKubernetesProviderConnection(connection);
 
