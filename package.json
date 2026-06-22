@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",
-    "@types/node": "^24",
+    "@types/node": "^26",
     "tmp-promise": "^3.0.3"
   },
   "devDependencies": {
