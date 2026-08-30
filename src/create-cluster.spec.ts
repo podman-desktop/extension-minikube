@@ -22,23 +22,19 @@ import { beforeEach, expect, test, vi } from 'vitest';
 
 import { createCluster } from './create-cluster';
 
-vi.mock('@podman-desktop/api', async () => {
-  return {
-    Logger: {},
-    kubernetes: {
-      createResources: vi.fn(),
-    },
-    process: {
-      exec: vi.fn(),
-    },
-  };
-});
+vi.mock('@podman-desktop/api', () => ({
+  Logger: {},
+  kubernetes: {
+    createResources: vi.fn(),
+  },
+  process: {
+    exec: vi.fn(),
+  },
+}));
 
-vi.mock('./util', async () => {
-  return {
-    getMinikubeAdditionalEnvs: vi.fn(),
-  };
-});
+vi.mock('./util', () => ({
+  getMinikubeAdditionalEnvs: vi.fn(),
+}));
 
 beforeEach(() => {
   vi.clearAllMocks();

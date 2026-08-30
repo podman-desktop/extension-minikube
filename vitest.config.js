@@ -18,22 +18,22 @@
 
 import path from 'node:path';
 
+import { defineConfig } from 'vitest/config';
+
 const excludeArray = [
   'tests/playwright/**', '**/builtin/**',
   '**/node_modules/**',
   '**/dist/**',
   '**/.{idea,git,cache,output,temp,cdix}/**',
   '**/{.electron-builder,babel,changelog,docusaurus,jest,postcss,prettier,rollup,svelte,tailwind,vite,vitest*,webpack}.config.*',];
-  
-const config = {
+
+export default defineConfig({
   test: {
     exclude: excludeArray
   },
   resolve: {
     alias: {
-      '@podman-desktop/api': path.resolve(__dirname, '__mocks__/@podman-desktop/api.js'),
+      '@podman-desktop/api': path.resolve(import.meta.dirname, '__mocks__/@podman-desktop/api.js'),
     },
   },
-};
-
-export default config;
+});

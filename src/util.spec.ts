@@ -36,45 +36,40 @@ import {
   whereBinary,
 } from './util';
 
-vi.mock('@podman-desktop/api', async () => {
-  return {
-    window: {
-      showInformationMessage: vi.fn().mockReturnValue(Promise.resolve('Yes')),
-      showErrorMessage: vi.fn(),
-      withProgress: vi.fn(),
-      showNotification: vi.fn(),
-    },
-    process: {
-      exec: vi.fn(),
-    },
-    env: {
-      isMac: vi.fn(),
-      isWindows: vi.fn(),
-      isLinux: vi.fn(),
-    },
-    configuration: {
-      getConfiguration: vi.fn(),
-    },
-    ProgressLocation: {
-      APP_ICON: 1,
-    },
-    Disposable: {
-      from: vi.fn(),
-    },
-  };
-});
+vi.mock('@podman-desktop/api', () => ({
+  window: {
+    showInformationMessage: vi.fn().mockReturnValue(Promise.resolve('Yes')),
+    showErrorMessage: vi.fn(),
+    withProgress: vi.fn(),
+    showNotification: vi.fn(),
+  },
+  process: {
+    exec: vi.fn(),
+  },
+  env: {
+    isMac: vi.fn(),
+    isWindows: vi.fn(),
+    isLinux: vi.fn(),
+  },
+  configuration: {
+    getConfiguration: vi.fn(),
+  },
+  ProgressLocation: {
+    APP_ICON: 1,
+  },
+  Disposable: {
+    from: vi.fn(),
+  },
+}));
 
 vi.mock('node:child_process');
 
-// mock exists sync
-vi.mock('node:fs', async () => {
-  return {
-    existsSync: vi.fn(),
-    promises: {
-      unlink: vi.fn(),
-    },
-  };
-});
+vi.mock('node:fs', () => ({
+  existsSync: vi.fn(),
+  promises: {
+    unlink: vi.fn(),
+  },
+}));
 
 const originalProcessEnv = process.env;
 const configGetMock = vi.fn();

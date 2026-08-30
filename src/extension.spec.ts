@@ -26,9 +26,7 @@ import { MinikubeDownload } from './download';
 import { activate, deactivate, refreshMinikubeClustersOnProviderConnectionUpdate } from './extension';
 import { getMinikubeVersion } from './util';
 
-vi.mock('./download', () => ({
-  MinikubeDownload: vi.fn(),
-}));
+vi.mock('./download');
 
 vi.mock('./util', () => ({
   deleteFile: vi.fn(),
@@ -37,41 +35,39 @@ vi.mock('./util', () => ({
   getMinikubeVersion: vi.fn(),
 }));
 
-vi.mock('@podman-desktop/api', async () => {
-  return {
-    provider: {
-      onDidUpdateContainerConnection: vi.fn(),
-      onDidRegisterContainerConnection: vi.fn(),
-      onDidUnregisterContainerConnection: vi.fn(),
-      onDidUpdateProvider: vi.fn(),
-      createProvider: vi.fn(),
-    },
+vi.mock('@podman-desktop/api', () => ({
+  provider: {
+    onDidUpdateContainerConnection: vi.fn(),
+    onDidRegisterContainerConnection: vi.fn(),
+    onDidUnregisterContainerConnection: vi.fn(),
+    onDidUpdateProvider: vi.fn(),
+    createProvider: vi.fn(),
+  },
 
-    containerEngine: {
-      listContainers: vi.fn(),
-      onEvent: vi.fn(),
-    },
-    configuration: {
-      getConfiguration: vi.fn(),
-    },
+  containerEngine: {
+    listContainers: vi.fn(),
+    onEvent: vi.fn(),
+  },
+  configuration: {
+    getConfiguration: vi.fn(),
+  },
 
-    process: {
-      exec: vi.fn(),
-      env: {},
-    },
+  process: {
+    exec: vi.fn(),
+    env: {},
+  },
 
-    env: {
-      isMac: false,
-      createTelemetryLogger: vi.fn(),
-    },
-    cli: {
-      createCliTool: vi.fn(),
-    },
-    commands: {
-      registerCommand: vi.fn(),
-    },
-  };
-});
+  env: {
+    isMac: false,
+    createTelemetryLogger: vi.fn(),
+  },
+  cli: {
+    createCliTool: vi.fn(),
+  },
+  commands: {
+    registerCommand: vi.fn(),
+  },
+}));
 
 const providerMock: podmanDesktopApi.Provider = {
   setKubernetesProviderConnectionFactory: vi.fn(),
@@ -89,19 +85,11 @@ const cliToolMock: podmanDesktopApi.CliTool = {
   updateVersion: vi.fn(),
 } as unknown as podmanDesktopApi.CliTool;
 
-const minikubeDownloadMock: MinikubeDownload = {
-  findMinikube: vi.fn(),
-  getLatestVersionAsset: vi.fn(),
-  install: vi.fn(),
-  getMinikubeExtensionPath: vi.fn(),
-} as unknown as MinikubeDownload;
-
 beforeEach(() => {
   vi.clearAllMocks();
   vi.resetAllMocks();
 
-  vi.mocked(MinikubeDownload).mockReturnValue(minikubeDownloadMock);
-  vi.mocked(minikubeDownloadMock.getMinikubeExtensionPath).mockReturnValue('/home/path/minikube');
+  vi.mocked(MinikubeDownload.prototype.getMinikubeExtensionPath).mockReturnValue('/home/path/minikube');
   vi.mocked(podmanDesktopApi.cli.createCliTool).mockReturnValue(cliToolMock);
   vi.mocked(podmanDesktopApi.provider.createProvider).mockReturnValue(providerMock);
   vi.mocked(podmanDesktopApi.containerEngine.listContainers).mockResolvedValue([]);
@@ -130,7 +118,7 @@ test('check we received notifications ', async () => {
 
 test('verify that the minikube cli is used to start/stop the minikube container', async () => {
   // mock existing minikube
-  vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue('/external/minikube');
+  vi.mocked(MinikubeDownload.prototype.findMinikube).mockResolvedValue('/external/minikube');
   vi.mocked(getMinikubeVersion).mockResolvedValue('5.66.7');
 
   const onDidUpdateContainerConnectionMock = vi.fn();
@@ -186,13 +174,13 @@ test('verify that the minikube cli is used to start/stop the minikube container'
 describe('minikube cli tool', () => {
   test('activate should register cli tool', async () => {
     // mock no existing minikube
-    vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue(undefined);
+    vi.mocked(MinikubeDownload.prototype.findMinikube).mockResolvedValue(undefined);
 
     // activate
     await activate({ subscriptions: [] } as unknown as podmanDesktopApi.ExtensionContext);
 
     // 1. should check for existing minikube executable
-    expect(minikubeDownloadMock.findMinikube).toHaveBeenCalledOnce();
+    expect(MinikubeDownload.prototype.findMinikube).toHaveBeenCalledOnce();
 
     // 2. extension should register a cli tool
     expect(podmanDesktopApi.cli.createCliTool).toHaveBeenCalledWith({
@@ -214,14 +202,14 @@ describe('minikube cli tool', () => {
 
   test('findMinikube in external path should specify installationSource', async () => {
     // mock existing minikube
-    vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue('/external/minikube');
+    vi.mocked(MinikubeDownload.prototype.findMinikube).mockResolvedValue('/external/minikube');
     vi.mocked(getMinikubeVersion).mockResolvedValue('5.66.7');
 
     // activate
     await activate({ subscriptions: [] } as unknown as podmanDesktopApi.ExtensionContext);
 
     // 1. should check for existing minikube executable
-    expect(minikubeDownloadMock.findMinikube).toHaveBeenCalledOnce();
+    expect(MinikubeDownload.prototype.findMinikube).toHaveBeenCalledOnce();
 
     // 2. extension should register a cli tool with installationSource external
     expect(podmanDesktopApi.cli.createCliTool).toHaveBeenCalledWith(
@@ -235,7 +223,7 @@ describe('minikube cli tool', () => {
 
   test('existing minikube should cli tool with path and version defined', async () => {
     // mock existing minikube
-    vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue('/home/path/minikube');
+    vi.mocked(MinikubeDownload.prototype.findMinikube).mockResolvedValue('/home/path/minikube');
     vi.mocked(getMinikubeVersion).mockResolvedValue('5.66.7');
 
     // activate
@@ -260,11 +248,11 @@ describe('minikube cli tool', () => {
       dispose: disposableMock,
     });
     // mock existing minikube
-    vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue('/home/path/minikube');
+    vi.mocked(MinikubeDownload.prototype.findMinikube).mockResolvedValue('/home/path/minikube');
     vi.mocked(getMinikubeVersion).mockResolvedValue('5.66.7');
 
     // mock latest version greater than current
-    vi.mocked(minikubeDownloadMock.getLatestVersionAsset).mockResolvedValue({
+    vi.mocked(MinikubeDownload.prototype.getLatestVersionAsset).mockResolvedValue({
       tag: 'v5.67.0',
     } as unknown as MinikubeGithubReleaseArtifactMetadata);
 
@@ -293,7 +281,7 @@ describe('minikube cli tool', () => {
 
   test('uninstall event should dispose provider and command', async () => {
     // mock existing minikube
-    vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue('/home/path/minikube');
+    vi.mocked(MinikubeDownload.prototype.findMinikube).mockResolvedValue('/home/path/minikube');
     vi.mocked(getMinikubeVersion).mockResolvedValue('5.66.7');
     const disposableMock = vi.fn();
     vi.mocked(podmanDesktopApi.commands.registerCommand).mockReturnValue({
@@ -321,7 +309,7 @@ describe('minikube cli tool', () => {
 
   test('onDidUpdateVersion event should create provider', async () => {
     // mock no existing minikube
-    vi.mocked(minikubeDownloadMock.findMinikube).mockResolvedValue(undefined);
+    vi.mocked(MinikubeDownload.prototype.findMinikube).mockResolvedValue(undefined);
 
     // activate
     await activate({ subscriptions: [] } as unknown as podmanDesktopApi.ExtensionContext);
