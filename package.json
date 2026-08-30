@@ -106,7 +106,7 @@
     "@podman-desktop/api": "^1.29.1",
     "@typescript-eslint/eslint-plugin": "^8.68.0",
     "@typescript-eslint/parser": "^8.69.0",
-    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^9.39.2",
     "eslint-import-resolver-custom-alias": "^1.3.2",
     "eslint-import-resolver-typescript": "^4.4.5",
@@ -125,7 +125,7 @@
     "typescript-eslint": "^8.69.0",
     "validator": "^13.15.35",
     "vite": "^8.2.2",
-    "vitest": "^2.1.9"
+    "vitest": "^4.1.11"
   },
   "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621"
 }

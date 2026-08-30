@@ -18,12 +18,11 @@
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { beforeEach } from 'node:test';
 
 import type { Octokit } from '@octokit/rest';
 import type * as extensionApi from '@podman-desktop/api';
 import { env, process as processCore, window } from '@podman-desktop/api';
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import type { MinikubeGithubReleaseArtifactMetadata } from './download';
 import { MinikubeDownload } from './download';
@@ -65,6 +64,8 @@ vi.mock('@podman-desktop/api', () => ({
     showInformationMessage: vi.fn(),
   },
 }));
+
+vi.mock('node:fs');
 
 const listReleaseAssetsMock = vi.fn();
 const listReleasesMock = vi.fn();
@@ -135,7 +136,6 @@ test('test download of minikube passes and that mkdir and executable mocks are c
   const mkdirMock = vi.spyOn(fs.promises, 'mkdir');
 
   // Mock that the storage path does not exist
-  vi.mock('node:fs');
   vi.spyOn(fs, 'existsSync').mockImplementation(() => {
     return false;
   });

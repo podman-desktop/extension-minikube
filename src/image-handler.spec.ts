@@ -25,26 +25,22 @@ import { ImageHandler } from './image-handler';
 import { getMinikubeAdditionalEnvs } from './util';
 
 let imageHandler: ImageHandler;
-vi.mock('@podman-desktop/api', async () => {
-  return {
-    containerEngine: {
-      saveImage: vi.fn(),
-    },
-    process: {
-      exec: vi.fn(),
-    },
-    window: {
-      showNotification: vi.fn(),
-      showInformationMessage: vi.fn(),
-    },
-  };
-});
+vi.mock('@podman-desktop/api', () => ({
+  containerEngine: {
+    saveImage: vi.fn(),
+  },
+  process: {
+    exec: vi.fn(),
+  },
+  window: {
+    showNotification: vi.fn(),
+    showInformationMessage: vi.fn(),
+  },
+}));
 
-vi.mock('./util', async () => {
-  return {
-    getMinikubeAdditionalEnvs: vi.fn(),
-  };
-});
+vi.mock('./util', () => ({
+  getMinikubeAdditionalEnvs: vi.fn(),
+}));
 
 beforeEach(() => {
   vi.clearAllMocks();
