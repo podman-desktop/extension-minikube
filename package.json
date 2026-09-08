@@ -76,7 +76,8 @@
       "dashboard/image": [
         {
           "command": "minikube.image.move",
-          "title": "Push image to minikube cluster"
+          "title": "Push image to minikube cluster",
+          "icon": "circle-arrow-up"
         }
       ]
     }
