@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "engines": {
-    "podman-desktop": ">=1.10.0"
+    "podman-desktop": ">=1.30.0"
   },
   "main": "./dist/extension.cjs",
   "contributes": {
@@ -76,7 +76,8 @@
       "dashboard/image": [
         {
           "command": "minikube.image.move",
-          "title": "Push image to minikube cluster"
+          "title": "Push image to minikube cluster",
+          "icon": "fas fa-circle-arrow-up"
         }
       ]
     }
