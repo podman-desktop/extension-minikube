@@ -130,7 +130,6 @@ jobs:
       - name: Build minikube extension from container file
         working-directory: ./extension-minikube
         run: |
-          pnpm build
           podman build -t local_minikube_image ./
           CONTAINER_ID=$(podman create localhost/local_minikube_image --entrypoint "")
           podman export $CONTAINER_ID > /tmp/local_minikube_extension.tar
