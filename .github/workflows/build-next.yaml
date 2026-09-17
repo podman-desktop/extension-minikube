@@ -28,22 +28,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v6.1.0
-        name: Install pnpm
-        with:
-          run_install: false
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: 'pnpm'
-
-      - name: Execute pnpm
-        run: pnpm install --frozen-lockfile
-
-      - name: Run Build
-        run: pnpm build
-
       - name: Login to ghcr.io
         run: podman login --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
 
