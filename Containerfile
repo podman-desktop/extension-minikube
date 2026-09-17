@@ -43,4 +43,4 @@ COPY --from=builder /opt/app-root/src/README.md /extension/
 LABEL org.opencontainers.image.title="Minikube extension" \
         org.opencontainers.image.description="Integration with minikube that makes it easy to run Kubernetes locally" \
         org.opencontainers.image.vendor="Red Hat" \
-        io.podman-desktop.api.version=">= 1.0.0"
+        io.podman-desktop.api.version=">= 1.30.0"
