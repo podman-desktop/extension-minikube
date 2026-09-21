@@ -121,7 +121,7 @@
     "eslint-plugin-unicorn": "^65.0.1",
     "globals": "^17.12.0",
     "mkdirp": "^3.0.1",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.70.0",
     "validator": "^13.15.35",
