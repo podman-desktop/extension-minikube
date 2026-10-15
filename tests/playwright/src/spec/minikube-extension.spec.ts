@@ -27,6 +27,7 @@ import {
     deleteClusterFromDetails,
     deleteContainer,
     deployContainerToCluster,
+    ensureCliInstalled,
     expect as playExpect, 
     ExtensionsPage,  
     isLinux,
@@ -40,14 +41,12 @@ import {
     test,
 } from '@podman-desktop/tests-playwright';
 
-import { createMinikubeCluster, ensureMinikubeCliInstalled } from '../utility/operations';
+import { createMinikubeCluster } from '../utility/operations';
 
 const EXTENSION_IMAGE: string = process.env.EXTENSION_IMAGE ?? 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
 const EXTENSION_NAME: string = 'minikube';
 const EXTENSION_LABEL: string = 'podman-desktop.minikube';
 const CLUSTER_NAME: string = 'minikube';
-// Keep the details tests independent of a profile that Windows may fail to remove after deletion.
-const DETAILS_CLUSTER_NAME: string = 'minikube-details';
 const MINIKUBE_CONTAINER: string = CLUSTER_NAME;
 const KUBERNETES_CONTEXT: string = CLUSTER_NAME;
 const CLUSTER_CREATION_TIMEOUT: number = 300_000;
@@ -62,9 +61,6 @@ const CONTAINER_START_PARAMS: ContainerInteractiveParams = {
 
 let extensionsPage: ExtensionsPage; 
 let minikubeResourceCard: ResourceConnectionCardPage; 
-let detailsMinikubeResourceCard: ResourceConnectionCardPage;
-let createdClusterName: string | undefined;
-let containerCreated = false;
 
 const isGHActions = process.env.GITHUB_ACTIONS === 'true';
 const skipExtensionInstallation = process.env.SKIP_EXTENSION_INSTALL === 'true';
@@ -75,7 +71,6 @@ test.beforeAll(async ({ runner, page, welcomePage }) => {
     await welcomePage.handleWelcomePage(true);
     extensionsPage = new ExtensionsPage(page);
     minikubeResourceCard = new ResourceConnectionCardPage(page, 'minikube'); 
-    detailsMinikubeResourceCard = new ResourceConnectionCardPage(page, 'minikube', DETAILS_CLUSTER_NAME);
 });
 
 test.use({
@@ -89,12 +84,8 @@ test.use({
 
 test.afterAll(async ({ page, runner }) => {
   try {
-    if (containerCreated) {
-      await deleteContainer(page, CONTAINER_NAME);
-    }
-    if (createdClusterName) {
-      await deleteCluster(page, EXTENSION_NAME, createdClusterName, createdClusterName);
-    }
+    await deleteContainer(page, CONTAINER_NAME);
+    await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
   } 
   finally {
     await terminateMinikube();
@@ -133,10 +124,9 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
 
   test('Install Minikube CLI', async ({ navigationBar, page }) => {
     test.skip(isLinux && !!process.env.GITHUB_ACTIONS);
-    test.setTimeout(240_000);
     const settingsBar = await navigationBar.openSettings();
     await settingsBar.cliToolsTab.click();
-    await ensureMinikubeCliInstalled(page);
+    await ensureCliInstalled(page, 'Minikube');
   });
 
   test.describe.serial('Minikube cluster e2e test', () => {
@@ -147,7 +137,6 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       } else {
         await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, {driver: 'podman'});
       }
-      createdClusterName = CLUSTER_NAME;
     });
 
     test('Check resources added with the Minikube cluster', async ({ page }) => {
@@ -168,7 +157,6 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       await playExpect
         .poll(async () => containersPage.containerExists(CONTAINER_NAME), { timeout: 15_000 })
         .toBeTruthy();
-      containerCreated = true;
 
       const containerDetails = await containersPage.openContainersDetails(CONTAINER_NAME);
       await playExpect(containerDetails.heading).toBeVisible();
@@ -193,7 +181,6 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     test('Minikube cluster operations - DELETE', async ({ page }) => {
       test.setTimeout(80_000);
       await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
-      createdClusterName = undefined;
     });
   });
 
@@ -201,18 +188,17 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     test('Create a Minikube cluster', async ({ page }) => {
       test.setTimeout(CLUSTER_CREATION_TIMEOUT);
       if (process.env.GITHUB_ACTIONS && process.env.RUNNER_OS === 'Linux') {
-        await createMinikubeCluster(page, DETAILS_CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, { driver: driverGHA });
+        await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, { driver: driverGHA });
       } else {
-        await createMinikubeCluster(page, DETAILS_CLUSTER_NAME, true, CLUSTER_CREATION_TIMEOUT);
+        await createMinikubeCluster(page, CLUSTER_NAME, true, CLUSTER_CREATION_TIMEOUT);
       }
-      createdClusterName = DETAILS_CLUSTER_NAME;
     });
 
     test('Minikube cluster operations details - STOP', async ({ page }) => {
       await resourceConnectionActionDetails(
         page,
-        detailsMinikubeResourceCard,
-        DETAILS_CLUSTER_NAME,
+        minikubeResourceCard,
+        CLUSTER_NAME,
         ResourceElementActions.Stop,
         ResourceElementState.Off,
         50_000,
@@ -222,8 +208,8 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     test('Minikube cluster operations details - START', async ({ page }) => {
       await resourceConnectionActionDetails(
         page,
-        detailsMinikubeResourceCard,
-        DETAILS_CLUSTER_NAME,
+        minikubeResourceCard,
+        CLUSTER_NAME,
         ResourceElementActions.Start,
         ResourceElementState.Running,
         50_000,
@@ -234,8 +220,8 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       // Skipping the test due to an issue with restarting the Minikube cluster.
       await resourceConnectionActionDetails(
         page,
-        detailsMinikubeResourceCard,
-        DETAILS_CLUSTER_NAME,
+        minikubeResourceCard,
+        CLUSTER_NAME,
         ResourceElementActions.Restart,
         ResourceElementState.Running,
         50_000,
@@ -244,8 +230,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
 
     test('Minikube cluster operations details - DELETE', async ({ page }) => {
       test.setTimeout(80_000);
-      await deleteClusterFromDetails(page, EXTENSION_NAME, DETAILS_CLUSTER_NAME, DETAILS_CLUSTER_NAME, 70_000);
-      createdClusterName = undefined;
+      await deleteClusterFromDetails(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
     });
   });
 
@@ -289,4 +274,4 @@ async function terminateMinikube(): Promise<void> {
   }
 }
 
-
+  
