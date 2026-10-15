@@ -121,7 +121,7 @@ describe('getMinikubeHome', () => {
     expect(computedHome).not.toEqual(existingConfigHome);
   });
 
-  test('getMinikubeHome with empty configuration property', async () => {
+  test('getMinikubeHome with configuration property set', async () => {
     const existingEnvHome = '/my-existing-minikube-home';
     const existingConfigHome = '/my-another-existing-minikube-home';
     process.env.MINIKUBE_HOME = existingEnvHome;
@@ -149,7 +149,7 @@ describe('getKubeConfig', () => {
     expect(computedKubeConfig).not.toEqual(existingConfigKubeConfig);
   });
 
-  test('getKubeConfig with empty configuration property', async () => {
+  test('getKubeConfig with configuration property set', async () => {
     const existingEnvKubeConfig = '/my-existing-kube-config-file';
     const existingConfigKubeConfig = '/my-another-existing-kube-config-file';
     process.env.KUBECONFIG = existingEnvKubeConfig;
