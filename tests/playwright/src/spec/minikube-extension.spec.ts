@@ -104,6 +104,7 @@ test.afterAll(async ({ page, runner }) => {
 
 test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
   test('Install Minikube extension from OCI image', async ({ navigationBar }) => {
+    // Skipped when SKIP_EXTENSION_INSTALL=true (extension is already installed)
     test.skip(!!skipExtensionInstallation, 'Skipping extension installation');
 
     await navigationBar.openExtensions();
@@ -132,6 +133,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
   });
 
   test('Install Minikube CLI', async ({ navigationBar, page }) => {
+    // Skipped on Linux GitHub Actions: the workflow already installs the Minikube CLI (setup-minikube)
     test.skip(isLinux && !!process.env.GITHUB_ACTIONS);
     test.setTimeout(240_000);
     const settingsBar = await navigationBar.openSettings();
