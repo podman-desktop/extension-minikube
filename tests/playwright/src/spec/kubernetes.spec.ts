@@ -19,9 +19,9 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, ensureCliInstalled, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,test} from '@podman-desktop/tests-playwright';
+import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,test} from '@podman-desktop/tests-playwright';
 
-import { createMinikubeCluster} from '../utility/operations';
+import { createMinikubeCluster, ensureMinikubeCliInstalled } from '../utility/operations';
 
 const CLUSTER_NAME: string = 'minikube';
 const MINIKUBE_NODE: string = CLUSTER_NAME;
@@ -50,7 +50,7 @@ const useGhaDriver: boolean = !!process.env.GITHUB_ACTIONS && isLinux;
 test.setTimeout(90_000);
 
 test.beforeAll(async ({ runner, welcomePage, page, navigationBar }) => {
-  test.setTimeout(CLUSTER_CREATION_TIMEOUT);
+  test.setTimeout(CLUSTER_CREATION_TIMEOUT * 2);
   runner.setVideoAndTraceName('minikube-kubernetes-e2e');
   await welcomePage.handleWelcomePage(true);
 
@@ -63,7 +63,7 @@ test.beforeAll(async ({ runner, welcomePage, page, navigationBar }) => {
 
   const settingsBar = await navigationBar.openSettings();
   await settingsBar.cliToolsTab.click();
-  await ensureCliInstalled(page, 'Minikube');
+  await ensureMinikubeCliInstalled(page);
 
   if (useGhaDriver) {
     await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, {driver: driverGha});

@@ -37,6 +37,21 @@ export class CreateMinikubeClusterPage extends CreateClusterBasePage {
     this.mountDefinition = this.clusterPropertiesInformation.locator('#input-standard-minikube\\.cluster\\.creation\\.mount-string');
   }
 
+  override async createCluster(timeout: number = 300_000): Promise<void> {
+    return test.step('Create cluster', async () => {
+      await playExpect(this.clusterCreationButton).toBeEnabled();
+      await this.clusterCreationButton.click();
+      await this.logsButton.scrollIntoViewIfNeeded();
+      await this.logsButton.click();
+
+      await playExpect(this.goBackButton.or(this.errorMessage).first()).toBeVisible({ timeout });
+      if (await this.errorMessage.isVisible()) {
+        throw new Error(`Failed to create Minikube cluster: ${await this.errorMessage.textContent()}`);
+      }
+      await this.goBackButton.click();
+    });
+  }
+
   public async createMinikubeClusterDefault(clusterName: string = 'minikube', timeout?: number): Promise<void> {
     return test.step('Create default cluster', async () => {
       await fillTextbox(this.clusterNameField, clusterName);
@@ -96,4 +111,3 @@ export class CreateMinikubeClusterPage extends CreateClusterBasePage {
     });
   }
 }
-  
