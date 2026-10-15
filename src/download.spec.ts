@@ -344,7 +344,7 @@ describe('findMinikube', () => {
     expect(result).toStrictEqual(expect.stringContaining('extension-folder'));
   });
 
-  test('system wide missing should fallback to local extension folder', async () => {
+  test('system wide missing and no local binary should return undefined', async () => {
     (env.isWindows as boolean) = false;
     vi.mocked(processCore.exec).mockRejectedValue(new Error('dummy error'));
 
