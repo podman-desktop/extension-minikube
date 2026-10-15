@@ -200,7 +200,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       test.setTimeout(80_000);
       await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
       await navigationBar.openSettings();
-      await playExpect.poll(async () => minikubeResourceCard.doesResourceElementExist()).toBeFalsy();
+      await playExpect(new ResourceConnectionCardPage(page, EXTENSION_NAME, CLUSTER_NAME).resourceElement).toHaveCount(0);
       createdClusterName = undefined;
     });
   });
