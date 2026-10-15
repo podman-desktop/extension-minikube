@@ -19,7 +19,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, expect as playExpect, isLinux, KubernetesResources, KubernetesResourceState, minikubeExtension,test} from '@podman-desktop/tests-playwright';
+import { expect as playExpect } from '@playwright/test';
+import { checkDeploymentReplicasInfo, checkKubernetesResourceState, createKubernetesResource, deleteCluster, deleteKubernetesResource, deletePod,editDeploymentYamlFile, isLinux, KubernetesResourceDetailsPage, KubernetesResources, KubernetesResourceState, minikubeExtension,test} from '@podman-desktop/tests-playwright';
 
 import { createMinikubeCluster, ensureMinikubeCliInstalled } from '../utility/operations';
 
@@ -88,6 +89,7 @@ test.afterAll(async ({ navigationBar, runner, page }) => {
 test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () => {
   test('Kubernetes Nodes test', async ({ page }) => {
     await checkKubernetesResourceState(page, KubernetesResources.Nodes, MINIKUBE_NODE, KubernetesResourceState.Running);
+    await playExpect.poll(async () => new KubernetesResourceDetailsPage(page, MINIKUBE_NODE).getState()).toBe(KubernetesResourceState.Running);
   });
   test.describe.serial('Kubernetes deployment resource E2E Test', () => {
     test('Kubernetes Pods page should be empty', async ({ navigationBar }) => {
@@ -110,6 +112,7 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
         KubernetesResourceState.Running,
       );
       await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 3);
+      await playExpect(new KubernetesResourceDetailsPage(page, DEPLOYMENT_NAME).heading).toBeVisible();
     });
     test('Edit the Kubernetes deployment YAML file', async ({ page }) => {
       await editDeploymentYamlFile(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
@@ -120,9 +123,12 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
         KubernetesResourceState.Running,
       );
       await checkDeploymentReplicasInfo(page, KubernetesResources.Deployments, DEPLOYMENT_NAME, 5);
+      await playExpect(new KubernetesResourceDetailsPage(page, DEPLOYMENT_NAME).heading).toBeVisible();
     });
-    test('Delete the Kubernetes deployment resource', async ({ page }) => {
+    test('Delete the Kubernetes deployment resource', async ({ page, navigationBar }) => {
       await deleteKubernetesResource(page, KubernetesResources.Deployments, DEPLOYMENT_NAME);
+      const deploymentsPage = await (await navigationBar.openKubernetes()).openTabPage(KubernetesResources.Deployments);
+      await playExpect.poll(async () => deploymentsPage.getRowByName(DEPLOYMENT_NAME)).toBeFalsy();
     });
   });
   test.describe
@@ -135,6 +141,7 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
         PVC_POD_NAME,
         KubernetesResourceState.Unknown,
       );
+      await playExpect.poll(async () => new KubernetesResourceDetailsPage(page, PVC_POD_NAME).getState()).toBe(KubernetesResourceState.Unknown);
     }); 
     test('Create a PVC and verify the bound pod is in running state', async ({ page }) => {
       await createKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME, PVC_YAML_PATH);
@@ -145,10 +152,13 @@ test.describe('Kubernetes resources End-to-End test', { tag: '@k8s_e2e' }, () =>
         PVC_POD_NAME,
         KubernetesResourceState.Running,
       );
+      await playExpect.poll(async () => new KubernetesResourceDetailsPage(page, PVC_POD_NAME).getState()).toBe(KubernetesResourceState.Running);
     });
-    test('Delete the PVC resource', async ({ page }) => {
+    test('Delete the PVC resource', async ({ page, navigationBar }) => {
       await deleteKubernetesResource(page, KubernetesResources.Pods, PVC_POD_NAME);
       await deleteKubernetesResource(page, KubernetesResources.PVCs, PVC_NAME);
+      const pvcsPage = await (await navigationBar.openKubernetes()).openTabPage(KubernetesResources.PVCs);
+      await playExpect.poll(async () => pvcsPage.getRowByName(PVC_NAME)).toBeFalsy();
     });
   });
 test.describe
@@ -166,6 +176,7 @@ test.describe
         CONFIGMAP_NAME,
         KubernetesResourceState.Running,
       );
+      await playExpect.poll(async () => new KubernetesResourceDetailsPage(page, CONFIGMAP_NAME).getState()).toBe(KubernetesResourceState.Running);
     });
     test('Create Secret resource', async ({ page }) => {
       await createKubernetesResource(page, KubernetesResources.ConfigMapsSecrets, SECRET_NAME, SECRET_YAML_PATH);
@@ -175,6 +186,7 @@ test.describe
         SECRET_NAME,
         KubernetesResourceState.Running,
       );
+      await playExpect.poll(async () => new KubernetesResourceDetailsPage(page, SECRET_NAME).getState()).toBe(KubernetesResourceState.Running);
     });
     test('Can load config and secrets via env. var in pod', async ({ page }) => {
       await createKubernetesResource(page, KubernetesResources.Pods, SECRET_POD_NAME, SECRET_POD_YAML_PATH);
@@ -184,11 +196,14 @@ test.describe
         SECRET_POD_NAME,
         KubernetesResourceState.Running,
       );
+      await playExpect.poll(async () => new KubernetesResourceDetailsPage(page, SECRET_POD_NAME).getState()).toBe(KubernetesResourceState.Running);
     });
-    test('Delete the ConfigMap and Secret resources', async ({ page }) => {
+    test('Delete the ConfigMap and Secret resources', async ({ page, navigationBar }) => {
       await deletePod(page, SECRET_POD_NAME);
       await deleteKubernetesResource(page, KubernetesResources.ConfigMapsSecrets, SECRET_NAME);
       await deleteKubernetesResource(page, KubernetesResources.ConfigMapsSecrets, CONFIGMAP_NAME);
+      const configMapsPage = await (await navigationBar.openKubernetes()).openTabPage(KubernetesResources.ConfigMapsSecrets);
+      await playExpect.poll(async () => configMapsPage.getRowByName(CONFIGMAP_NAME)).toBeFalsy();
     });
   });
 });

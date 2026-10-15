@@ -18,6 +18,7 @@
 
 import { execSync } from 'node:child_process';
 
+import { expect as playExpect } from '@playwright/test';
 import type {
     ContainerInteractiveParams} from '@podman-desktop/tests-playwright';
 import { 
@@ -27,12 +28,12 @@ import {
     deleteClusterFromDetails,
     deleteContainer,
     deployContainerToCluster,
-    expect as playExpect, 
     ExtensionsPage,  
     isLinux,
     resourceConnectionAction,
     resourceConnectionActionDetails,
     ResourceConnectionCardPage,
+    ResourceDetailsPage,
     ResourceElementActions,
     ResourceElementState,
     ResourcesPage,  
@@ -150,8 +151,10 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       createdClusterName = CLUSTER_NAME;
     });
 
-    test('Check resources added with the Minikube cluster', async ({ page }) => {
+    test('Check resources added with the Minikube cluster', async ({ page, navigationBar }) => {
       await checkClusterResources(page, MINIKUBE_CONTAINER);
+      const containersPage = await navigationBar.openContainers();
+      await playExpect.poll(async () => containersPage.containerExists(MINIKUBE_CONTAINER)).toBeTruthy();
     });
 
     test('Deploy a container to the Minikube cluster', async ({ page, navigationBar }) => {
@@ -179,20 +182,25 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
 
     test('Minikube cluster operations - STOP', async ({ page }) => {
       await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Stop, ResourceElementState.Off, 50_000);
+      await playExpect(minikubeResourceCard.resourceElementConnectionStatus).toHaveText(ResourceElementState.Off);
     });
 
     test('Minikube cluster operations - START', async ({ page }) => {
       await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Start, ResourceElementState.Running, 50_000);
+      await playExpect(minikubeResourceCard.resourceElementConnectionStatus).toHaveText(ResourceElementState.Running);
     });
 
     test.skip('Minikube cluster operations - RESTART', async ({ page }) => {
       // Skipping the test due to an issue with restarting the Minikube cluster.
       await resourceConnectionAction(page, minikubeResourceCard, ResourceElementActions.Restart, ResourceElementState.Running, 50_000);
+      await playExpect(minikubeResourceCard.resourceElementConnectionStatus).toHaveText(ResourceElementState.Running);
     });
 
-    test('Minikube cluster operations - DELETE', async ({ page }) => {
+    test('Minikube cluster operations - DELETE', async ({ page, navigationBar }) => {
       test.setTimeout(80_000);
       await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
+      await navigationBar.openSettings();
+      await playExpect.poll(async () => minikubeResourceCard.doesResourceElementExist()).toBeFalsy();
       createdClusterName = undefined;
     });
   });
@@ -217,6 +225,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         ResourceElementState.Off,
         50_000,
       );
+      await playExpect(new ResourceDetailsPage(page, DETAILS_CLUSTER_NAME).resourceStatus).toHaveText(ResourceElementState.Off);
     });
 
     test('Minikube cluster operations details - START', async ({ page }) => {
@@ -228,6 +237,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         ResourceElementState.Running,
         50_000,
       );
+      await playExpect(new ResourceDetailsPage(page, DETAILS_CLUSTER_NAME).resourceStatus).toHaveText(ResourceElementState.Running);
     });
 
     test.skip('Minikube cluster operations details - RESTART', async ({ page }) => {
@@ -240,11 +250,14 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
         ResourceElementState.Running,
         50_000,
       );
+      await playExpect(new ResourceDetailsPage(page, DETAILS_CLUSTER_NAME).resourceStatus).toHaveText(ResourceElementState.Running);
     });
 
-    test('Minikube cluster operations details - DELETE', async ({ page }) => {
+    test('Minikube cluster operations details - DELETE', async ({ page, navigationBar }) => {
       test.setTimeout(80_000);
       await deleteClusterFromDetails(page, EXTENSION_NAME, DETAILS_CLUSTER_NAME, DETAILS_CLUSTER_NAME, 70_000);
+      await navigationBar.openSettings();
+      await playExpect.poll(async () => detailsMinikubeResourceCard.doesResourceElementExist()).toBeFalsy();
       createdClusterName = undefined;
     });
   });
