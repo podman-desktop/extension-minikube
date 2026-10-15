@@ -23,6 +23,31 @@ import { NavigationBar, ResourceConnectionCardPage, ResourceElementState, Resour
 import type { MinikubeClusterOptions } from '../model/core/types';
 import { CreateMinikubeClusterPage } from '../model/pages/minikube-cluster-creation-page';
 
+export async function ensureMinikubeCliInstalled(page: Page): Promise<void> {
+  return test.step('Ensure Minikube CLI is installed', async () => {
+    const minikubeRow = page.getByRole('row', { name: 'Minikube', exact: true });
+    await playExpect(minikubeRow).toBeVisible();
+
+    if (await minikubeRow.getByLabel('no-cli-version', { exact: true }).count()) {
+      await minikubeRow.getByLabel('Install', { exact: true }).click();
+
+      const versionPicker = page.getByRole('dialog', { name: 'drop-down-dialog' });
+      await playExpect(versionPicker).toBeVisible({ timeout: 30_000 });
+      await versionPicker.getByRole('button').first().click();
+
+      // The binary stays available to the extension without a system-wide copy.
+      const installMessage = page.getByRole('dialog', { name: 'Minikube' });
+      await playExpect(installMessage).toBeVisible({ timeout: 180_000 });
+      await installMessage.getByRole('button', { name: 'Cancel', exact: true }).click();
+      await playExpect(installMessage).toBeHidden();
+    }
+
+    await playExpect(minikubeRow.getByLabel('cli-version', { exact: true })).toContainText(/\d{1,3}\.\d{1,3}\.\d{1,3}/, {
+      timeout: 30_000,
+    });
+  });
+}
+
 export async function createMinikubeCluster(page: Page, clusterName: string = 'minikube', usedefaultOptions: boolean = true, timeout: number = 300_000, { driver, containerRuntime, baseImage, mountDefinition }: MinikubeClusterOptions = {}): Promise<void> {
   return test.step('Create Minikube cluster', async () => {
     const navigationBar = new NavigationBar(page);
@@ -63,4 +88,3 @@ export async function createMinikubeCluster(page: Page, clusterName: string = 'm
     await statusBar.validateKubernetesContext(clusterName);
   });
 }
- 

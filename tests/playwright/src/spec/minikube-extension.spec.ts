@@ -27,7 +27,6 @@ import {
     deleteClusterFromDetails,
     deleteContainer,
     deployContainerToCluster,
-    ensureCliInstalled,
     expect as playExpect, 
     ExtensionsPage,  
     isLinux,
@@ -41,7 +40,7 @@ import {
     test,
 } from '@podman-desktop/tests-playwright';
 
-import { createMinikubeCluster } from '../utility/operations';
+import { createMinikubeCluster, ensureMinikubeCliInstalled } from '../utility/operations';
 
 const EXTENSION_IMAGE: string = process.env.EXTENSION_IMAGE ?? 'ghcr.io/podman-desktop/podman-desktop-extension-minikube:nightly';
 const EXTENSION_NAME: string = 'minikube';
@@ -61,6 +60,8 @@ const CONTAINER_START_PARAMS: ContainerInteractiveParams = {
 
 let extensionsPage: ExtensionsPage; 
 let minikubeResourceCard: ResourceConnectionCardPage; 
+let clusterCreated = false;
+let containerCreated = false;
 
 const isGHActions = process.env.GITHUB_ACTIONS === 'true';
 const skipExtensionInstallation = process.env.SKIP_EXTENSION_INSTALL === 'true';
@@ -84,8 +85,12 @@ test.use({
 
 test.afterAll(async ({ page, runner }) => {
   try {
-    await deleteContainer(page, CONTAINER_NAME);
-    await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+    if (containerCreated) {
+      await deleteContainer(page, CONTAINER_NAME);
+    }
+    if (clusterCreated) {
+      await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME);
+    }
   } 
   finally {
     await terminateMinikube();
@@ -124,9 +129,10 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
 
   test('Install Minikube CLI', async ({ navigationBar, page }) => {
     test.skip(isLinux && !!process.env.GITHUB_ACTIONS);
+    test.setTimeout(240_000);
     const settingsBar = await navigationBar.openSettings();
     await settingsBar.cliToolsTab.click();
-    await ensureCliInstalled(page, 'Minikube');
+    await ensureMinikubeCliInstalled(page);
   });
 
   test.describe.serial('Minikube cluster e2e test', () => {
@@ -137,6 +143,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       } else {
         await createMinikubeCluster(page, CLUSTER_NAME, false, CLUSTER_CREATION_TIMEOUT, {driver: 'podman'});
       }
+      clusterCreated = true;
     });
 
     test('Check resources added with the Minikube cluster', async ({ page }) => {
@@ -157,6 +164,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       await playExpect
         .poll(async () => containersPage.containerExists(CONTAINER_NAME), { timeout: 15_000 })
         .toBeTruthy();
+      containerCreated = true;
 
       const containerDetails = await containersPage.openContainersDetails(CONTAINER_NAME);
       await playExpect(containerDetails.heading).toBeVisible();
@@ -181,6 +189,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     test('Minikube cluster operations - DELETE', async ({ page }) => {
       test.setTimeout(80_000);
       await deleteCluster(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
+      clusterCreated = false;
     });
   });
 
@@ -192,6 +201,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
       } else {
         await createMinikubeCluster(page, CLUSTER_NAME, true, CLUSTER_CREATION_TIMEOUT);
       }
+      clusterCreated = true;
     });
 
     test('Minikube cluster operations details - STOP', async ({ page }) => {
@@ -231,6 +241,7 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     test('Minikube cluster operations details - DELETE', async ({ page }) => {
       test.setTimeout(80_000);
       await deleteClusterFromDetails(page, EXTENSION_NAME, MINIKUBE_CONTAINER, CLUSTER_NAME, 70_000);
+      clusterCreated = false;
     });
   });
 
@@ -274,4 +285,4 @@ async function terminateMinikube(): Promise<void> {
   }
 }
 
-  
+

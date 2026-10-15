@@ -48,9 +48,9 @@ on:
         description: 'The npm target to run tests. Use "test:e2e:all" to run all test suites, including Kubernetes tests.'
         type: string
         required: true
-      podman_remote_url:
-        default: ''
-        description: 'Optional Podman Windows installer URL. Empty uses the version selected by Podman Desktop.'
+      podman_version:
+        default: 'latest'
+        description: 'Podman version (use "latest" for the latest stable release, or specify a version or installer URL)'
         type: string
         required: false
       podman_options:
@@ -105,24 +105,11 @@ jobs:
 
 
     steps:
-    - name: Get Podman version used by Desktop
-      id: podman-version
-      if: ${{ !inputs.podman_remote_url }}
-      env:
-        DESKTOP_FORK: ${{ inputs.fork || 'podman-desktop' }}
-        DESKTOP_BRANCH: ${{ inputs.branch || 'main' }}
-      run: |
-        set -euo pipefail
-        metadata=$(curl -fsSL --retry 3 "https://raw.githubusercontent.com/${DESKTOP_FORK}/podman-desktop/${DESKTOP_BRANCH}/extensions/podman/packages/extension/src/podman.json")
-        version=$(jq -er '.platform.win32.arch.x64.versionRef as $ref | .versions[$ref].version | select(test("^[0-9]+[.][0-9]+[.][0-9]+$"))' <<< "$metadata")
-        echo "Default Podman version from Podman Desktop: ${version}"
-        echo "version=${version}" >> "$GITHUB_OUTPUT"
-
     - name: Resolve Podman Windows installer
       id: fetch-podman
       uses: redhat-actions/podman-install/.github/actions/fetch-latest-podman-version-windows@6b9121eed76855854291b52c6bfbc278dbdf0288
       with:
-        version_input: ${{ inputs.podman_remote_url || steps.podman-version.outputs.version }}
+        version_input: ${{ inputs.podman_version || 'latest' }}
         file_type: msi
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
