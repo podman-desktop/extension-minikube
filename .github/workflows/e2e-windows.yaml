@@ -214,6 +214,13 @@ jobs:
     - name: Emulate X session
       uses: podman-desktop/e2e/.github/actions/emulate-x-session@main
 
+    - name: Build Podman Desktop
+      uses: podman-desktop/e2e/.github/actions/build-podman-desktop@main
+      with:
+        fork: ${{ env.FORK }}
+        branch: ${{ env.BRANCH }}
+        env-vars: ${{ env.ENV_VARS }}
+
     - name: Run Minikube Extension Playwright E2E tests
       id: tests
       uses: podman-desktop/e2e/.github/actions/run-playwright-test@main
@@ -223,7 +230,7 @@ jobs:
         target-folder: pd-e2e
         results-folder: results
         podman-download-url: ${{ steps.fetch-podman.outputs.download_url }}
-        podman-path: 'false'
+        podman-desktop-path: true
         fork-repo: ${{ env.FORK }}
         branch-name: ${{ env.BRANCH }}
         npm-target: ${{ env.NPM_TARGET }}
