@@ -97,7 +97,7 @@ export async function installBinaryToSystem(binaryPath: string, binaryName: stri
       await extensionApi.process.exec('chmod', ['+x', binaryPath]);
       console.log(`Made ${binaryPath} executable`);
     } catch (error) {
-      throw new Error(`Error making binary executable: ${error}`);
+      throw new Error(`Error making binary executable: ${error}`, { cause: error });
     }
   }
 
