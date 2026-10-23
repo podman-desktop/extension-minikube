@@ -67,6 +67,6 @@ export async function createCluster(
       error: errorMessage,
       stdErr: errorMessage,
     });
-    throw new Error(`Failed to create minikube cluster. ${errorMessage}`);
+    throw new Error(`Failed to create minikube cluster. ${errorMessage}`, { cause: error });
   }
 }
