@@ -393,7 +393,7 @@ async function checkUpdate(minikubeDownload: MinikubeDownload): Promise<void> {
   // if the tool is not register nor available - no need to check for update
   if (!minikubeCliTool || !minikubeCli) return;
 
-  let binaryVersion = '';
+  let binaryVersion: string;
 
   // Retrieve the version of the binary by running exec with --short
   try {
