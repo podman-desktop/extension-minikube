@@ -87,7 +87,7 @@ export class ImageHandler {
         );
 
         // Throw the errors to the console aswell
-        throw new Error(`Unable to push image to minikube cluster: ${err}`);
+        throw new Error(`Unable to push image to minikube cluster: ${err}`, { cause: err });
       } finally {
         // Remove the temporary file if one was created
         if (filename !== undefined) {
