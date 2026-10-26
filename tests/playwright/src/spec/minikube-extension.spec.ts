@@ -122,14 +122,14 @@ test.describe.serial('Podman Desktop Minikube Extension Tests', () => {
     await playExpect(extensionsPage.header).toBeVisible();
     await playExpect.poll(async () => extensionsPage.extensionIsInstalled(EXTENSION_LABEL), {timeout: 60_000}).toBeTruthy();
     const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
-    await playExpect(minikubeExtension.status).toHaveText('ACTIVE', { timeout: 40_000 });
+    await playExpect(minikubeExtension.status).toHaveText('Installed', { timeout: 40_000 });
   });
 
   test('Ensure Minikube extension details page is correctly displayed', async () => {
     const minikubeExtension = await extensionsPage.getInstalledExtension(EXTENSION_NAME, EXTENSION_LABEL);
     const minikubeDetails = await minikubeExtension.openExtensionDetails('Minikube extension');
     await playExpect(minikubeDetails.heading).toBeVisible();
-    await playExpect(minikubeDetails.status).toHaveText('ACTIVE');
+    await playExpect(minikubeDetails.status).toHaveText('Installed');
     await playExpect(minikubeDetails.tabContent).toBeVisible();
   });
 
