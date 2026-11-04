@@ -45,11 +45,14 @@ importers:
         specifier: ^3.3.7
         version: 3.3.7(supports-color@7.2.0)
       '@eslint/js':
-        specifier: ^9.39.5
-        version: 9.39.5
+        specifier: ^10.0.1
+        version: 10.0.1(eslint@10.14.0(supports-color@7.2.0))
       '@podman-desktop/api':
         specifier: ^1.30.5
         version: 1.30.5
+      '@podman-desktop/eslint-config':
+        specifier: ^0.1.0
+        version: 0.1.0(eslint@10.14.0(supports-color@7.2.0))
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.72.1
         version: 8.72.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3))(eslint@10.14.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
@@ -368,9 +371,14 @@ packages:
     resolution: {integrity: sha512-F42g89Qd5oAWtp0k0nnSrjziAKza7w8SVT4mStc18LZMaRb4J1HQAHLCalEtDCxrTuksx7NU9qsmeLwpOfPqWw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/js@9.39.5':
-    resolution: {integrity: sha512-QywQuszQh77pIXCsq998c8hbhSTI/azTty1Z6N53dmAudKHhy573j3yvRLsX2BSp8YpLtoCEG8E9DJe+8zUh4A==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+  '@eslint/js@10.0.1':
+    resolution: {integrity: sha512-zeR9k5pd4gxjZ0abRoIaxdc7I3nDktoXZk2qOv9gCNWx3mVwEn32VRhyLaRsDiJjTs0xq/T8mfPtyuXu7GWBcA==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+    peerDependencies:
+      eslint: ^10.0.0
+    peerDependenciesMeta:
+      eslint:
+        optional: true
 
   '@eslint/object-schema@3.0.5':
     resolution: {integrity: sha512-vqTaUEgxzm+YDSdElad6PiRoX4t8VGDjCtt05zn4nU810UIx/uNEV7/lZJ6KwFThKZOzOxzXy48da+No7HZaMw==}
@@ -487,6 +495,11 @@ packages:
 
   '@podman-desktop/api@1.30.5':
     resolution: {integrity: sha512-diE/1A2XRLjBzGnfMBRikxDeuNEEOyE/NlRODDoiBH85tlEs8+CspjEkmoaam7pzS82ej36iV1WhAd07ixU4Rw==}
+
+  '@podman-desktop/eslint-config@0.1.0':
+    resolution: {integrity: sha512-u3AwhtAKSk8R4wJQRYl5iYzGSjUrZTwPtCN9tjaOiCyq5RsWW2UznBsRnZYtmnbO0sqOv0A6f9mcAh+/0AbGrw==}
+    peerDependencies:
+      eslint: '>=10'
 
   '@podman-desktop/tests-playwright@1.29.1':
     resolution: {integrity: sha512-MS2rXf3hnCTxykyAJ6BfU2OC38+vElcwPHWAT4dIEhWslZ77LEIytO1ym+6AsefsCql9rTUBEj26oSN6r3Dg0Q==}
@@ -2467,7 +2480,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@eslint/js@9.39.5': {}
+  '@eslint/js@10.0.1(eslint@10.14.0(supports-color@7.2.0))':
+    optionalDependencies:
+      eslint: 10.14.0(supports-color@7.2.0)
 
   '@eslint/object-schema@3.0.5': {}
 
@@ -2585,6 +2600,10 @@ snapshots:
       playwright: 1.64.1
 
   '@podman-desktop/api@1.30.5': {}
+
+  '@podman-desktop/eslint-config@0.1.0(eslint@10.14.0(supports-color@7.2.0))':
+    dependencies:
+      eslint: 10.14.0(supports-color@7.2.0)
 
   '@podman-desktop/tests-playwright@1.29.1': {}
 
