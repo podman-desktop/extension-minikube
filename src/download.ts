@@ -16,8 +16,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
-import { existsSync, promises } from 'node:fs';
 import * as fs from 'node:fs';
+import { existsSync, promises } from 'node:fs';
 import { arch, platform } from 'node:os';
 import * as path from 'node:path';
 
