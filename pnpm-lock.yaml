@@ -36,8 +36,8 @@ importers:
         version: 3.0.3
     devDependencies:
       7zip-min:
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^3.0.2
+        version: 3.0.2
       '@eslint/compat':
         specifier: ^2.1.1
         version: 2.1.1(eslint@10.15.0(supports-color@7.2.0))
@@ -137,8 +137,8 @@ packages:
   7zip-bin@5.1.1:
     resolution: {integrity: sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==}
 
-  7zip-min@3.0.1:
-    resolution: {integrity: sha512-WB4VCA/KSKzxhj+BAp8fI3ZYMMAftclkXlUTckuiDacsqyubQxxG3lGcpBcgzWWuJqnfQncEq1xrJpPLSxqsxw==}
+  7zip-min@3.0.2:
+    resolution: {integrity: sha512-AsrcSTbjieDcSbdMe15boRNyGXxnLuEleBFhZvWjJiRju1TJeK5lBZA51rGAe2l1ld8rXK432giOTJcXpWJWbA==}
 
   '@babel/helper-string-parser@7.29.7':
     resolution: {integrity: sha512-Pb5ijPrZ89GDH8223L4UP8i6QApWxs04RbPQJTeWDV0/keR2E36MeKnyr6LYmUUvqRRI+Iv87SuF1W6ErINzYw==}
@@ -2414,7 +2414,7 @@ snapshots:
 
   7zip-bin@5.1.1: {}
 
-  7zip-min@3.0.1:
+  7zip-min@3.0.2:
     dependencies:
       7zip-bin: 5.1.1
 
