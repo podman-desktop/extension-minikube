@@ -191,7 +191,7 @@ jobs:
 
     - name: Create instance
       id: create
-      uses: podman-desktop/e2e/.github/actions/create-instance@main
+      uses: podman-desktop/e2e/.github/actions/create-instance@a9ef27fc7e6bf233b2b496aefc5f66a2c101823f
       with:
         mapt-image: ${{ env.MAPT_IMAGE }}
         mapt-version: ${{ env.MAPT_VERSION_TAG }}
@@ -209,14 +209,14 @@ jobs:
         arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
 
     - name: Check instance system info
-      uses: podman-desktop/e2e/.github/actions/instance-system-info@main
+      uses: podman-desktop/e2e/.github/actions/instance-system-info@a9ef27fc7e6bf233b2b496aefc5f66a2c101823f
 
     - name: Emulate X session
-      uses: podman-desktop/e2e/.github/actions/emulate-x-session@main
+      uses: podman-desktop/e2e/.github/actions/emulate-x-session@a9ef27fc7e6bf233b2b496aefc5f66a2c101823f
 
     - name: Run Minikube Extension Playwright E2E tests
       id: tests
-      uses: podman-desktop/e2e/.github/actions/run-playwright-test@main
+      uses: podman-desktop/e2e/.github/actions/run-playwright-test@a9ef27fc7e6bf233b2b496aefc5f66a2c101823f
       with:
         runner-image: ghcr.io/podman-desktop/e2e-runner
         e2e-runner-tag: ${{ env.E2E_RUNNER_VERSION }}
@@ -241,7 +241,7 @@ jobs:
 
     - name: Destroy instance
       if: ${{ always() && (steps.create.outcome == 'success' || steps.create.outcome == 'failure' || steps.create.outcome == 'cancelled') }}
-      uses: podman-desktop/e2e/.github/actions/destroy-instance@main
+      uses: podman-desktop/e2e/.github/actions/destroy-instance@a9ef27fc7e6bf233b2b496aefc5f66a2c101823f
       with:
         mapt-image: ${{ env.MAPT_IMAGE }}
         mapt-version: ${{ env.MAPT_VERSION_TAG }}
