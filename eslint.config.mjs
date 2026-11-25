@@ -40,11 +40,6 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-const TYPESCRIPT_PROJECTS = [
-  './tsconfig.json',
-  './tests/playwright/tsconfig.json',
-];
-
 export default [
   ...podmanDesktop,
   {
@@ -110,7 +105,7 @@ export default [
       sourceType: 'module',
       parserOptions: {
         warnOnUnsupportedTypeScriptVersion: false,
-        project: TYPESCRIPT_PROJECTS,
+        projectService: true,
       },
     },
   },
